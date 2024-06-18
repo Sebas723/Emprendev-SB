@@ -1,0 +1,360 @@
+header {
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    background-image: url(../img/Pattern.png);
+    border-bottom-style: solid;
+    border-bottom-color: rgb(255, 255, 255);
+    border-bottom-width: 1px;
+    z-index: 10;
+    padding: 0;
+    margin: 0;
+}
+
+.user_side{
+    gap: 20px;
+}
+
+.bell{
+    filter: invert(100%);
+}
+
+header div img{
+    border-radius: 50px;
+}
+
+.tableContainer{
+    position: absolute;
+    margin: 20%;
+    margin-top: 10%;
+    width: 75%;
+    height: 70vh;
+    border-style: solid;
+    border-color: #000000;
+    border-width: 1px;
+}
+
+.offertableContainer{
+    position: absolute;
+    margin: 20%;
+    margin-top: 10%;
+    width: 75%;
+    height: 70vh;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.tituloTabla{
+    opacity: 0;
+    position: absolute;
+    margin-top: 2%;
+    margin-left: 20%;
+}
+
+.table{
+    position: relative;
+    width: 80%;
+}
+
+.trFila:hover{
+    filter: invert(100%);
+    transition: 0.2s;
+    background-color: #000000;
+    cursor: pointer;
+}
+
+.theade{
+    background-color: #000000;
+}
+
+.logout-btn{
+    display: none;
+    background-color: rgb(228, 228, 228);
+    position: absolute;
+    width: 9%;
+    height: 50%;
+    right: -1%;
+    top: 100%;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 10px;
+}
+
+.logout-btn:hover{
+    background-color: gray;
+    color: white;
+}
+
+.user_img{
+    cursor: pointer;
+}
+
+/*Estilo para el menu desplegable del perfil del usuario*/
+
+.container-submenu{
+    position: absolute;
+    border-radius: 5px;
+    width: 19%;
+    top: 105%;
+    left: 80%;
+}
+
+.card-user-sub-menu{
+    position: relative;
+    border-radius: 20px;
+    background-color: rgb(253, 253, 253);
+    width: 100%;
+}
+
+.card-user-sub-menu .card-content-user-sub-menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    position: relative;
+    border: 1px solid gray;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.card-user-sub-menu .img-user-sub-menu{
+    height: 110px;
+    width: 110px;
+    border-radius: 50%;
+    padding: 3px;
+    margin-top: 0%;
+    background-color: #fff;
+    box-shadow: 0px -1px 4px 2px rgba(0,0,0,0.25);
+}
+
+
+.card-user-sub-menu .img-user-sub-menu img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #fff;
+}
+
+.box1-card-user-sub-menu{
+    position: absolute;
+    width: 100%;
+    height: 25%;
+    border-radius: 20px 20px 0 0;
+    background-color: rgba(36, 39, 41, 0.315);
+}
+
+.card-user-sub-menu .name-sub-menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.card-user-sub-menu .name-sub-menu .name{
+    margin-top: -10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.name-proffesion .proffesion{
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+}
+
+.card-user-sub-menu .button-sub-menu{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 120.3%;
+    margin-top: 10%;
+    margin-bottom: -15px;
+}
+
+.card-user-sub-menu .button-sub-menu button{
+    width: 100%;
+    height: 40px;
+    font-size: 15px;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    background-color: rgb(253, 253, 253);
+    transition-duration: 1s;
+}
+
+.card-user-sub-menu .button-sub-menu button:hover{
+    background-color: rgba(128, 128, 128, 0.432);
+}
+
+
+/*Info*/
+
+#Info{
+    position: relative;
+    width: 20%;
+    height: fit-content;
+    justify-content: center;
+    text-align: center;
+    border-left-style: solid;
+    border-left-width: 1px;
+    padding-top: 5%;
+    background-image: url(../img/Pattern.png);
+    color: white;
+    border-left-color:  rgb(110, 110, 110);
+}
+
+.style-cambio-foto-btn{
+    position: relative;
+    background-color: white;
+    width: 50%;
+    height: 5vh;
+    transition-duration: 0.5s;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.style-cambio-foto-btn:hover{
+    background-color: gray;
+    color: white;
+    border-color: #000000;
+    cursor: pointer;
+}
+
+.social-svgs{
+    position: relative;
+    margin: 2%; 
+    margin-top: 10%;
+}
+
+.perfil-img{
+    position: relative;
+    border-radius: 50%;
+    max-width: 100%; 
+    max-height: 100%;
+    min-width: 100%; 
+    min-height: 100%;
+}
+
+#user-img-perfil{
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 50%;
+    max-height: 200px;
+    max-width: 200px;
+    min-height: 200px;
+    min-width: 200px;
+}
+
+.img-perfil-user-up{
+    position: relative;
+    background-color: #9fffffda;
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 30px;
+    max-height: 30px;
+    border-radius: 50%;
+    border-width: 1px;
+    border-style: solid;
+    cursor: pointer;
+    left: 70%;
+    margin-top: -10%;
+}
+
+.img-perfil-user-up img{
+    width: 25px;
+}
+
+.form-bigicon div:first-child input{
+    display: none;
+}
+
+.form-bigicon div:first-child label{
+    cursor: pointer;
+}
+
+#mini-icon-foto{
+    display: none;
+}
+
+
+
+#button-container{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: left;
+    gap: 12px;
+    padding-left: 15%;
+}
+
+.text-container{
+    position: relative;
+    text-align: left;
+    padding-left: 15%;
+}
+
+.perfil-btn{
+    position: relative;
+    background-color: rgb(253, 253, 253);
+    width: 110%;
+    height: 6vh;
+    transition-duration: 0.5s;
+    border-radius: 5px;
+    border-style: none;
+    margin-left: -19%;
+    font-size: 20px;
+}
+
+.perfil-btn:hover{
+    background-color: gray;
+    color: white;
+    transform: scale3d(10% 10%);
+}
+
+#calificacion-btn{
+    display: none;
+}
+
+/* Descripcion del perfil */
+#datos-personales{
+    display: none;
+}
+
+.main-content{
+    position: absolute;
+    left: 22%;
+    top: 10%;
+    display: flex;
+    width: 72%;
+}
+
+embed{
+    margin-top: 3%;
+}
+
+.contenido-laboral{
+    display: grid;
+    flex-direction: row;
+    gap: 2px;
+}
+
+.experiencia-laboral{
+    display: flex;
+    flex-direction: row;
+    gap: 5%;
+    list-style: none;
+    padding-left: 0%;
+}
+
+.experiencia-laboral li{
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.37);
+}
+
+/* Formulario de Actualizacion de Datos*/

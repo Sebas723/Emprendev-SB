@@ -1,0 +1,76 @@
+body{
+    display: flex;
+    flex-direction: row;
+}
+
+#Info{
+    position: relative;
+    width: 30%;
+    height: fit-content;
+    justify-content: center;
+    text-align: center;
+    border-left-style: solid;
+    border-left-width: 1px;
+    padding-top: 2%;
+    background-color: #e4e4e4;
+    border-left-color:  rgb(110, 110, 110);
+}
+
+.social-svgs{
+    position: relative;
+    margin: 2%; 
+    margin-top: 10%;
+}
+
+#button-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.text-container{
+    padding: 4%;
+}
+
+.perfil-btn{
+    background-color: white;
+    width: 80%;
+    height: 6vh;
+    transition-duration: 0.5s;
+    border-style: none;
+    border-width: 1px;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.selected{
+    background-color: gray;
+    color: white;
+}
+
+.hidden{
+    display: none;
+}
+
+.perfil-btn:hover{
+    background-color: gray;
+    color: white;
+    transform: scale3d(10% 10%);
+}
+
+.content-lol{
+    position: relative;
+    width: 80vw;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    padding: 2% 2% 2% 2%;
+}
+
+.main-content{
+    position: relative;
+    width: 100%;
+    height: fit-content;
+}

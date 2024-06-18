@@ -1,0 +1,520 @@
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+
+/*Header*/
+
+header {
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    background-image: url(../img/Pattern.png);
+    border-bottom-style: solid;
+    border-bottom-color: rgb(255, 255, 255);
+    border-bottom-width: 1px;
+    z-index: 10;
+    padding: 0;
+    margin: 0;
+}
+
+.user_side{
+    gap: 10px;
+}
+
+.bell{
+    filter: invert(100%);
+}
+
+header div img{
+    border-radius: 50px;
+}
+
+/*Estilo para el menu desplegable del perfil del usuario*/
+
+.container-submenu{
+    position: absolute;
+    border-radius: 5px;
+    width: 19%;
+    top: 105%;
+    left: 80%;
+}
+
+.card-user-sub-menu{
+    position: relative;
+    border-radius: 20px;
+    background-color: rgb(253, 253, 253);
+    width: 100%;
+}
+
+.card-user-sub-menu .card-content-user-sub-menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    position: relative;
+    border: 1px solid gray;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.card-user-sub-menu .img-user-sub-menu{
+    height: 110px;
+    width: 110px;
+    border-radius: 50%;
+    padding: 3px;
+    margin-top: 0%;
+    background-color: #fff;
+    box-shadow: 0px -1px 4px 2px rgba(0,0,0,0.25);
+}
+
+
+.card-user-sub-menu .img-user-sub-menu img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #fff;
+}
+
+.box1-card-user-sub-menu{
+    position: absolute;
+    width: 100%;
+    height: 25%;
+    border-radius: 20px 20px 0 0;
+    background-color: rgba(36, 39, 41, 0.315);
+}
+
+.card-user-sub-menu .name-sub-menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.card-user-sub-menu .name-sub-menu .name{
+    margin-top: -10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.name-proffesion .proffesion{
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+}
+
+.card-user-sub-menu .button-sub-menu{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 120.3%;
+    margin-top: 10%;
+    margin-bottom: -15px;
+}
+
+.card-user-sub-menu .button-sub-menu button{
+    width: 100%;
+    height: 40px;
+    font-size: 15px;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    background-color: rgb(253, 253, 253);
+    transition-duration: 1s;
+}
+
+.card-user-sub-menu .button-sub-menu button:hover{
+    background-color: rgba(128, 128, 128, 0.432);
+}
+
+/*Barra lateral contenedora de los tags*/
+
+#Info{
+    position: absolute;
+    width: 15%;
+    height: fit-content;
+    border-left-style: solid;
+    border-left-width: 1px;
+    padding-top: 5%;
+    background-image: url(../img/Pattern.png);
+    border-left-color:  rgb(110, 110, 110);
+}
+.create-offer-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    border-radius: 5px;
+    height: 80%;
+    border-style: none;
+    color: black;
+    box-shadow: 5px 5px 5px;
+    border-style: solid;
+    border-width: 0.5px;
+    background-color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+
+.create-offer-button:hover{
+    background-color: #3f3f3e;
+    color: white;
+}
+
+.create-offer-button span{
+    font-size: 30px;
+    height: 20%;
+}
+
+#Info ul{
+    list-style: none;
+    list-style-type: none;
+    width: 100%;
+}
+
+#Info ul li{
+    position: relative;
+    list-style: none;
+    list-style-type: none;
+    margin-top: 3%;
+}
+
+#Info ul li img{
+    padding: 3%;
+    margin-bottom: 2%;
+}
+
+.tag{
+    text-align: center;
+    border-radius: 50px;
+    background-color: #f5f5f5;
+    width:fit-content;
+    padding-left: 1%;
+    padding-right: 3%;
+}
+
+.tag:hover{
+    cursor: pointer;
+    background-color: rgb(97, 97, 97);
+    color: white;
+    padding-left: 1%;
+    padding-right: 3%;
+    transition-duration: 0.2s;
+}
+
+.tag-active{
+    cursor: pointer;
+    background-color: rgb(97, 97, 97);
+    color: white;
+}
+
+/*Tarjetas de presentacion para desarrolladores*/
+
+article{
+    position: relative;
+    margin: 5% 0 0 16%;
+}
+
+.cards_container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 82vw;
+}
+
+.card{
+    position: relative;
+    border-radius: 20px;
+    height: 400px;
+    background-color: black;
+    width: 100%;
+}
+
+.cola{
+    position: relative;
+    border-radius: 20px;
+    max-height: 600px;
+    background-color: black;
+    width: 32%;
+    margin-top: 2%;
+}
+
+.card .card-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    position: relative;
+    border: 1px solid gray;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+article .card .img{
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
+    padding: 3px;
+    margin-top: 0%;
+    background-color: #fff;
+    box-shadow: 0px -1px 4px 2px rgba(0,0,0,0.25);
+}
+
+
+article .card .img img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fff;
+}
+
+.box1{
+    position: absolute;
+    width: 100%;
+    height: 25%;
+    border-radius: 20px 20px 0 0;
+    background-image: linear-gradient(106.32deg, #3f3f3e 14.23%, rgba(255, 25, 25, 0) 139.97%);
+}
+
+.card .name-proffesion{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.card .name-proffesion .name{
+    margin-top: -10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.name-proffesion .proffesion{
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+}
+
+section .card .about{
+    display: flex;
+    text-align: center;
+    color: #444;
+    margin-top: 45px;
+    margin-bottom: 5px;
+}
+
+.card .button{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.card .b1 button{
+    background-color: #3f3f3e;
+}
+
+.card .button button{
+    outline: none;
+    border: none;
+    color: #fff;
+    padding: 8px 22px;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.card .button button:hover{
+    opacity: 0.8;
+}
+
+/*MODAL*/
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+.modal-body{
+    position: fixed;
+    border-radius: 20px;
+    background-color: white;
+    width: 55%;
+    left: 50%;
+    z-index: 1;
+    transform: translate(-50%, -110%);
+    overflow-y: auto;
+}
+
+.modal-body .modal-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    position: relative;
+    border: 1px solid gray;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+section .modal-body .modal-img{
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
+    padding: 3px;
+    margin-top: 0%;
+    background-color: #fff;
+    box-shadow: 0px -1px 4px 2px rgba(0,0,0,0.25);
+}
+
+
+section .modal-body .modal-img img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #fff;
+}
+
+.modal-box{
+    position: absolute;
+    width: 100%;
+    height: 13%;
+    border-radius: 20px 20px 0 0;
+    background-image: linear-gradient(106.32deg, #3f3f3e 14.23%, rgba(255, 25, 25, 0) 139.97%);
+}
+
+.modal-body .modal-media-icons{
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal-body .modal-media-icons i{
+    color: #fff;
+    opacity: 0.7;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.modal-body .modal-media-icons i:hover{
+    opacity: 1;
+}
+
+.modal-body .modal-name-proffesion{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.modal-body .modal-name-proffesion .modal-name{
+    margin-top: -10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.modal-name-proffesion .modal-proffesion{
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+}
+
+section .modal-body .modal-about{
+    display: flex;
+    text-align: center;
+    color: #444;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.modal-body .modal-button{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.modal-body .modal-b1 button{
+    background-color: #3f3f3e;
+}
+
+.modal-body .modal-button button{
+    outline: none;
+    border: none;
+    color: #fff;
+    padding: 8px 22px;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.modal-body .modal-button button:hover{
+    opacity: 0.8;
+}
+.hiden{
+    display: none;
+}
+
+/*Cuerpo del modal desde especializaciones*/
+
+.main-content{
+    position: relative;
+    width: 100%;
+    left: 0%;
+    margin-top: -35px;
+}
+
+.contenido-laboral{
+    display: grid;
+    flex-direction: row;
+    gap: 2px;
+    width: 50vw;
+}
+
+.experiencia-laboral{
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    list-style: none;
+    padding-left: 0%;
+}
+
+.experiencia-laboral li{
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.37);
+}
+
+.educacion{
+    display: flex;
+    flex-direction: row;
+    gap: 20%;
+    list-style: none;
+    padding-left: 0%;
+}
+
+.especializaciones{
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+    padding-left: 0%;
+}

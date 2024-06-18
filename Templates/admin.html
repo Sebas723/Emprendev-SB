@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/animation.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  <link rel="shortcut icon" href="svg/Logo.svg" type="image/x-icon">
+  <title>Emprendev | Administrador</title>
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
+  <link rel="shortcut icon" href="svg/Logo.svg" type="image/x-icon">
+</head>
+
+<body onload="AddAnimation()">
+  <!--Navbar-->
+  <header class="container-fluid">
+    <nav class="navbar navbar-expand-sm">
+      <div class="navbar-brand"><img src="svg/Logo.svg" alt="" width="30" height="30"></div>
+      <div class="navbar-brand text-light">Emprendev</div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#register&login"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="user_side container-fluid justify-content-end">
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" list="keywords">
+        </form>
+        <img onclick="OpenAdminMenu()" id="user_icon" class="user_img" src="img/UserDeafultIcon.png" alt="" width="40"
+          height="40">
+      </div>
+      <div>
+        <button id="logout-btn" class="logout-btn">Cerrar Sesion</button>
+      </div>
+    </nav>
+  </header>
+
+  <!--Info-->
+  <section id="Info">
+    <ul class="infoTabla">
+      <h1>Tablas</h1>
+      <ol>
+        <li id="user-table-btn" class="parent-tag" onclick="UserTableSelected()">Usuarios</li>
+        <li><button id="userdroplist" class="dropList" onclick="OpenUserSubMenu()">></button></li>
+      </ol>
+      <li id="dev-table-btn" class="sub-tag" onclick="DevTableSelected()">Desarrolladores</li>
+      <li id="mipyme-table-btn" class="sub-tag" onclick="MipymeTableSelected()">Mipymes</li>
+      <ol>
+        <li id="offerbtn" class="parent-tag" onclick="OpenOffers()">Ofertas</li>
+        <li><button id="offer-drop-list" class="dropList" onclick="OfferSubMenu()">></button></li>
+      </ol>
+      <li id="region-tbl-btn" class="sub-tag" onclick="OpenOffers()">por region</li>
+    </ul>
+  </section>
+  <section class="tableform">
+    <h1 id="TituloTabla" class="tituloTabla">Tabla Usuarios</h1>
+    <div id="UserTable" class="tableContainer"
+      style="margin-bottom: 0; overflow-x: auto; overflow-y: auto; white-space: nowrap;" method="post">
+      <table id="tabla" class="table table-striped">
+        <thead class="theade">
+          <tr>
+            <th scope="col">Documento</th>
+            <th scope="col">Rol</th>
+            <th scope="col">Nombre(s)</th>
+            <th scope="col">Apellido(s)</th>
+            <th scope="col">Fecha de Nacimiento</th>
+            <th scope="col">Celular</th>
+            <th scope="col">Direccion</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Estado de Cuenta</th>
+            <th scope="col">Fecha de Creacion</th>
+            <th scope="col">Foto de Perfil</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!--registros de la BD-->
+        </tbody>
+      </table>
+    </div>
+    <div class="container update_user" id="edit-form" style="display: none;">
+      <h1 class="text-center">Actualizar Usuario</h1>
+      <input type="hidden" id="edit-id">
+      <div class="edit_form_row">
+        <div class="mb-3 input_container">
+          <label for="edit_first_name" class="form-label">Nombre</label>
+          <input type="text" class="" id="edit_first_name">
+        </div>
+        <div class="mb-3 input_container">
+          <label for="edit_sec_name" class="form-label">Segundo Nombre</label>
+          <input type="text" class="" id="edit_sec_name">
+        </div>
+        <div class="mb-3 input_container">
+          <label for="edit_last_name" class="form-label">Apellido</label>
+          <input type="text" class="" id="edit_last_name">
+        </div>
+        <div class="mb-3 input_container">
+          <label for="edit_last_name2" class="form-label">Segundo Apellido</label>
+          <input type="text" class="" id="edit_last_name2">
+        </div>
+      </div>
+      <div class="edit_form_row">
+        <div class="mb-3 input_container">
+          <label for="edit_birth_date" class="form-label">Fecha de Nacimiento</label>
+          <input type="text" class="" id="edit_birth_date">
+        </div>
+        <div class="mb-3 input_container">
+          <label for="edit_phone_number" class="form-label">Numero Celular</label>
+          <input type="text" class="" id="edit_phone_number">
+        </div>
+        <div class="mb-3 input_container">
+          <label for="edit_address" class="form-label">Dirección</label>
+          <input type="text" class="" id="edit_address">
+        </div>
+        <div class="mb-3 input_container">
+          <label for="edit_email" class="form-label">Correo</label>
+          <input type="text" class="" id="edit_email">
+        </div>
+      </div>
+      <button id="save-edit-btn" class="btn btn-primary btn-sm">Guardar</button>
+    </div>
+
+    <div class="container update_user" id="deactivate-form" style="display: none;">
+      <h1 class="text-center">Desactivar Usuario</h1>
+      <input type="hidden" id="edit-id">
+      <div class="edit_form_row">
+        <div class="mb-3 input_container">
+          <label for="edit_email" class="form-label">Motivo de Reporte</label>
+          <textarea name="" id="" cols=""></textarea>
+        </div>
+      </div>
+      <div class="edit_form_row">
+
+      </div>
+      <button id="deactivate-user-btn" class="btn btn-danger btn-sm">Desactivar Usuario</button>
+    </div>
+
+    <!--Ofertas-->
+    <div id="offerTable" class="offertableContainer">
+
+    </div>
+  </section>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
+</body>
+
+</html>
+
+
+<!--links-->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="js/admin.js"></script>
+<script src="js/animation.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

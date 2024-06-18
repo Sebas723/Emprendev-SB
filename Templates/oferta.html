@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/oferta.css">
+    <link rel="stylesheet" href="css/animation.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="svg/Logo.svg" type="image/x-icon">
+    <title>Emprendev | Crear oferta</title>
+</head>
+<body>
+    <!--Navbar-->
+    <header class="container-fluid">
+        <nav class="navbar navbar-expand-sm">                
+            <div class="navbar-brand"><img src="svg/Logo.svg" alt="" width="30" height="30"></div>
+            <div class="navbar-brand text-light">Emprendev</div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#register&login" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="user_side container-fluid justify-content-end">
+                <img onclick="OpenPerfilSubMenu()" class="user_img" src="img/devicon.jpg" alt="" width="40" height="40">
+                <div id="user-sub-menu" class="container-submenu">
+                    <!--<button class="submenu-perfil-btn">Ver perfil</button>-->
+                    <button class="submenu-perfil-btn">Configuracion</button>
+                    <button class="submenu-perfil-btn">Terminos y Condiciones</button>
+                    <button class="submenu-perfil-btn">Cerrar Sesion</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!--Offert-->
+    <form action="" method=""></form>
+    <div class="container-fluid form-container content-container">
+        <div class="container">
+            <div class="form-card">
+                <div class="cover">
+                    <div class="col-md-7 form-container">
+
+                        <form id="offer_form" action="" method="post" enctype="multipart/form-data">
+                            <div class="form-cover">
+                                <h2 style="margin-top: -8%;">Crear Oferta</h2>
+                                <p>Fotos</p>
+                                <div class="drop-area">
+                                    <input type="button" class="subir-foto" value="Subir Fotos">
+                                    <input type="file" name="Images[]" id="photo-input" hidden multiple> 
+                                </div>
+                                <div id="photo-preview-container">
+                                    
+                                </div>
+                                <div class="inputs">
+                                    <input id="card_title_input" type="text" placeholder="Título de la oferta" required="" class="form-control" name="titulo_Oferta" oninput="CardPreviewTitle()">
+                                    <textarea id="card_desc_input" placeholder="Descripción de la oferta" rows="4" cols="50" class="form-control" name="desc_oferta" style="margin-top: 1%;" oninput="CardPreviewDesc()"></textarea>
+                                </div>
+                                <div class="two-inputs">
+                                    <input id="card_pago_input" type="number" placeholder="$ pago" required="" class="form-control input-border" name="pago" oninput="CardPreviewPago()">
+                                    <input id="offer_fields" type="number" placeholder="Cupos (empleados)" class="form-control input-border" name="cupos">
+                                </div>
+                                <h3>Tags</h3>
+                                <p>Selecciona los tags que consideres adecuados para tu oferta</p>
+                                <div class="two-inputs">
+                                    <div class="tags-container">
+                                        <ul id="tags-container">
+                                            <li id="html-tag" class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="1" style="display: none;">
+                                                <img src="svg/html.svg" style="width: 20px; height: 20px;" alt="" draggable="false">HTML
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="2" style="display: none;">
+                                                <img src="svg/css.svg" style="width: 20px; height: 20px;" alt="" draggable="false">CSS
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="3" style="display: none;">
+                                                <img src="svg/js.svg" style="width: 20px; height: 20px; border-radius: 5px;" alt="" draggable="false">JavaScript
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="4" style="display: none;">
+                                                <img src="svg/sql.svg" style="width: 20px; height: 20px;" alt="" draggable="false">SQL
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="5" style="display: none;">
+                                                <img src="svg/C++_Logo.svg" style="width: 20px; height: 20px;" alt="" draggable="false">C++
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="6" style="display: none;">
+                                                <img src="svg/java.svg" style="width: 20px; height: 20px;" alt="" draggable="false">Java
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="7" style="display: none;">
+                                                <img src="svg/Bootstrap_logo.svg" style="width: 20px; height: 20px;" alt="" draggable="false">Bootstrap
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="8" style="display: none;">
+                                                <img src="svg/Ruby_logo.svg" style="width: 15px; height: 15px;" alt="" draggable="false">Ruby
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="9" style="display: none;">
+                                                <img src="svg/Python-logo.svg" style="width: 20px; height: 20px;" alt="" draggable="false">Phyton
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="10" style="display: none;">
+                                                <img src="svg/c--4.svg" style="width: 20px; height: 20px;" alt="" draggable="false">C#
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="11" style="display: none;">
+                                                <img src="svg/django.svg" style="width: 20px; height: 20px;" alt="" draggable="false">Django
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="12" style="display: none;">
+                                                <img src="svg/react.svg" style="width: 20px; height: 20px;" alt="" draggable="false">React
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="13" style="display: none;">
+                                                <img src="svg/nodejs.svg" style="width: 20px; height: 20px;" alt="" draggable="false">Node.JS
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="14" style="display: none;">
+                                                <img src="svg/angular-icon.svg" style="width: 20px; height: 20px;" alt="" draggable="false">Angular
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div id="drop-area-tags" class="drop-area-tags"></div> 
+                                </div>
+                                <div class="row mb-0 create-button">
+                                    <button class="btn" style="color: white;">Crear Oferta</button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-4 card-container">
+                        <h2 style="color: white;">Vista Previa</h2>
+                        <div class="col">
+                            <div class="card min-vh-60 max-vw-50 position-static">
+                                <img id="card-img" class="card-img" src="svg/ImageIcon.svg" alt="...">
+                                <div class="card-body">
+                                    <h5 id="card_title" class="card-title">Título de Oferta</h5>
+                                    <p id="card_desc" class="card-text">Descripción de Oferta</p>
+                                    <p id="card_pago"><span>$</span>0</p>
+                                    <hr>
+                                    <div id="card-tags-preview" class="card-tags">
+                                    
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <small class="text-body-secondary">Tiempo de publicación</small>
+                                    <button type="button" class="card-btn">VerMas >></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>      
+        </div>
+    </div>
+</form> 
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="js/oferta.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>    

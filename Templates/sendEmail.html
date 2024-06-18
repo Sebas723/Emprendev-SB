@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/sendEmail.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
+    <link rel="shortcut icon" href="svg/Logo.svg" type="image/x-icon">
+
+    <title>Emprendev | Enviar correo</title>
+</head>
+
+<body>
+    <!--Navbar-->
+    <header class="container-fluid justify">
+        <nav class="navbar navbar-expand-sm">
+            <div class="navbar-brand"><img src="svg/Logo.svg" alt="" width="30" height="30"></div>
+            <a href="index.html" class="text-decoration-none"><div class="navbar-brand text-light">Emprendev</div></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#register&login" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    </header>
+
+    <!--Main Screen-->
+    <section class="main_screen">
+        <div class="img_login">
+            
+        </div>
+        <div class = "login-box form button">
+            <h2>Restablecer Contraseña</h2> 
+            
+            <form>
+                <div class = "user-box">
+                    <input class="input" type = "text" name = "correo_usuario" id="correo_usuario" placeholder="Ingresa tu correo">
+                </div>
+
+                <button type="button" class="btn" onclick="sendPasswordResetRequest()">Enviar</button>
+                <br><br>
+            </form>
+        </div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
+
+    <script>
+        function sendPasswordResetRequest() {
+          const userEmail = document.getElementById('correo_usuario').value;
+        
+          const requestBody = {
+            mailFrom: 'maicolandres.roldan@gmail.com', // Reemplaza con el correo de origen deseado
+            mailTo: userEmail,
+            subject: 'Solicitud de restablecimiento de contraseña',
+            userName: '',
+            jwt: ''
+          };
+        
+          fetch('http://localhost:8080/api/v1/reset-password', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestBody),
+          })
+          .then(response => {
+            if (response.ok) {
+              Swal.fire({
+                icon: 'success',
+                title: '¡Correo enviado!',
+                text: 'Se ha enviado un correo electrónico para restablecer tu contraseña.',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Ha ocurrido un error al enviar el correo electrónico.',
+              });
+            }
+          })
+          .catch(error => {
+            console.error('Error sending request:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Ha ocurrido un error inesperado.',
+            });
+          });
+        }
+    </script>
+</body>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</html>
