@@ -35,6 +35,105 @@ header div img{
     border-radius: 50px;
 }
 
+/*Estilo para el menu desplegable del perfil del usuario*/
+
+.container-submenu{
+    position: absolute;
+    border-radius: 5px;
+    width: 19%;
+    top: 105%;
+    left: 80%;
+}
+
+.card-user-sub-menu{
+    position: relative;
+    border-radius: 20px;
+    background-color: rgb(253, 253, 253);
+    width: 100%;
+}
+
+.card-user-sub-menu .card-content-user-sub-menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    position: relative;
+    border: 1px solid gray;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.card-user-sub-menu .img-user-sub-menu{
+    height: 110px;
+    width: 110px;
+    border-radius: 50%;
+    padding: 3px;
+    margin-top: 0%;
+    background-color: #fff;
+    box-shadow: 0px -1px 4px 2px rgba(0,0,0,0.25);
+}
+
+
+.card-user-sub-menu .img-user-sub-menu img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 1px solid #fff;
+}
+
+.box1-card-user-sub-menu{
+    position: absolute;
+    width: 100%;
+    height: 25%;
+    border-radius: 20px 20px 0 0;
+    background-color: rgba(36, 39, 41, 0.315);
+}
+
+.card-user-sub-menu .name-sub-menu{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.card-user-sub-menu .name-sub-menu .name{
+    margin-top: -10px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.name-proffesion .proffesion{
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
+}
+
+.card-user-sub-menu .button-sub-menu{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 120.3%;
+    margin-top: 10%;
+    margin-bottom: -15px;
+}
+
+.card-user-sub-menu .button-sub-menu button{
+    width: 100%;
+    height: 40px;
+    font-size: 15px;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    background-color: rgb(253, 253, 253);
+    transition-duration: 1s;
+}
+
+.card-user-sub-menu .button-sub-menu button:hover{
+    background-color: rgba(128, 128, 128, 0.432);
+}
+
 /*Tabla y formularios de edicion*/
 
 .tableform{

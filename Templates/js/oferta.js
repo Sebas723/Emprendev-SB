@@ -176,8 +176,6 @@ function SaveOffer() {
     window.location.href = 'catalogo_devs.html';
 }
 
-const userSubMenu = document.getElementById("user-sub-menu");
-
 //fotos de oferta
 const dropArea = document.querySelector(".drop-area");
 const button = document.querySelector(".subir-foto");
@@ -185,6 +183,10 @@ const input = document.querySelector("#photo-input");
 const drop_text = document.querySelector("#drop-text");
 
 //Submenu del perfil del usuario (imagen arriba a la izquierda)
+
+const userSubMenu = document.getElementById("user-sub-menu");
+
+userSubMenu.style.display = "none";
 
 SubmenuPerfilBtn_isShowing = false;
 function OpenPerfilSubMenu(){
@@ -195,7 +197,8 @@ function OpenPerfilSubMenu(){
         userSubMenu.style.display="none";
     }
     SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
-}
+};
+
 
 //subir fotos
 

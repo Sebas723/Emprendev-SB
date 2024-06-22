@@ -274,13 +274,14 @@ header{
 #footer{
     position: relative;
     width: 100vw;
-    height: 200px;
+    height: 100px;
     color: white;
-    background-color: black;
+    background-color: rgb(17, 17, 17);
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    gap: 10%;
+    padding-left: 22%;
 }
 
 #footer line{

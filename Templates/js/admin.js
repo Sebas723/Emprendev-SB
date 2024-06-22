@@ -385,15 +385,18 @@ function AddAnimation(){
     TituloTabla.classList.remove("fade-in-up-reversed");
 }
 
-//logout
+//menu desplegable submenu
+const userSubMenu = document.getElementById("user-sub-menu");
 
-logout_btn_isShowing = false;
-function OpenAdminMenu(){
-    if (!logout_btn_isShowing){
-        logout_btn.style.display="block";
+userSubMenu.style.display = "none";
+
+SubmenuPerfilBtn_isShowing = false;
+function OpenPerfilSubMenu(){
+    if (!SubmenuPerfilBtn_isShowing){
+        userSubMenu.style.display="block";
     }
     else{
-        logout_btn.style.display="none";
+        userSubMenu.style.display="none";
     }
-    logout_btn_isShowing = !logout_btn_isShowing;
-}
+    SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
+};
