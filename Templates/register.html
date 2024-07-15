@@ -33,19 +33,17 @@
                     <div id="primerform" class="formst">
                         <img id="user_icon" class="userimg" src="img/UserDeafultIcon.png" alt="" srcset="">
                         <div class="user-box">
-                            <input id="username" type="text" name="nombre" placeholder="Nombre*">
-                            <input id="usersecname" type="text" name="nombre2" placeholder="Segundo Nombre">
+                            <input id="username" type="text" name="nombre" placeholder="Nombre*" maxlength="20">
+                            <input id="usersecname" type="text" name="nombre2" placeholder="Segundo Nombre" maxlength="20">
                         </div>
                         <div class="user-box">
-                            <input id="userlname" type="text" name="apellido" placeholder="Apellido*">
-                            <input id="userlsecname" type="text" name="apellido2" placeholder="Segundo Apellido">
+                            <input id="userlname" type="text" name="apellido" placeholder="Apellido*" maxlength="20">
+                            <input id="userlsecname" type="text" name="apellido2" placeholder="Segundo Apellido" maxlength="20">
                         </div>
                         <div class="user-box">
                             <select id="doctype" class="input" name="td" required>
                                 <option value="0" selected disabled>Tipo de Documento</option>
                                 <option value="CC">CC (Cedula Ciudadanía)</option>
-                                <option value="CE">CE (Cédula Extranjera)</option>
-                                <option value="PAS">PAS (Pasaporte)</option>
                             </select>
                             <input id="userid" type="text" name="id_usuario" placeholder="Documento Identidad*">
                         </div>
@@ -62,11 +60,11 @@
                             <input id="address" type="text" name="direccion" placeholder="Dirección">
                         </div>
                         <div class="user-box">
-                            <input id="email" type="text" name="correo" placeholder="Correo*">
+                            <input id="email" type="text" name="correo" placeholder="Correo*" maxlength="50">
                         </div>
                         <div class="user-box">
-                            <input id="password" type="password" name="contrasena" placeholder="Contraseña*">
-                            <input type="password" name="confirmarContrasena" placeholder="Confirmar Contraseña*">
+                            <input id="password" type="password" name="contrasena" placeholder="Contraseña*" maxlength="25">
+                            <input type="password" name="confirmarContrasena" placeholder="Confirmar Contraseña*" maxlength="25">
                         </div>
                     </div>
                     <div class="form-checkbox">

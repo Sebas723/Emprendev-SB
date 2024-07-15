@@ -7,8 +7,9 @@ const openModalButton = document.getElementById("openModal");
 const closeModalButton = document.getElementById("closeModal");
 const modalContainer = document.getElementById("modalContainer");
 const overlay = document.getElementById("overlay");
+  
 
-modalContainer.classList.add("hiden");
+  modalContainer.classList.add("hiden");
   openModalButton.addEventListener("click", (e) => {
     e.preventDefault();
     modalContainer.style.display = "block";
@@ -80,12 +81,13 @@ function OpenPerfilSubMenu(){
     SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
 };
 
+
 window.addEventListener('scroll', function() {
   var headerHeight = document.querySelector('header').offsetHeight;
   var scrollTop = window.scrollY || document.documentElement.scrollTop;
   var modal = document.querySelector('.modal-body');
   // var newTop = headerHeight + 30 - scrollTop;
-  var newTop =  headerHeight  + 290 - scrollTop;
-
+  var newTop =  headerHeight  + 200 - scrollTop;
+  
   modal.style.top = newTop + 'px';
 });
