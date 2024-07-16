@@ -2,16 +2,16 @@ package com.emprendev.controller;
 
 import com.emprendev.entity.User;
 import com.emprendev.services.UserServices;
+import jakarta.servlet.http.HttpSession;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.util.*;
 
-@RestController
 @CrossOrigin(origins = "*")
+@RestController
 @RequestMapping(path = "emprendev/v1/user")
 public class UserController {
 
@@ -48,34 +48,72 @@ public class UserController {
         userService.saveOrUpdate(user);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
-        Optional<User> user = userService.validateUser(loginRequest.getEmail(), loginRequest.getPassword());
-        if (user.isPresent()) {
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", true);
-            response.put("role", user.get().getRole());
-            response.put("accountState", user.get().getAccountState());
-            return ResponseEntity.ok(response);
-        } else {
-            Map<String, Object> response = new HashMap<>();
-            response.put("success", false);
-            response.put("message", "El correo o la contraseña son incorrectos");
-            return ResponseEntity.status(401).body(response);
+    @PostMapping("/login") //user login (start session)
+    public ResponseEntity<?> loginUser(@RequestBody @NotNull LoginRequest loginRequest, HttpSession session) {
+        try{
+            Optional<User> user = userService.validateUser(loginRequest.getEmail(), loginRequest.getPassword());
+            if (user.isPresent() && user.get().getAccountState() == 1) {
+
+                session.setAttribute("id", user.get().getId());
+                session.setAttribute("firstName", user.get().getFirstName());
+                session.setAttribute("role", user.get().getRole());
+                session.setAttribute("accountState", user.get().getAccountState());
+                System.out.println("se logueo el usuario: " +session.getId());
+                System.out.println(session.getAttribute("firstName"));
+
+                Map<String, Object> response = new HashMap<>();
+                response.put("success", true);
+                response.put("role", user.get().getRole());
+                response.put("accountState", user.get().getAccountState());
+                response.put("Session id: ", session.getId());
+                return ResponseEntity.ok(response);
+            } else {
+                Map<String, Object> response = new HashMap<>();
+                response.put("success", false);
+                response.put("message", "El correo o la contraseña son incorrectos");
+                return ResponseEntity.status(401).body(response);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
+        return null;
+    }
+
+    @PostMapping("/logout") //end session
+    public ResponseEntity<?> logout(HttpSession session) {
+        session.invalidate();
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "Sesión cerrada con éxito");
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/sessionStatus") //session status
+    public ResponseEntity<?> sessionStatus(HttpSession session) {
+        Map<String, Object> response = new HashMap<>();
+        if (session.getId() != null) {
+            response.put("sessionActive", true);
+            response.put("id", session.getAttribute("id"));
+            response.put("firstName", session.getAttribute("firstName"));
+            response.put("role", session.getAttribute("role"));
+            response.put("accountState", session.getAttribute("accountState"));
+        } else {
+            response.put("sessionActive", false);
+            response.put("message", "No hay una sesión activa");
+        }
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}") // Update user by id
     public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
         Optional<User> optionalExistingUser = userService.getUser(id);
 
-        if (!optionalExistingUser.isPresent()) {
+        if (optionalExistingUser.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
 
         User existingUser = optionalExistingUser.get();
 
-        // Update only non-null fields from the input user object
         if (user.getFirstName() != null) {
             existingUser.setFirstName(user.getFirstName());
         }
