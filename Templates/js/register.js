@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const correo = document.querySelector('[name="correo"]').value;
         const contrasena = document.querySelector('[name="contrasena"]').value;
         const confirmarContrasena = document.querySelector('[name="confirmarContrasena"]').value;
+        const terminosCheckbox = document.querySelector('[name="form-checkbox"]').checked;
 
         const validacionPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,15}$/;
 

@@ -23,11 +23,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 text: 'El correo o la contraseña son incorrectos.',
             });
         } else {
+            const loginCredentials = {
+                email: correo, 
+                password: contrasena
+            }   
+
             $.ajax({
-                url: 'http://localhost:8080/emprendev/v1/user/login',
                 type: 'POST',
+                url: 'http://localhost:8080/emprendev/v1/user/login',
                 contentType: 'application/json',
-                data: JSON.stringify({ email: correo, password: contrasena }),
+                data: JSON.stringify(loginCredentials),
                 success: function (data) {
                     if (data.success) {
                         const rolUsuario = data.role;

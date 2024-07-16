@@ -1,8 +1,21 @@
 $(document).ready(function () {
-    function cargarUsuarios() {
-        //order by por estado de cuenta
-        //reload
 
+    checkSessionStatus();
+
+    function checkSessionStatus() {
+        $.ajax({
+            url: 'http://localhost:8080/emprendev/v1/user/session-status',
+            type: 'GET',
+            success: function(response) {
+                console.log("Session Status Response: ", response);
+            },
+            error: function(xhr, status, error) {
+                console.error("Error checking session status: ", error);
+            }
+        });
+    }
+
+    function cargarUsuarios() {
         $.ajax({
             type: "GET",
             url: "http://localhost:8080/emprendev/v1/user/listOrderAccount",
@@ -250,6 +263,8 @@ $(document).ready(function () {
     });
 });
 
+//functionalities
+
 const user_tbl_btn = document.getElementById("user-table-btn");
 const dev_tbl_btn = document.getElementById("dev-table-btn");
 const mipyme_tbl_btn = document.getElementById("mipyme-table-btn");
@@ -257,7 +272,7 @@ const UserTable = document.getElementById("UserTable");
 const devTable = document.getElementById("DevTable");
 const userdroplist = document.getElementById("userdroplist");
 
-const logout_btn = document.getElementById("logout-btn");
+const user_sub_menu = document.getElementById("user-sub-menu");
 const adminButtons = document.getElementById("adminbuttons");
 
 const region_tbl_btn = document.getElementById("region-tbl-btn");
@@ -385,18 +400,37 @@ function AddAnimation(){
     TituloTabla.classList.remove("fade-in-up-reversed");
 }
 
-//menu desplegable submenu
-const userSubMenu = document.getElementById("user-sub-menu");
+//logout
 
-userSubMenu.style.display = "none";
-
-SubmenuPerfilBtn_isShowing = false;
-function OpenPerfilSubMenu(){
-    if (!SubmenuPerfilBtn_isShowing){
-        userSubMenu.style.display="block";
+user_sub_menu_isShowing = false;
+function OpenAdminMenu(){
+    if (!user_sub_menu_isShowing){
+        user_sub_menu.style.display="block";
     }
     else{
-        userSubMenu.style.display="none";
+        user_sub_menu.style.display="none";
     }
-    SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
-};
+    user_sub_menu_isShowing = !user_sub_menu_isShowing;
+}
+
+$(document).on('click', '#logout_btn', function () {
+    if (confirm("¿Desea cerrar sesión?") == true) {
+        $.ajax({
+            type: "post",
+            url: "http://localhost:8080/emprendev/v1/user/logout",
+            contentType: "application/json",
+            success: function (response) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'cerrar sesión',
+                    text: 'su sesión ha terminado',
+                }).then(() => {
+                    window.location.href = "index.html";
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error al actualizar Usuario:", error);
+            }
+        });
+    }
+});
