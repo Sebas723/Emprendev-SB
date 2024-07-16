@@ -5,134 +5,61 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', function (event) {
         SaveOffer();
     });
-    /*form.addEventListener('submit', function (event) {
-        event.preventDefault(); // Always prevent default to handle submission manually
-        validateForm().then(valid => {
-            if (valid) {
-                SaveUser();
-            }
-        });
-    });
-
-    async function validateForm() {
-        const nombre = document.querySelector('[name="nombre"]').value;
-        const apellido = document.querySelector('[name="apellido"]').value;
-        const tipoDocumento = document.querySelector('[name="td"]').value;
-        const documentoIdentidad = document.querySelector('[name="id_usuario"]').value;
-        const fechaNacimiento = document.querySelector('[name="fecha_nac"]').value;
-        const rol = document.querySelector('[name="rol"]').value;
-        const telefono = document.querySelector('[name="telefono"]').value;
-        const correo = document.querySelector('[name="correo"]').value;
-        const contrasena = document.querySelector('[name="contrasena"]').value;
-        const confirmarContrasena = document.querySelector('[name="confirmarContrasena"]').value;
-        const terminosCheckbox = document.querySelector('[name="form-checkbox"]').checked;
-
-        const validacionPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,15}$/;
-
-        let todasLasValidacionesPasaron = true;
-
-        function showErrorMessage(message) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: message
-            });
-            todasLasValidacionesPasaron = false;
-        }
-
-        const validaciones = [
-            'terminosCheckbox',
-            'contrasena',
-            'correo',
-            'telefono',
-            'rol',
-            'edad',
-            'fechaNacimiento',
-            'documentoIdentidad',
-            'tipoDocumento',
-            'nombreApellido',
-            'confirmarContrasena'
-        ];
-
-        for (let validacion of validaciones) {
-            switch (validacion) {
-                case 'terminosCheckbox':
-                    if (!terminosCheckbox) {
-                        showErrorMessage('Debes aceptar los términos y condiciones.');
-                    }
-                    break;
-                case 'confirmarContrasena':
-                    if (contrasena !== confirmarContrasena) {
-                        showErrorMessage('La contraseña no coincide');
-                    }
-                    break;
-                case 'contrasena':
-                    if (!contrasena.match(validacionPassword)) {
-                        showErrorMessage('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.');
-                    }
-                    break;
-                case 'correo':
-                    if (!/^\S+@\S+\.\S+$/.test(correo)) {
-                        showErrorMessage('Por favor, ingresa un correo electrónico válido.');
-                    } else {
-                        const emailExists = await checkEmailExists(correo);
-                        if (emailExists) {
-                            showErrorMessage('El correo electrónico ya está registrado.');
-                        }
-                    }
-                    break;
-                case 'telefono':
-                    if (isNaN(telefono) || telefono.length != 10) {
-                        showErrorMessage('Por favor, ingrese un número de teléfono válido.');
-                    }
-                    break;
-                case 'rol':
-                    if (rol === "0") {
-                        showErrorMessage('Por favor, selecciona un rol.');
-                    }
-                    break;
-                case 'edad':
-                    const fechaNacimientoDate = new Date(fechaNacimiento);
-                    const hoy = new Date();
-                    let edad = hoy.getFullYear() - fechaNacimientoDate.getFullYear();
-                    if (hoy.getMonth() < fechaNacimientoDate.getMonth() || (hoy.getMonth() === fechaNacimientoDate.getMonth() && hoy.getDate() < fechaNacimientoDate.getDate())) {
-                        edad--;
-                    }
-                    if (edad <= 18 || edad > 80) {
-                        showErrorMessage('Tu edad no es válida, intenta nuevamente');
-                    }
-                    break;
-                case 'fechaNacimiento':
-                    if (!fechaNacimiento) {
-                        showErrorMessage('Por favor, ingresa tu fecha de nacimiento.');
-                    }
-                    break;
-                case 'documentoIdentidad':
-                    if (isNaN(documentoIdentidad) || /^\s*$/.test(documentoIdentidad) || documentoIdentidad.length != 10) {
-                        showErrorMessage('El documento de identidad debe ser un número válido.');
-                    }
-                    break;
-                case 'tipoDocumento':
-                    if (tipoDocumento === "0") {
-                        showErrorMessage('Por favor, selecciona un tipo de documento.');
-                    }
-                    break;
-                case 'nombreApellido':
-                    if (/^\d+$/.test(nombre) || /^\d+$/.test(apellido)) {
-                        showErrorMessage('Los nombres y apellidos no pueden contener números.');
-                    }
-                    if (nombre.trim() === "" || apellido.trim() === "") {
-                        showErrorMessage('Por favor, completa los campos de nombres y apellidos.');
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        return todasLasValidacionesPasaron;
-    }*/
 });
+
+function validarFormulario(){
+    const pago = document.querySelector('[name="pago"]').value;
+    const cupos = document.querySelector('[name="cupos"]').value;
+    const tituloOferta = document.querySelector('[name="titulo_oferta"]').value;
+
+    const validaciones = [
+        'tituloOferta',
+        'pago',
+        'cupos'
+    ];
+
+    for (let validacion of validaciones) {
+        switch (validacion) {
+            case 'tituloOferta':
+                if (tituloOferta.trim() === '') {
+                    alert('Por favor, completa el campo titulo');
+                    return false;
+                }
+                break;
+            case 'pago':
+                if (pago.trim() === '') {
+                    alert("Por favor, completa el campo pago.");
+                    return false;
+                }
+                if (pago <= 0) {
+                    alert('El pago por la oferta no puede ser menor o igual a 0');
+                    return false;
+                }
+                if(isNaN(pago)){
+                    alert("El pago por las ofertas no puede contener letras");
+                    return false;
+                }
+                break;
+            case 'cupos':
+                if (cupos.trim === '') {
+                    alert('Por favor, ingresa el numero de cupos');
+                    return false;
+                }
+                if(isNaN(cupos)){
+                    alert("El pago por las ofertas no puede contener letras");
+                    return false;
+                }
+                if (cupos <= 0) {
+                    alert('El pago por la oferta no puede ser menor o igual a 0');
+                    return false;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    return true;
+}
 
 //guardar oferta a la database
 function SaveOffer() {

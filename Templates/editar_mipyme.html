@@ -61,25 +61,41 @@
                             <div class="form-cover"> 
                                 <h2 style="margin-top: 0%;">Informacion Personal</h2>
                                 <div class="two-inputs">
-                                    <input type="text" placeholder="Primer Apellido" required="" class="form-control" name="titulo_Oferta">
-                                    <input type="text" placeholder="Segundo Apellido" required="" class="form-control" name="titulo_Oferta">
-                                </div>
-                                <div class="two-inputs">
-                                    <input type="text" placeholder="Tipo de Documento" required="" class="form-control" name="titulo_Oferta">
-                                    <input type="text" placeholder="Numero de Documento" required="" class="form-control" name="titulo_Oferta">
-                                </div>
-                                <div class="two-inputs">
-                                    <input type="date" placeholder="Fecha de nacimiento" required="" class="form-control" name="titulo_Oferta">
-                                    <input type="text" placeholder="Rol" required="" class="form-control" name="titulo_Oferta">
-                                </div>
-                                <div class="two-inputs">
-                                    <input type="text" placeholder="Telefono" required="" class="form-control" name="titulo_Oferta">
-                                    <input type="text" placeholder="Direccion" required="" class="form-control" name="titulo_Oferta">
-                                </div>
-                                <div class="two-inputs">
-                                    <input type="text" placeholder="Correo" required="" class="form-control" name="titulo_Oferta">
-                                    <input type="text" placeholder="Contraseña" required="" class="form-control" name="titulo_Oferta">
-                                </div>
+                                  <input type="text" placeholder="Primer Nombre" name="nombre" required="" maxlength="20"
+                                      class="form-control">
+                                  <input type="text" placeholder="Segundo Nombre" name="segundo_nombre" class="form-control" maxlength="20">
+                              </div>
+                              <div class="two-inputs">
+                                  <input type="text" placeholder="Primer Apellido" name="apellido" required=""
+                                      class="form-control">
+                                  <input type="text" placeholder="Segundo Apellido" name="segundo_apellido" class="form-control">
+                              </div>
+                              <div class="two-inputs">
+                                  <input type="text" placeholder="Tipo de Documento" name="td" required="" disabled
+                                      class="form-control">
+                                  <input type="text" placeholder="Numero de Documento" name="id_usuario" required=""
+                                      class="form-control">
+                              </div>
+                              <div class="two-inputs">
+                                  <input type="date" placeholder="Fecha de nacimiento" name="fecha_nac" required=""
+                                      class="form-control">
+                                  <input type="text" placeholder="Rol" name="rol" required="" class="form-control" disabled>
+                              </div>
+                              <div class="two-inputs">
+                                  <input type="text" placeholder="Telefono" name="telefono" required=""
+                                      class="form-control">
+                                  <input type="text" placeholder="Direccion" class="form-control" maxlength="50">
+                              </div>
+                              <div class="two-inputs">
+                                  <input type="text" placeholder="Correo" name="correo" required="" maxlength="50"
+                                      class="form-control">
+                              </div>
+                              <div class="two-inputs">
+                                  <input type="text" placeholder="Contraseña" name="contrasena" required="" maxlength="25"
+                                      class="form-control">
+                                  <input type="text" placeholder="Confirmar Contraseña" name="confirmarContrasena" maxlength="25"
+                                      required="" class="form-control">
+                              </div>
                                 <h2 style="margin-top: 1%;" >Informacion Del Negocio</h2>
                                 <div class="two-inputs">
                                     <input type="text" placeholder="Nombre del negocio" required="" class="form-control" name="titulo_Oferta">
@@ -93,7 +109,7 @@
                                 </div>
                                 <div class="barra"></div>
                                 <div class="row mb-0 create-button">
-                                    <button class="btn" style="color: white;">Guardar</button>
+                                    <button class="btn" style="color: white;" onclick="validarFormulario()">Guardar</button>
                                 </div>
                                 <div class="barra"></div>
 

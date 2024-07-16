@@ -16,15 +16,15 @@ function validarFormulario() {
 
     const validaciones = [
         'nombre',
-        'apellido',
-        'telefono',
-        'edad',
-        'fechaNacimiento',
-        'documentoIdentidad',
-        'contrasena',
         'segundo_nombre',
-        'correo',
+        'apellido',
         'segundo_apellido',
+        'documentoIdentidad',
+        'fechaNacimiento',
+        'edad',
+        'telefono',
+        'correo',
+        'contrasena',
         'confirmarContrasena'
     ];
 

@@ -59,7 +59,7 @@
                 <div class="cover">
                     <div class="col-md-7 form-container">
 
-                        <form id="offer_form" action="" method="post" enctype="multipart/form-data">
+                        <form id="offer_form" action="" method="">
                             <div class="form-cover">
                                 <h2 style="margin-top: -8%;">Crear Oferta</h2>
                                 <p>Fotos</p>
@@ -71,12 +71,12 @@
                                     
                                 </div>
                                 <div class="inputs">
-                                    <input id="card_title_input" type="text" placeholder="Título de la oferta" required="" class="form-control" name="titulo_Oferta" oninput="CardPreviewTitle()">
+                                    <input id="card_title_input" type="text" placeholder="Título de la oferta" required="" class="form-control" name="titulo_oferta" oninput="CardPreviewTitle()" maxlength="60">
                                     <textarea id="card_desc_input" placeholder="Descripción de la oferta" rows="4" cols="50" class="form-control" name="desc_oferta" style="margin-top: 1%;" oninput="CardPreviewDesc()"></textarea>
                                 </div>
                                 <div class="two-inputs">
-                                    <input id="card_pago_input" type="number" placeholder="$ pago" required="" class="form-control input-border" name="pago" oninput="CardPreviewPago()">
-                                    <input id="offer_fields" type="number" placeholder="Cupos (empleados)" class="form-control input-border" name="cupos">
+                                    <input id="card_pago_input" type="text" placeholder="$ pago" required="" class="form-control input-border" name="pago" oninput="CardPreviewPago()" maxlength="8">
+                                    <input id="offer_fields" type="text" placeholder="Cupos (empleados)" class="form-control input-border" name="cupos" maxlength="2">
                                 </div>
                                 <h3>Tags</h3>
                                 <p>Selecciona los tags que consideres adecuados para tu oferta</p>
@@ -144,7 +144,7 @@
                                     <div id="drop-area-tags" class="drop-area-tags"></div> 
                                 </div>
                                 <div class="row mb-0 create-button">
-                                    <button class="btn" style="color: white;">Crear Oferta</button>
+                                    <button class="btn" style="color: white;" onclick="validarFormulario()">Crear Oferta</button>
                                 </div>
 
                             </div>
