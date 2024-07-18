@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/catalogo.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/effect-fade.min.css">
+  <link rel="shortcut icon" href="svg/Logo.svg" type="image/x-icon">
+  <title>Emprendev | Desarrolladores</title>
+</head>
+
+<body>
+  <!--Navbar-->
+  <header class="container-fluid">
+    <nav class="navbar navbar-expand-sm">
+      <div class="navbar-brand"><img src="svg/Logo.svg" alt="" width="30" height="30"></div>
+      <a href="catalogo.php" class="text-decoration-none">
+        <div class="navbar-brand text-light">Emprendev</div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#register&login"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="user_side container-fluid justify-content-end">
+        <div class="form-inline my-2 my-lg-0">
+          <input id="buscador" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"
+            autocomplete="off">
+        </div>
+        <img id="session_user_imgProfile" class="user_img" alt="" width="40" height="40" onclick="OpenPerfilSubMenu()">
+        <div id="user-sub-menu" class="container-submenu">
+          <div class="card-user-sub-menu border-0">
+            <div class="box1-card-user-sub-menu"></div>
+            <div class="card-content-user-sub-menu">
+              <div class="img-user-sub-menu">
+                <img id="session_user_imgProfile" alt="">
+              </div>
+              <div class="name-sub-menu">
+                <div>
+                  <span id="session_user_firstName" class="name">Nombre</span>
+                  <span id="session_user_lastName" class="name">Apellido</span>
+                </div>
+                <span id="session_user_role" class="proffesion">Rol</span>
+              </div>
+              <div class="button-sub-menu">
+                <a href="perfil_mipyme.html"><button>Ver perfil</button></a>
+                <a href="terminosycondicones.html"></a><button>Terminos y condiciones</button>
+                <button id="logout_btn">Cerrar sesion</button>
+              </div>
+            </div>
+    
+          </div>
+        </div>
+      </div>
+      </div>
+    </nav>
+  </header>
+
+  <!--Info-->
+  <section id="Info">
+    <ul>
+      <li>
+        <H1 style="color: white;">Tags</H1>
+      </li>
+      <li class="tag"><img src="svg/html.svg" style="width: 20px; height: 20px;" alt="">HTML</li>
+      <li class="tag"><img src="svg/css.svg" style="width: 20px; height: 20px;" alt="">CSS</li>
+      <li class="tag"><img src="svg/js.svg" style="width: 20px; height: 20px; border-radius: 5px;" alt="">JavaScript
+      </li>
+      <li class="tag"><img src="svg/sql.svg" style="width: 20px; height: 20px;" alt="">SQL</li>
+      <li class="tag"><img src="svg/C++_Logo.svg" style="width: 20px; height: 20px; cursor: pointer;" alt="">C++</li>
+      <li class="tag"><img src="svg/java-4-logo-svgrepo-com.svg" style="width: 25px; height: 25px;" alt="">Java</li>
+      <li class="tag"><img src="svg/Ruby_logo.svg" style="width: 15px; height: 15px;" alt="">Ruby</li>
+      <li class="tag"><img src="svg/Python-logo.svg" style="width: 20px; height: 20px;" alt="">Phyton</li>
+      <li class="tag"><img src="svg/c--4.svg" style="width: 20px; height: 20px;" alt="">C#</li>
+      <li class="tag"><img src="svg/Go.svg" style="width: 20px; height: 20px;" alt="">GO</li>
+      <li class="tag"><img src="svg/swift.svg" style="width: 20px; height: 20px;" alt="">Swift</li>
+      <li class="tag"><img src="svg/Kotlinlang-icon.svg" style="width: 20px; height: 20px;" alt="">Kotlin</li>
+      <li class="tag"><img src="svg/typescriptlang-icon.svg" style="width: 20px; height: 20px;" alt="">TypeScript</li>
+      <li class="tag"><img src="svg/rust.svg" style="width: 20px; height: 20px;" alt="">Rust</li>
+      <li class="tag"><img src="svg/perl.svg" style="width: 20px; height: 20px;" alt="">Perl</li>
+      <li class="tag"><img src="svg/cobol.svg" style="width: 20px; height: 20px;" alt="">Cobol</li>
+      <li class="tag"><img src="svg/C--4.svg" style="width: 20px; height: 20px;" alt="">C</li>
+      <li class="tag"><img src="svg/angular-icon.svg" style="width: 20px; height: 20px;" alt="">Angular</li>
+      <li class="tag"><img src="svg/Bootstrap_logo.svg" style="width: 20px; height: 20px;" alt="">Bootstrap</li>
+      <li class="tag"><img src="svg/react.svg" style="width: 20px; height: 20px;" alt="">React</li>
+      <li class="tag"><img src="svg/nodejs.svg" style="width: 20px; height: 20px;" alt="">Node.JS</li>
+      <li class="tag"><img src="svg/django.svg" style="width: 20px; height: 20px;" alt="">Django</li>
+      <li class="tag"><img src="svg/ruby_on_rails.svg" style="width: 20px; height: 20px;" alt="">Ruby on Rails</li>
+      <li class="tag"><img src="svg/vue.svg" style="width: 20px; height: 20px;" alt="">Vue.js</li>
+      <li class="tag"><img src="svg/laravel.svg" style="width: 20px; height: 20px;" alt="">Laravel</li>
+      <li class="tag"><img src="svg/net.svg" style="width: 20px; height: 20px;" alt="">.NET</li>
+    </ul>
+  </section>
+  <!--SLIDER-->
+  <article>
+    <h4>Bienvenido
+      <HR>
+      </HR>
+    </h4>
+    <div class="create-offer" style="width:100%; height:20%; padding-left: 0%; display:flex; gap:15px;">
+      <button class="create-offer-button" onclick="irAFormulario()"><b><span>+</span>Crear Oferta</b></button>
+      <button class="create-offer-button" onclick="irACatalogo()"><b><span></span>Ofertas</b></button>
+      <button class="create-offer-button" onclick="irACatalogoDevs()"><b><span></span>Desarrolladores</b></button>
+      <button class="create-offer-button" onclick="irACatalogo()"><b><span></span>Mis Ofertas</b></button>
+    </div>
+    <div class="cards_container">
+      <div class="cola">
+        <div class="card border-0">
+          <div class="box1">
+            <img src="img/R.jpg" alt="" style="width: 100%; height: 105%; border-radius:20px;">
+
+          </div>
+          <div class="card-content">
+            <div class="name-proffesion">
+              <span class="name">HOLA</span>
+            </div>
+            <div class="about">
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores,
+                eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit
+                illo ea et. Ullam adipisci, consequuntur laborum
+                dolorum nostrum voluptas inventore quae explicabo vero omnis necessitatibus quasi ut blanditiis labore
+                cum!</p>
+              <span>Fecha de Publicacion: </span>
+              <br>
+              <span>Creador: </span>
+            </div>
+            <div class="button b1">
+              <button class="about-me" id="openModal">About Me</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="cola">
+        <div class="card border-0">
+          <div class="box1">
+            <img src="img/R.jpg" alt="" style="width: 100%; height: 105%; border-radius:20px;">
+
+          </div>
+          <div class="card-content">
+            <div class="name-proffesion">
+              <span class="name">HOLA</span>
+            </div>
+            <div class="about">
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores,
+                eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit
+                illo ea et. Ullam adipisci, consequuntur laborum
+                dolorum nostrum voluptas inventore quae explicabo vero omnis necessitatibus quasi ut blanditiis labore
+                cum!</p>
+              <span>Fecha de Publicacion: </span>
+              <br>
+              <span>Creador: </span>
+            </div>
+            <div class="button b1">
+              <button class="about-me" id="openModal">About Me</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="cola">
+        <div class="card border-0">
+          <div class="box1">
+            <img src="img/R.jpg" alt="" style="width: 100%; height: 105%; border-radius:20px;">
+
+          </div>
+          <div class="card-content">
+            <div class="name-proffesion">
+              <span class="name">HOLA</span>
+            </div>
+            <div class="about">
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores,
+                eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit
+                illo ea et. Ullam adipisci, consequuntur laborum
+                dolorum nostrum voluptas inventore quae explicabo vero omnis necessitatibus quasi ut blanditiis labore
+                cum!</p>
+              <span>Fecha de Publicacion: </span>
+              <br>
+              <span>Creador: </span>
+            </div>
+            <div class="button b1">
+              <button class="about-me" id="openModal">About Me</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="cola">
+        <div class="card border-0">
+          <div class="box1">
+            <img src="img/R.jpg" alt="" style="width: 100%; height: 105%; border-radius:20px;">
+
+          </div>
+          <div class="card-content">
+            <div class="name-proffesion">
+              <span class="name">HOLA</span>
+            </div>
+            <div class="about">
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores,
+                eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit
+                illo ea et. Ullam adipisci, consequuntur laborum
+                dolorum nostrum voluptas inventore quae explicabo vero omnis necessitatibus quasi ut blanditiis labore
+                cum!</p>
+              <span>Fecha de Publicacion: </span>
+              <br>
+              <span>Creador: </span>
+            </div>
+            <div class="button b1">
+              <button class="about-me" id="openModal">About Me</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="cola">
+        <div class="card border-0">
+          <div class="box1">
+            <img src="img/R.jpg" alt="" style="width: 100%; height: 105%; border-radius:20px;">
+
+          </div>
+          <div class="card-content">
+            <div class="name-proffesion">
+              <span class="name">HOLA</span>
+            </div>
+            <div class="about">
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores,
+                eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit
+                illo ea et. Ullam adipisci, consequuntur laborum
+                dolorum nostrum voluptas inventore quae explicabo vero omnis necessitatibus quasi ut blanditiis labore
+                cum!</p>
+              <span>Fecha de Publicacion: </span>
+              <br>
+              <span>Creador: </span>
+            </div>
+            <div class="button b1">
+              <button class="about-me" id="openModal">About Me</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </article>
+  <section id="miElemento">
+    <div class="modal-container" id="modalContainer">
+      <div class="modal-body">
+        <div class="modal-box"></div>
+        <div class="modal-content">
+          <div class="modal-name-proffesion">
+            <span class="modal-name">Copia de emprendev en springboot</span>
+          </div>
+          <div class="modal-about">
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores,
+              eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit illo
+              ea et. Ullam adipisci, consequuntur laborum
+              dolorum nostrum voluptas inventore quae explicabo vero omnis necessitatibus quasi ut blanditiis labore
+              cum!
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, temporibus. Repellat fugit vel esse,
+              voluptatum doloribus ut aliquid quam dolorum. Lorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci optio animi assumenda 
+              illo, quas rem dolorem reiciendis recusandae illum asperiores! Voluptatibus cupiditate blanditiis totam maxime doloremque voluptate rem 
+              ratione inventore sed corporis, pariatur aut nemo voluptatum dolorem ipsam quidem laboriosam hic architecto ipsum numquam nostrum 
+              rerum debitis, corrupti sunt? Architecto distinctio modi repellat at aspernatur optio dignissimos molestias, unde ab id autem commodi
+               repellendus deleniti voluptatum, alias animi placeat! Enim, iure atque architecto assumenda dignissimos, aspernatur, est dolores perferendis 
+               quas amet quis at! Laudantium laboriosam incidunt exercitationem, consectetur soluta excepturi quam quaerat, voluptatem unde asperiores porro 
+               nostrum architecto dolorem repellat. Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nulla ab natus nisi iusto quae iure doloribus 
+               maiores, molestiae molestias quibusdam dolore totam, amet facilis sit aperiam omnis culpa dicta.</p>
+          </div>
+          <hr>
+          <section class="main-content" id="descripcion-informacion">
+            <hr>
+            <!--<img class="perfil-img-descripcion" src="img/Gato1.jpg" alt="" width="20%" height="20%">-->
+            <div class="main-content-descripcion">
+              <h4>Tecnologias Requeridas</h2>
+                <div class="especializaciones">
+                  <ul>
+                    <li>Rust</li>
+                    <li>Python</li>
+                    <li>HTML</li>
+                  </ul>
+                  <ul>
+                    <li>JavaScript</li>
+                    <li>Python</li>
+                    <li>HTML</li>
+                  </ul>'
+                </div>
+                <hr>
+
+                <h4>Imagenes relacionadas</h4>
+                <div class="container-oferta-img">
+                  <div class="modal-oferta-img">
+                    <img src="img/R.jpg" alt="" style="width: 100%; height: 105%; border-radius:20px;">
+                  </div>
+                  <div class="modal-oferta-img">
+                    <img src="img/R.jpg" alt="" style="width: 100%; height: 105%; border-radius:20px;">
+                  </div>
+                  <div class="modal-oferta-img">
+                    <img src="img/R.jpg" alt="" style="width: 100%; height: 105%; border-radius:20px;">
+                  </div>
+                  <div class="modal-oferta-img">
+                    <img src="img/R.jpg" alt="" style="width: 100%; height: 105%; border-radius:20px;">
+                  </div>
+                </div>
+                <hr>
+                <div>
+                  <h4>Informacion general oferta</h4>
+                  <dl class="diccionario-position">
+                    <div>
+                      <dd>Pago por la oferta: </dd>
+                      <dd>Cupos disponibles: </dd>
+                      <dd>Creador: </dd>
+                      <dd>Fecha de publicacion: </dd>
+                    </div>
+                  </dl>
+                </div>
+                <hr>
+                <div>
+                  <h4>Informacion general del negocio</h4>
+                  <dl class="diccionario-position">
+                    <div>
+                      <dd>Nombre</dd>
+                      <dd>Ciudad</dd>
+                      <dd>Direccion</dd>
+                    </div>
+                  </dl>
+                  <hr>
+                  <div class="contenido-laboral">
+                    <h4>Descripcion del negocio</h4>
+                    <p>
+                      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis, suscipit doloremque odio ipsam
+                      culpa quia praesentium nulla vel eveniet,
+                      iusto nam hic dicta necessitatibus quasi voluptatibus architecto repellendus incidunt blanditiis.
+                      Nihil inventore repellendus quis, incidunt
+                      fugiat beatae quas dignissimos animi odio odit aliquam tenetur similique modi reiciendis pariatur
+                      atque eveniet repellat laudantium cum mollitia
+                      aspernatur deserunt praesentium. Totam enim obcaecati culpa. Doloremque labore ratione sit, dolore
+                      laboriosam nulla aliquid amet, debitis inventore
+                      quisquam magni cupiditate tempore aspernatur unde, quibusdam sunt atque voluptatibus qui repellat
+                      nisi quae corporis? Omnis sunt, asperiores officiis lorem100
+                  </div>
+                </div>
+            </div>
+          </section>
+          <div class="modal-button modal-b1">
+            <button id="closeModal">Cerrar</button>
+            <button class="contact-me">Contactar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="overlay" id="overlay" onclick="closeModal()"></div>
+
+  <script>
+    function irAFormulario() {
+      // Redirige al formulario de creación de oferta
+      window.location.href = 'oferta.html';
+    }
+
+    function irACatalogo() {
+      // Redirige al formulario de creación de oferta
+      window.location.href = 'catalogo.html';
+    }
+
+    function irACatalogoDevs() {
+      // Redirige al formulario de creación de oferta
+      window.location.href = ' catalogo_devs.html';
+    }
+
+    function irDevFull(nom1, apellido1) {
+      // Redirige al formulario de creación de oferta
+      window.location.href = 'dev_full.php?nom1=' + nom1 + '&apellido1=' + apellido1;
+    }
+
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="js/session.js"></script>
+<script src="js/swiper-bundle.min.js"></script>
+<script src="js/catalogo.js"></script>
+
+</html>

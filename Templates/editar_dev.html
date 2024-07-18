@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/editar_dev.css">
+    <link rel="stylesheet" href="css/animation.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="shortcut icon" href="svg/Logo.svg" type="image/x-icon">
+    <title>Emprendev | Crear oferta</title>
+</head>
+
+<body>
+    <!--Navbar-->
+    <header class="container-fluid">
+        <nav class="navbar navbar-expand-sm">
+            <div class="navbar-brand"><img src="svg/Logo.svg" alt="" width="30" height="30"></div>
+            <a href="catalogo.php" class="text-decoration-none">
+                <div class="navbar-brand text-light">Emprendev</div>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#register&login"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="user_side container-fluid justify-content-end">
+                <div class="form-inline my-2 my-lg-0">
+                </div>
+                <img class="user_img" src="img/DEVELOPER ICON.png" alt="" width="40" height="40"
+                    onclick="OpenPerfilSubMenu()">
+                <div id="user-sub-menu" class="container-submenu">
+                    <div class="card-user-sub-menu border-0">
+                        <div class="box1-card-user-sub-menu"></div>
+                        <div class="card-content-user-sub-menu">
+                            <div class="img-user-sub-menu">
+                                <img src="img/R.jpg" alt="">
+                            </div>
+                            <div class="name-sub-menu">
+                                <span class="name">Mathew Mcconahills</span>
+                                <span class="proffesion">Mipyme</span>
+                            </div>
+                            <div class="button-sub-menu">
+                                <a href="perfil_dev.html"><button>Ver perfil</button></a>
+                                <a href="terminosycondicones.html"></a><button>Terminos y condiciones</button>
+                                <button>Cerrar sesion</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            </div>
+        </nav>
+    </header>
+
+    <!--Offert-->
+    <div class="container-fluid form-container content-container">
+        <div class="container">
+            <div class="form-card">
+                <div class="cover">
+                    <div class="form-container">
+                        <form action="" method="post" id="form-dev">
+                            <div class="form-cover">
+                                <h2 style="margin-top: 0%;">Informacion Personal</h2>
+                                <div class="two-inputs">
+                                    <input type="text" placeholder="Primer Nombre" name="nombre" required="" maxlength="20"
+                                        class="form-control">
+                                    <input type="text" placeholder="Segundo Nombre" name="segundo_nombre" class="form-control" maxlength="20">
+                                </div>
+                                <div class="two-inputs">
+                                    <input type="text" placeholder="Primer Apellido" name="apellido" required=""
+                                        class="form-control">
+                                    <input type="text" placeholder="Segundo Apellido" name="segundo_apellido" class="form-control">
+                                </div>
+                                <div class="two-inputs">
+                                    <input type="text" placeholder="Tipo de Documento" name="td" required="" disabled
+                                        class="form-control">
+                                    <input type="text" placeholder="Numero de Documento" name="id_usuario" required=""
+                                        class="form-control">
+                                </div>
+                                <div class="two-inputs">
+                                    <input type="date" placeholder="Fecha de nacimiento" name="fecha_nac" required=""
+                                        class="form-control">
+                                    <input type="text" placeholder="Rol" name="rol" required="" class="form-control" disabled>
+                                </div>
+                                <div class="two-inputs">
+                                    <input type="text" placeholder="Telefono" name="telefono" required=""
+                                        class="form-control">
+                                    <input type="text" placeholder="Direccion" class="form-control" maxlength="50">
+                                </div>
+                                <div class="two-inputs">
+                                    <input type="text" placeholder="Correo" name="correo" required="" maxlength="50"
+                                        class="form-control">
+                                </div>
+                                <div class="two-inputs">
+                                    <input type="text" placeholder="Contraseña" name="contrasena" required="" maxlength="25"
+                                        class="form-control">
+                                    <input type="text" placeholder="Confirmar Contraseña" name="confirmarContrasena" maxlength="25"
+                                        required="" class="form-control">
+                                </div>
+
+                                <h2 style="margin-top: 0%;">Informacion Laboral</h2>
+                                <div class="two-inputs">
+                                    <textarea id="card_desc_input" placeholder="Descripción del perfil" rows="8"
+                                        cols="100" class="form-control" name="desc" style="margin-top: 1%;"></textarea>
+                                </div>
+                                <h5>Estudios</h5>
+                                <div class="two-inputs">
+                                    <input type="text" placeholder="Universidad" required="" class="form-control" maxlength="40"
+                                        >
+                                    <input type="text" placeholder="Carrera" required="" class="form-control" maxlength="50"
+                                        >
+                                </div>
+                                <div class="two-inputs">
+                                    <input type="date" required="" class="form-control"
+                                        >
+                                    <input type="date" required="" class="form-control"
+                                        >
+                                </div>
+
+                                <h5>Experiencia Laboral</h5>
+                                <div class="two-inputs">
+                                    <input type="text" placeholder="Cargo" required="" class="form-control" maxlength="40"
+                                        >
+                                    <input type="text" placeholder="Empresa" required="" class="form-control" maxlength="50"
+                                        >
+                                </div>
+                                <div class="two-inputs">
+                                    <input type="date" required="" class="form-control"
+                                        >
+                                    <input type="date" required="" class="form-control"
+                                        >
+                                </div>
+                                <div class="two-inputs">
+                                    <textarea id="card_desc_input" placeholder="Descripción" rows="8" cols="100"
+                                        class="form-control" name="desc" style="margin-top: 1%;"></textarea>
+                                </div>
+                                <h5>Tags</h5>
+                                <p>Selecciona los tags que consideres segun tus conocimientos</p>
+                                <div class="two-inputs">
+                                    <div class="tags-container">
+                                        <ul id="tags-container">
+                                            <li id="html-tag" class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="1" style="display: none;">
+                                                <img src="svg/html.svg" style="width: 20px; height: 20px;" alt=""
+                                                    draggable="false">HTML
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="2" style="display: none;">
+                                                <img src="svg/css.svg" style="width: 20px; height: 20px;" alt=""
+                                                    draggable="false">CSS
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="3" style="display: none;">
+                                                <img src="svg/js.svg"
+                                                    style="width: 20px; height: 20px; border-radius: 5px;" alt=""
+                                                    draggable="false">JavaScript
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="4" style="display: none;">
+                                                <img src="svg/sql.svg" style="width: 20px; height: 20px;" alt=""
+                                                    draggable="false">SQL
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="5" style="display: none;">
+                                                <img src="svg/C++_Logo.svg" style="width: 20px; height: 20px;" alt=""
+                                                    draggable="false">C++
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="6" style="display: none;">
+                                                <img src="svg/java.svg" style="width: 20px; height: 20px;" alt=""
+                                                    draggable="false">Java
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="7" style="display: none;">
+                                                <img src="svg/Bootstrap_logo.svg" style="width: 20px; height: 20px;"
+                                                    alt="" draggable="false">Bootstrap
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="8" style="display: none;">
+                                                <img src="svg/Ruby_logo.svg" style="width: 15px; height: 15px;" alt=""
+                                                    draggable="false">Ruby
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="9" style="display: none;">
+                                                <img src="svg/Python-logo.svg" style="width: 20px; height: 20px;" alt=""
+                                                    draggable="false">Phyton
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="10" style="display: none;">
+                                                <img src="svg/c--4.svg" style="width: 20px; height: 20px;" alt=""
+                                                    draggable="false">C#
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="11" style="display: none;">
+                                                <img src="svg/django.svg" style="width: 20px; height: 20px;" alt=""
+                                                    draggable="false">Django
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="12" style="display: none;">
+                                                <img src="svg/react.svg" style="width: 20px; height: 20px;" alt=""
+                                                    draggable="false">React
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="13" style="display: none;">
+                                                <img src="svg/nodejs.svg" style="width: 20px; height: 20px;" alt=""
+                                                    draggable="false">Node.JS
+                                            </li>
+                                            <li class="tag" draggable="true">
+                                                <input type="checkbox" name="tags[]" value="14" style="display: none;">
+                                                <img src="svg/angular-icon.svg" style="width: 20px; height: 20px;"
+                                                    alt="" draggable="false">Angular
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div id="drop-area-tags" class="drop-area-tags"></div>
+                                </div>
+                                <div class="barra"></div>
+                                <div class="row mb-0 create-button">
+                                    <button class="btn" id="btn-submit" style="color: white;" onclick="validarFormulario()">Guardar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script src="js/editar_dev.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="svg/Logo.svg" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/perfil_dev.css">
+    <link rel="stylesheet" href="css/animation.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+    <title>Mi Perfil</title>
+</head>
+<body>
+  <!--Navbar-->
+  <header class="container-fluid">
+    <nav class="navbar navbar-expand-sm">
+      <div class="navbar-brand"><img src="svg/Logo.svg" alt="" width="30" height="30"></div>
+      <a href="catalogo.php" class="text-decoration-none">
+        <div class="navbar-brand text-light">Emprendev</div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#register&login"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="user_side container-fluid justify-content-end">
+        <div class="form-inline my-2 my-lg-0">
+        </div>
+        <img class="user_img" src="img/DEVELOPER ICON.png" alt="" width="40" height="40" onclick="OpenPerfilSubMenu()">
+        <div id="user-sub-menu" class="container-submenu">
+          <div class="card-user-sub-menu border-0">
+            <div class="box1-card-user-sub-menu"></div>
+            <div class="card-content-user-sub-menu">
+              <div class="img-user-sub-menu">
+                <img src="img/R.jpg" alt="">
+              </div>
+              <div class="name-sub-menu">
+                <span class="name">Mathew Mcconahills</span>
+                <span class="proffesion">Mipyme</span>
+              </div>
+              <div class="button-sub-menu">
+                <a href="perfil_mipyme.html"><button>Ver perfil</button></a>
+                <a href="terminosycondicones.html"></a><button>Terminos y condiciones</button>
+                <button>Cerrar sesion</button>
+              </div>
+            </div>
+    
+          </div>
+        </div>
+      </div>
+      </div>
+    </nav>
+  </header>
+
+    <!--Info-->
+    <section id="Info">
+        <div class="perfil-img">
+            <img src="img/DEVELOPER ICON.png" alt="" width="60%" height="60%" id="user-img-perfil">
+            <div  class="img-perfil-user-up">
+                <form action="" class="form-bigicon">
+                    <div>
+                        <input type="file" name="cambio-foto-perfil" id="foto">
+                        <label for="foto"><img src="svg/Editar.svg" alt="" height="80%" width="80%"></label>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+        <h2>Sebastian Ramirez Henao
+        </h2>
+        
+        
+        <hr>
+        <div id="button-container">
+            <a href=""><button id="datos-personales-btn" class="perfil-btn" onclick="ButtonDataSelected()">Datos Personales</button></a>
+
+            <a href="editar_dev.html"><button id="descripcion-btn" class="perfil-btn">Editar</button></a> 
+        </div>
+        <hr>
+        <br>
+        <div class="text-container">
+            
+        </div>
+    </section>
+    <section class="main-content" id="descripcion-informacion">
+        <!--<img class="perfil-img-descripcion" src="img/Gato1.jpg" alt="" width="20%" height="20%">-->
+        <div class="main-content-descripcion">
+            <div>
+                <h2 id="tituloinfo">Descripcion</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit dignissimos nesciunt, eum in aliquam consectetur a ex dicta quod consequatur harum iste. Lorem ipsum dolor, 
+                    sit amet consectetur adipisicing elit. Tempora at sit nostrum laborum obcaecati, est autem, cupiditate accusamus vero itaque
+                    assumenda perferendis praesentium molestias sequi ut aspernatur nam id fugiat? Non, tenetur dolores.</p>
+                <hr>
+            </div>
+
+            <div>
+                <h2>Especializaciones</h2>
+                <ul>
+                    <li>JavaScript</li>
+                    <li>Python</li>
+                    <li>HTML</li>
+                    <li>CSS</li>
+                </ul>
+                <hr>
+            </div>
+
+            <div>
+                <h2>Educacion</h2>
+                <div class="flexbox-padre">
+                    <ol class="flexbox-hijo">
+                        <li><b>Universidad</b><br><b>Carrera</b> <br> <b>Año inicio</b><br> <b>Año fin</b></li>
+                        <li><b>Universidad</b><br><b>Carrera</b> <br> <b>Año inicio</b><br> <b>Año fin</b></li>
+                    </ol>
+
+                    <ol class="flexbox-hijo">
+                        <li><b>Universidad</b><br><b>Carrera</b> <br> <b>Año inicio</b><br> <b>Año fin</b></li>
+                        <li><b>Universidad</b><br><b>Carrera</b> <br> <b>Año inicio</b><br> <b>Año fin</b></li>
+                    </ol>
+                </div>
+            </div>
+
+            <div>
+                <h2>Experiencia Laboral</h2>
+                <div class="flexbox-padre">
+                    <ol class="flexbox-hijo">
+                        <li><b>Cargo</b><br><b>Empresa</b> <br> <b>Año inicio y año fin</b><br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, odio? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, atque. Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, neque! <br> <b>Telefono Empresa</b> <br> <b>Direccion Empresa</b> <br> <b>Referencias</b> </li>
+                        <li><b>Cargo</b><br><b>Empresa</b> <br> <b>Año inicio y año fin</b><br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, odio? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, atque. <br> <b>Telefono Empresa</b> <br> <b>Direccion Empresa</b> <br> <b>Referencias</b> </li>
+                    </ol>
+
+                    <ol class="flexbox-hijo">
+                        <li><b>Cargo</b><br><b>Empresa</b> <br> <b>Año inicio y año fin</b><br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, odio? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, atque. <br> <b>Telefono Empresa</b> <br> <b>Direccion Empresa</b> <br> <b>Referencias</b> </li>
+                        <li><b>Cargo</b><br><b>Empresa</b> <br> <b>Año inicio y año fin</b><br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, odio? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, atque. <br> <b>Telefono Empresa</b> <br> <b>Direccion Empresa</b> <br> <b>Referencias</b> </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--Desde aqui Inicia El apartado de datos personales en el perfil-->
+    <section id="datos-personales" class="main-content">
+        <div class="container mt-5">
+            <form method="POST">
+                <h5 class="text-center alert-secondary">Editar Usuario</h5>
+                <input type="hidden" name="id_usuario">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="nombre">Nombre:</label>
+                                <input type="text" class="form-control" name="nombre">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="nombre2">Segundo Nombre:</label>
+                                <input type="text" class="form-control" name="nombre2">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="apellido">Apellido:</label>
+                                <input type="text" class="form-control" name="apellido">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="apellido2">Segundo Apellido:</label>
+                                <input type="text" class="form-control" name="apellido2">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="fec_nac">Fecha De Nacimiento:</label>
+                                <input type="date" class="form-control" name="fecha_nac">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="edad">Edad:</label>
+                                <input type="text" class="form-control" name="edad">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="telefono">Celular:</label>
+                                <input type="text" class="form-control" name="telefono">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="direccion">Direccion:</label>
+                                <input type="text" class="form-control" name="direccion">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="correo">Correo:</label>
+                                <input type="email" class="form-control" name="correo">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="contrasena">Contraseña:</label>
+                                <input type="password" class="form-control" name="contrasena">
+                            </div>
+                        </div>         
+                <button type="submit" class="btn btn-primary" name="botoneditar">Editar Usuario</button>
+    
+            </form>
+        </div>
+    </section>
+</body>
+</html>
+<script src="js/perfil_dev.js"></script>
+<script src="bootstrap/js/bootstrap.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<script src="bootstrap/js/bootstrap.bundle.min.js"></script>

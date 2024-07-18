@@ -1,0 +1,308 @@
+*{
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*Header*/
+
+header{
+    position: fixed;
+    width: 100vw;
+    height: 100px;
+    top: 0%;
+    background-image: linear-gradient(to bottom, rgb(17, 17, 17), transparent);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 2%;
+    padding-right: 5%;
+    z-index: 1;
+    transition: 0.5s;
+}
+
+.brand{
+    position: relative;
+    width: 24%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.brandlogo{
+    position: relative;
+    width: 40%;
+    height: 60%;
+    border-radius: 5px;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.brandlogo img{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.brandtext{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+.brandtext p{
+    margin: 0;
+}
+
+.brandtext p{
+    font-size: 25px;
+    color: white !important;
+}
+
+.register{
+    position: relative;
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.register a{
+    text-decoration: none;
+}
+
+.userregister{
+    position: relative;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.userregister button{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: transparent;
+    border-style: none;
+    color: white;
+    font-size: 15px;
+}
+
+.line{
+    position: relative;
+    width: 2px;
+    height: 30%;
+    background-color: white;
+}
+
+.userlogin{
+    position: relative;
+    width: 50%;
+    height: 100%;
+    border-radius: 5px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.userlogin button{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: transparent;
+    border-style: none;
+    border-radius: 0px;
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+}
+
+.register button:hover{
+    cursor: pointer !important;
+}
+
+/*Header Compacted*/
+
+.compacted{
+    position: fixed;
+    width: 100vw;
+    height: 60px;
+    top: 0%;
+    background-image: linear-gradient(to bottom, rgb(25, 25, 25), rgb(17, 17, 17));
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 2%;
+    padding-right: 5%;
+    z-index: 1;
+    transition-duration: 0.5s;
+}
+
+/*Main*/
+
+#main{
+    width: 100vw;
+    height: 100vh;
+    background-image: url(../img/Pattern.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlay{
+    position: relative;
+    height: 100vh;
+    background-image: linear-gradient(to top, rgb(20, 20, 20) 0.01%, transparent);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.title{
+    position: relative;
+    width: 100vw;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;    
+}
+
+.title h1{
+    font-size: 70px;
+    text-align: center;
+    color: white !important;
+}
+
+.overlay p{
+    position: relative;
+    width: 100vw;
+    font-size: 30px;
+    color: white !important
+}
+
+/*VerticaL Slider (MAIN Texts)*/
+
+#carouselWrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+#carousel {
+    position: absolute;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+/*Info*/
+
+#info{
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    background: #141414;
+    padding: 1%;
+}
+
+.info-text{
+    padding: 2%;
+    margin: 2%;
+    background: #1d1d1d;
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #292929;
+    transition-duration: 0.5s;
+}
+
+.info-text:hover{
+    -webkit-box-shadow: 0px 0px 10px 5px rgba(104, 104, 104, 0.175);
+    -moz-box-shadow: 0px 0px 10px 5px rgba(104, 104, 104, 0.175);
+    box-shadow: 0px 0px 10px 5px rgba(104, 104, 104, 0.175);
+    transition-duration: 0.5s;
+}
+
+/*Footer*/
+
+#footer{
+    position: relative;
+    width: 100vw;
+    height: 100px;
+    color: white;
+    background-color: rgb(17, 17, 17);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10%;
+    padding-left: 22%;
+}
+
+#footer line{
+    background-color: #1c1c1c52;
+}
+
+/*ScrollBar*/
+
+::-webkit-scrollbar {
+  width: 8px; 
+}
+
+::-webkit-scrollbar-track {
+  background-color: #1c1c1c; /* Color del fondo de la barra de desplazamiento */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
