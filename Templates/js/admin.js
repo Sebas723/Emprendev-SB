@@ -1,25 +1,13 @@
 $(document).ready(function () {
 
-    checkSessionStatus();
-
-    function checkSessionStatus() {
-        $.ajax({
-            url: 'http://localhost:8080/emprendev/v1/user/session-status',
-            type: 'GET',
-            success: function(response) {
-                console.log("Session Status Response: ", response);
-            },
-            error: function(xhr, status, error) {
-                console.error("Error checking session status: ", error);
-            }
-        });
-    }
-
     function cargarUsuarios() {
         $.ajax({
             type: "GET",
             url: "http://localhost:8080/emprendev/v1/user/listOrderAccount",
             dataType: "json",
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 $("#tabla > tbody").empty();
                 $.each(data, function (i, item) {
@@ -70,60 +58,6 @@ $(document).ready(function () {
 
     cargarUsuarios();
 
-    function prueba() {
-        $.ajax({
-            type: "GET",
-            url: "http://localhost:8080/emprendev/v1/user/listOrderAccount",
-            dataType: "json",
-            success: function (data) {
-                $("#tabla > tbody").empty();
-                $.each(data, function (i, item) {
-                    if (item.accountState == 1) {
-                        var row =
-                            "<tr>" +
-                            "<td>" + item.docNum + "</td>" +
-                            "<td>" + item.role + "</td>" +
-                            "<td>" + item.firstName + " " + item.secondName + "</td>" +
-                            "<td>" + item.lastName + " " + item.lastName2 + "</td>" +
-                            "<td>" + item.birthDate + "</td>" +
-                            "<td>" + item.phoneNum + "</td>" +
-                            "<td>" + item.address + "</td>" +
-                            "<td>" + item.email + "</td>" +
-                            "<td>" + item.accountState + "</td>" +
-                            "<td>" + item.creationDate + "</td>" +
-                            "<td> <img id='user_icon' class='user_img' src=" + item.imgProfile + " alt='' width='40' height='40'></td>" +
-                            "<td> <button class='btn btn-primary btn-sm editar' data-id='" + item.id + "'>Editar</button></td>" +
-                            "<td> <button class='btn btn-danger btn-sm desactivar' data-id='" + item.id + "'>Desactivar</button></td>" +
-                            "</tr>";
-                        $("#tabla > tbody").append(row);
-                    }
-                    else {
-                        var row =
-                            "<tr>" +
-                            "<td><p class='deactivated_user'>" + item.docNum + "</p></td>" +
-                            "<td><p class='deactivated_user'>" + item.role + "</p></td>" +
-                            "<td><p class='deactivated_user'>" + item.firstName + " " + item.secondName + "</p></td>" +
-                            "<td><p class='deactivated_user'>" + item.lastName + " " + item.lastName2 + "</p></td>" +
-                            "<td><p class='deactivated_user'>" + item.birthDate + "</p></td>" +
-                            "<td><p class='deactivated_user'>" + item.phoneNum + "</p></td>" +
-                            "<td><p class='deactivated_user'>" + item.address + "</p></td>" +
-                            "<td><p class='deactivated_user'>" + item.email + "</p></td>" +
-                            "<td><p class='deactivated_user'>" + item.accountState + "</p></td>" +
-                            "<td><p class='deactivated_user'>" + item.creationDate + "</p></td>" +
-                            "<td> <img id='user_icon' class='user_img' src=" + item.imgProfile + " alt='' width='40' height='40'></td>" +
-                            "<td> <button class='btn btn-success btn-sm reactivar' data-id='" + item.id + "'>Reactivar</button></td>" +
-                            "</tr>";
-                        $("#tabla > tbody").append(row);
-                    }
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error("Error al cargar Usuarios:", error);
-            }
-        });
-    }
-
-
     $(document).on('click', '.cual', function () {
         alert("data");
         prueba();
@@ -134,6 +68,9 @@ $(document).ready(function () {
             type: "GET",
             url: "http://localhost:8080/emprendev/v1/user/" + id,
             dataType: "json",
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 $("#edit-id").val(data.id);
                 $("#edit_first_name").val(data.firstName);
@@ -180,6 +117,9 @@ $(document).ready(function () {
                 url: "http://localhost:8080/emprendev/v1/user/" + id,
                 contentType: "application/json",
                 data: JSON.stringify(data),
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function (response) {
                     $("#edit-form").hide();
                     cargarUsuarios();
@@ -200,6 +140,9 @@ $(document).ready(function () {
             type: "GET",
             url: "http://localhost:8080/emprendev/v1/user/" + id,
             dataType: "json",
+            xhrFields: {
+                withCredentials: true
+            },
             success: function (data) {
                 $("#edit-id").val(data.id);
                 $("#deactivate-form").show();
@@ -224,6 +167,9 @@ $(document).ready(function () {
                 url: "http://localhost:8080/emprendev/v1/user/" + id,
                 contentType: "application/json",
                 data: JSON.stringify(data),
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function (response) {
                     $("#deactivate-form").hide();
                     cargarUsuarios();
@@ -252,6 +198,9 @@ $(document).ready(function () {
                 url: "http://localhost:8080/emprendev/v1/user/" + id,
                 contentType: "application/json",
                 data: JSON.stringify(data),
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function (response) {
                     cargarUsuarios();
                 },
@@ -412,25 +361,3 @@ function OpenAdminMenu(){
     }
     user_sub_menu_isShowing = !user_sub_menu_isShowing;
 }
-
-$(document).on('click', '#logout_btn', function () {
-    if (confirm("¿Desea cerrar sesión?") == true) {
-        $.ajax({
-            type: "post",
-            url: "http://localhost:8080/emprendev/v1/user/logout",
-            contentType: "application/json",
-            success: function (response) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'cerrar sesión',
-                    text: 'su sesión ha terminado',
-                }).then(() => {
-                    window.location.href = "index.html";
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error("Error al actualizar Usuario:", error);
-            }
-        });
-    }
-});

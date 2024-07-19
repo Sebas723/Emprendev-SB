@@ -15,7 +15,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const response = await $.ajax({
                 type: 'GET',
                 url: `http://localhost:8080/emprendev/v1/user/email/${email}`, // Adjust URL as necessary
-                contentType: 'application/json'
+                contentType: 'application/json',
+                xhrFields: {
+                    withCredentials: true
+                },
             });
             return response.exists; // Assuming your API returns { exists: true } if email exists
         } catch (error) {
@@ -190,6 +193,9 @@ function SaveUser() {
         url: "http://localhost:8080/emprendev/v1/user",
         contentType: "application/json",
         data: JSON.stringify(newUser),
+        xhrFields: {
+            withCredentials: true
+        },
         success: function (response) {
             console.log("Usuario registrado");
         },

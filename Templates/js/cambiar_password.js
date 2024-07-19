@@ -15,6 +15,7 @@ function resetPassword(event) {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
+        credentials: 'include',
         body: 'token=' + encodeURIComponent(token) + '&newPassword=' + encodeURIComponent(newPassword),
     })
     .then(response => {

@@ -7,6 +7,7 @@ function sendPasswordResetRequest() {
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
         },
+        credentials: 'include',
         body: 'email=' + encodeURIComponent(email),
     })
         .then(response => {

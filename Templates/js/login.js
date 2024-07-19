@@ -33,6 +33,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 url: 'http://localhost:8080/emprendev/v1/user/login',
                 contentType: 'application/json',
                 data: JSON.stringify(loginCredentials),
+                xhrFields: {
+                    withCredentials: true
+                },
                 success: function (data) {
                     if (data.success) {
                         const rolUsuario = data.role;
