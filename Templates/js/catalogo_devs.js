@@ -8,6 +8,8 @@ const closeModalButton = document.getElementById("closeModal");
 const modalContainer = document.getElementById("modalContainer");
 const overlay = document.getElementById("overlay");
 
+cargarUsuarios();
+
 modalContainer.classList.add("hiden");
   openModalButton.addEventListener("click", (e) => {
     e.preventDefault();
@@ -88,3 +90,38 @@ window.addEventListener('scroll', function() {
 
   modal.style.top = newTop + 'px';
 });
+
+function cargarUsuarios() {
+  $.ajax({
+      type: "GET",
+      url: "http://localhost:8080/emprendev/v1/user/listOrderAccount",
+      dataType: "json",
+      xhrFields: {
+          withCredentials: true
+      },
+      success: function (data) {
+          $(".cards_container").empty();
+          $.each(data, function (i, item) {
+              if (item.accountState == 1 && item.role == "dev") {
+                  var card =
+                      "<div class='cola'>" +
+                        "<div class='card border-0'>" +
+                          "<div class='box1'>" + "</div>" +
+                          "<div class='card-content'>" +
+                            "<div class='img'>" +
+                              "<img src=" + item.imgProfile + " alt=''>" + 
+                            "</div>" +
+                          "<div class='name-proffesion'>" +
+                            "<span class='name'>" + item.firstName + "</span>" +
+                            "<span class='profession'>" + item.role + "</span>" +
+                          "</div>" +
+                          "<div class='about'>";
+                  $(".cards_container").append(card);
+              }
+          });
+      },
+      error: function (xhr, status, error) {
+          console.error("Error al cargar Usuarios:", error);
+      }
+  });
+}
