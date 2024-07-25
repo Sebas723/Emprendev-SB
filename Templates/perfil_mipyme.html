@@ -16,7 +16,7 @@
     <header class="container-fluid">
         <nav class="navbar navbar-expand-sm">
           <div class="navbar-brand"><img src="svg/Logo.svg" alt="" width="30" height="30"></div>
-          <a href="catalogo.php" class="text-decoration-none">
+          <a href="catalogo_devs.html" class="text-decoration-none">
             <div class="navbar-brand text-light">Emprendev</div>
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#register&login"
@@ -26,20 +26,22 @@
           <div class="user_side container-fluid justify-content-end">
             <div class="form-inline my-2 my-lg-0">
             </div>
-            <img class="user_img" src="img/DEVELOPER ICON.png" alt="" width="40" height="40" onclick="OpenPerfilSubMenu()">
+            <img class="user_img session_user_imgProfile" src="" alt="" width="40" height="40" onclick="OpenPerfilSubMenu()">
             <div id="user-sub-menu" class="container-submenu">
               <div class="card-user-sub-menu border-0">
                 <div class="box1-card-user-sub-menu"></div>
                 <div class="card-content-user-sub-menu">
                   <div class="img-user-sub-menu">
-                    <img src="img/R.jpg" alt="">
+                    <img class="session_user_imgProfile" src="" alt="">
                   </div>
                   <div class="name-sub-menu">
-                    <span class="name">Mathew Mcconahills</span>
-                    <span class="proffesion">Mipyme</span>
+                    <div>
+                      <span class="name session_user_firstName">Nombre</span>
+                      <span class="name session_user_lastName">Apellido</span>
+                    </div>
+                    <span class="proffesion session_user_role">Rol</span>
                   </div>
                   <div class="button-sub-menu">
-                    <a href="perfil_mipyme.html"><button>Ver perfil</button></a>
                     <a href="terminosycondicones.html"></a><button>Terminos y condiciones</button>
                     <button>Cerrar sesion</button>
                   </div>
@@ -55,7 +57,7 @@
     <!--Info-->
     <section id="Info">
         <div class="perfil-img">
-            <img src="img/DEVELOPER ICON.png" alt="" width="60%" height="60%" id="user-img-perfil">
+            <img class="session_user_imgProfile" src="" alt="" width="60%" height="60%" id="user-img-perfil">
             <div  class="img-perfil-user-up">
                 <form action="" class="form-bigicon">
                     <div>
@@ -66,8 +68,9 @@
             </div>
         </div>
         <br>
-        <h2>NOMBRE 1 USUARIO APELLIDO 1 USUARIO
-        </h2>
+        <div class="profile_name">
+            <h2><span class="session_user_firstName">Nombre</span></h2><h2><span class="session_user_lastName">Apellido</span></h2>
+        </div>
         
         
         <hr>
@@ -157,12 +160,14 @@
     </section>
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script src="js/session.js"></script>
 <script src="js/perfil_mipyme.js"></script>
 <script src="bootstrap/js/bootstrap.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!--LINKS SACADOS DEL MODIFICAR.PHP-->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

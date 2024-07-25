@@ -3,30 +3,42 @@ const tag = document.querySelectorAll(".tag");
 const tags = document.querySelectorAll('.tag');
 const cols = document.querySelectorAll('.cola');
 
-const openModalButton = document.getElementById("openModal");
-const closeModalButton = document.getElementById("closeModal");
-const modalContainer = document.getElementById("modalContainer");
-const overlay = document.getElementById("overlay");
+const openModalButtons = document.querySelectorAll(".openModal");
+const closeModalButtons = document.querySelectorAll(".closeModal");
+const modalContainers = document.querySelectorAll(".modalContainer");
+const overlay = document.querySelector(".overlay");
 
 cargarUsuarios();
 
-modalContainer.classList.add("hiden");
-  openModalButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    modalContainer.style.display = "block";
-    overlay.style.display = "block";
-  });
+modalContainers.forEach(modal => modal.classList.add("hidden"));
+overlay.classList.add("hidden");
 
-  closeModalButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    modalContainer.style.display = "none";
-    overlay.style.display = "none";
+// Asignar eventos a los botones de abrir modal
+function assignOpenModalEvents() {
+  openModalButtons.forEach(button => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      // Muestra el primer modal y el overlay
+      modalContainers[0].classList.remove("hidden");
+      overlay.classList.remove("hidden");
+    });
   });
+}
 
-  function closeModal() {
-    modalContainer.style.display = "none";
-    overlay.style.display = "none";
-  }
+// Asignar eventos a los botones de cerrar modal
+function assignCloseModalEvents() {
+  closeModalButtons.forEach(button => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      closeModal();
+    });
+  });
+}
+
+function closeModal() {
+  modalContainers.forEach(modal => modal.classList.add("hidden"));
+  overlay.classList.add("hidden");
+}
 
 //buscador de ofertas
 document.addEventListener("keyup", e => {
@@ -91,6 +103,7 @@ window.addEventListener('scroll', function() {
   modal.style.top = newTop + 'px';
 });
 
+//mostras desarrolladores en el catalogo
 function cargarUsuarios() {
   $.ajax({
       type: "GET",
@@ -100,7 +113,6 @@ function cargarUsuarios() {
           withCredentials: true
       },
       success: function (data) {
-          $(".cards_container").empty();
           $.each(data, function (i, item) {
               if (item.accountState == 1 && item.role == "dev") {
                   var card =
@@ -112,16 +124,32 @@ function cargarUsuarios() {
                               "<img src=" + item.imgProfile + " alt=''>" + 
                             "</div>" +
                           "<div class='name-proffesion'>" +
-                            "<span class='name'>" + item.firstName + "</span>" +
+                            "<div class='dev_names'>" + 
+                              "<span class='name'>" + item.firstName + "</span>" +
+                              "<span class='name'>" + item.lastName + "</span>" +
+                            "</div>" +
                             "<span class='profession'>" + item.role + "</span>" +
                           "</div>" +
-                          "<div class='about'>";
+                          "<hr>" +
+                          "<div class='about'>" +
+                            "<p></p>" +
+                          "</div>" +
+                          "<div class='button b1'>" +
+                            "<button class='about-me openModal'>ver mas</button>" +
+                          "</div>" +
+                        "</div>" +
+                      "</div>";
                   $(".cards_container").append(card);
               }
           });
+          assignOpenModalEvents();
+          assignCloseModalEvents();
       },
       error: function (xhr, status, error) {
           console.error("Error al cargar Usuarios:", error);
       }
   });
 }
+
+assignOpenModalEvents();
+assignCloseModalEvents();

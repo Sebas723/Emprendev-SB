@@ -42,15 +42,15 @@
               </div>
               <div class="name-sub-menu">
                 <div>
-                  <span id="session_user_firstName" class="name">Nombre</span>
-                  <span id="session_user_lastName" class="name">Apellido</span>
+                  <span class="name session_user_firstName">Nombre</span>
+                  <span class="name session_user_lastName">Apellido</span>
                 </div>
-                <span id="session_user_role" class="proffesion">Rol</span>
+                <span class="proffesion session_user_role">Rol</span>
               </div>
               <div class="button-sub-menu">
-                <a href="perfil_dev.html"><button>Ver perfil</button></a>
+                <button id="check_profile">Ver perfil</button>
                 <a href="terminosycondicones.html"></a><button>Terminos y condiciones</button>
-                <button>Cerrar sesion</button>
+                <button id="logout_btn">Cerrar sesion</button>
               </div>
             </div>
     
@@ -129,7 +129,7 @@
                 cum!</p>
             </div>
             <div class="button b1">
-              <button class="about-me" id="openModal">Ver mas</button>
+              <button class="about-me openModal">Ver mas</button>
             </div>
           </div>
 
@@ -222,7 +222,7 @@
     </div>
   </article>
   <section id="miElemento">
-    <div class="modal-container" id="modalContainer">
+    <div class="modal-container modalContainer">
       <div class="modal-body">
         <div class="modal-box"></div>
         <div class="modal-content">
@@ -310,14 +310,14 @@
             </div>
           </section>
           <div class="modal-button modal-b1">
-            <button id="closeModal">Cerrar</button>
+            <button class="closeModal">Cerrar</button>
             <button class="contact-me">Contactar</button>
           </div>
         </div>
       </div>
     </div>
   </section>
-  <div class="overlay" id="overlay" onclick="closeModal()"></div>
+  <div class="overlay" onclick="closeModal()"></div>
 
   <script>
     function irAFormulario() {
@@ -336,6 +336,7 @@
     }
 
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>

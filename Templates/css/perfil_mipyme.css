@@ -311,6 +311,14 @@ header div img{
     font-size: 20px;
 }
 
+.profile_name{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
 .perfil-btn:hover{
     background-color: gray;
     color: white;
