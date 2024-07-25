@@ -1,26 +1,56 @@
 package com.emprendev.controller;
 
 import com.emprendev.entity.Offer;
+import com.emprendev.exceptions.ResourceNotFoundException;
 import com.emprendev.services.OfferServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "*")
-@RequestMapping(path = "emprendev/v1/offer")
+@RequestMapping("/api/offers")
+@CrossOrigin(origins = "http://localhost")
 public class OfferController {
-    @Autowired
-    private OfferServices offerServices;
 
-    @GetMapping //Get all Offers
-    public List<Offer> getAll() {
-        return offerServices.getAll();
+    @Autowired
+    private OfferServices offerService;
+
+    @GetMapping
+    public List<Offer> getAllOffers() {
+        return offerService.getAllOffers();
     }
 
-    @PostMapping //Save offer
-    public void saveOffer(@RequestBody Offer offer) { // Corrige el nombre del método
-        offerServices.saveOrUpdate(offer);
+    @GetMapping("/{id}")
+    public ResponseEntity<Offer> getOfferById(@PathVariable Long id) {
+        Optional<Offer> offer = offerService.getOfferById(id);
+        if (offer.isPresent()) {
+            return ResponseEntity.ok(offer.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping
+    public Offer createOffer(@RequestBody Offer offer) {
+        return offerService.saveOffer(offer);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Offer> updateOffer(@PathVariable Long id, @RequestBody Offer offerDetails) {
+        try {
+            Offer updatedOffer = offerService.updateOffer(id, offerDetails);
+            return ResponseEntity.ok(updatedOffer);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOffer(@PathVariable Long id) {
+        offerService.deleteOffer(id);
+        return ResponseEntity.noContent().build();
     }
 }
