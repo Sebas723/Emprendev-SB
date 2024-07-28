@@ -331,7 +331,6 @@ section .card .about{
 /*MODAL*/
 
 .overlay {
-    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -456,7 +455,7 @@ section .modal-body .modal-about{
 .modal-body .modal-button button:hover{
     opacity: 0.8;
 }
-.hiden{
+.hidden{
     display: none;
 }
 

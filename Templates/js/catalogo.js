@@ -3,29 +3,42 @@ const tag = document.querySelectorAll(".tag");
 const tags = document.querySelectorAll('.tag');
 const cols = document.querySelectorAll('.cola');
 
-const openModalButton = document.getElementById("openModal");
-const closeModalButton = document.getElementById("closeModal");
-const modalContainer = document.getElementById("modalContainer");
-const overlay = document.getElementById("overlay");
-  
+const openModalButtons = document.querySelectorAll(".openModal");
+const closeModalButtons = document.querySelectorAll(".closeModal");
+const modalContainers = document.querySelectorAll(".modalContainer");
+const overlay = document.querySelector(".overlay");
 
-  modalContainer.classList.add("hiden");
-  openModalButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    modalContainer.style.display = "block";
-    overlay.style.display = "block";
+cargarUsuarios();
+
+modalContainers.forEach(modal => modal.classList.add("hidden"));
+overlay.classList.add("hidden");
+
+// Asignar eventos a los botones de abrir modal
+function assignOpenModalEvents() {
+  openModalButtons.forEach(button => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      // Muestra el primer modal y el overlay
+      modalContainers[0].classList.remove("hidden");
+      overlay.classList.remove("hidden");
+    });
   });
+}
 
-  closeModalButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    modalContainer.style.display = "none";
-    overlay.style.display = "none";
+// Asignar eventos a los botones de cerrar modal
+function assignCloseModalEvents() {
+  closeModalButtons.forEach(button => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      closeModal();
+    });
   });
+}
 
-  function closeModal() {
-    modalContainer.style.display = "none";
-    overlay.style.display = "none";
-  }
+function closeModal() {
+  modalContainers.forEach(modal => modal.classList.add("hidden"));
+  overlay.classList.add("hidden");
+}
 
 //buscador de ofertas
 document.addEventListener("keyup", e => {
@@ -34,8 +47,8 @@ document.addEventListener("keyup", e => {
     document.querySelectorAll(".cola").forEach(el => {
       const text = el.textContent || "";
       text.toLowerCase().includes(query)
-        ? el.classList.remove("hiden")
-        : el.classList.add("hiden");
+        ? el.classList.remove("hidden")
+        : el.classList.add("hidden");
     });
   }
 });
@@ -50,20 +63,19 @@ tags.forEach(tag => {
       .filter(t => t.classList.contains('tag-active'))
       .map(t => t.textContent.toLowerCase());
 
-    cols.forEach(cola => cola.classList.remove('hiden'));
+    cols.forEach(cola => cola.classList.remove('hidden'));
 
     if (activeTags.length > 0) {
       cols.forEach(cola => {
         const colText = (cola.textContent || "").toLowerCase();
         const shouldShow = activeTags.some(activeTag => colText.includes(activeTag));
         if (!shouldShow) {
-          cola.classList.add('hiden');
+          cola.classList.add('hidden');
         }
       });
     }
   });
 });
-
 
 
 //Submenu del perfil del usuario (imagen arriba a la izquierda)
@@ -82,12 +94,64 @@ function OpenPerfilSubMenu(){
 };
 
 
+//Scroll Ventana modal
 window.addEventListener('scroll', function() {
   var headerHeight = document.querySelector('header').offsetHeight;
   var scrollTop = window.scrollY || document.documentElement.scrollTop;
   var modal = document.querySelector('.modal-body');
   // var newTop = headerHeight + 30 - scrollTop;
   var newTop =  headerHeight  + 200 - scrollTop;
-  
+
   modal.style.top = newTop + 'px';
 });
+
+//mostras desarrolladores en el catalogo
+function cargarUsuarios() {
+  $.ajax({
+      type: "GET",
+      url: "http://localhost:8080/emprendev/v1/user/listOrderAccount",
+      dataType: "json",
+      xhrFields: {
+          withCredentials: true
+      },
+      success: function (data) {
+          $.each(data, function (i, item) {
+              if (item.accountState == 1 && item.role == "dev") {
+                  var card =
+                      "<div class='cola'>" +
+                        "<div class='card border-0'>" +
+                          "<div class='box1'>" + "</div>" +
+                          "<div class='card-content'>" +
+                            "<div class='img'>" +
+                              "<img src=" + item.imgProfile + " alt=''>" + 
+                            "</div>" +
+                          "<div class='name-proffesion'>" +
+                            "<div class='dev_names'>" + 
+                              "<span class='name'>" + item.firstName + "</span>" +
+                              "<span class='name'>" + item.lastName + "</span>" +
+                            "</div>" +
+                            "<span class='profession'>" + item.role + "</span>" +
+                          "</div>" +
+                          "<hr>" +
+                          "<div class='about'>" +
+                            "<p></p>" +
+                          "</div>" +
+                          "<div class='button b1'>" +
+                            "<button class='about-me openModal'>ver mas</button>" +
+                          "</div>" +
+                        "</div>" +
+                      "</div>";
+                  $(".cards_container").append(card);
+              }
+          });
+          assignOpenModalEvents();
+          assignCloseModalEvents();
+      },
+      error: function (xhr, status, error) {
+          console.error("Error al cargar Usuarios:", error);
+      }
+  });
+}
+
+assignOpenModalEvents();
+assignCloseModalEvents();

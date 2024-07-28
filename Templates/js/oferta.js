@@ -127,97 +127,81 @@ function OpenPerfilSubMenu(){
 };
 
 
-//subir fotos
+//fotos oferta
 
-const maxPhotos = 4;
-let uploadedPhotos = 0;   
+const dropAreas = document.querySelectorAll('.drop-area');
 
-button.addEventListener("click", (e) => {
-    input.click();
-});
+dropAreas.forEach((dropArea, index) => {
+    const button = dropArea.querySelector('.subir-foto');
+    const input = dropArea.querySelector('input[type="file"]');
 
-input.addEventListener("change", (e) => {
-    e.preventDefault();
-    files = e.target.files;
-    ShowFiles(files);
-    dropArea.classList.remove("active");
-});
+    button.addEventListener("click", (e) => {
+        input.click();
+    });
 
-dropArea.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dropArea.classList.add("active");
-});
-
-dropArea.addEventListener("dragleave", (e) => {
-    e.preventDefault();
-    dropArea.classList.remove("active");
-});
-
-dropArea.addEventListener("drop", (e) => {
-    e.preventDefault();
-    files = e.dataTransfer.files;
-    ShowFiles(files);
-    dropArea.classList.remove("active");
-});
-
-function ShowFiles(files) {
-    if (files.length === undefined) {
-        ProcessFile(files);
-    } else {
-        for (const file of files) {
-            ProcessFile(file);
+    input.addEventListener("change", (e) => {
+        e.preventDefault();
+        const file = e.target.files[0];
+        if (file) {
+            ShowFile(file, dropArea);
+            dropArea.classList.remove("active");
         }
-    }
-}
+    });
 
-function ProcessFile(file) {
+    dropArea.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        dropArea.classList.add("active");
+    });
+
+    dropArea.addEventListener("dragleave", (e) => {
+        e.preventDefault();
+        dropArea.classList.remove("active");
+    });
+
+    dropArea.addEventListener("drop", (e) => {
+        e.preventDefault();
+        const file = e.dataTransfer.files[0];
+        if (file) {
+            ShowFile(file, dropArea);
+            dropArea.classList.remove("active");
+        }
+    });
+});
+
+function ShowFile(file, container) {
     const docType = file.type;
     const validExtensions = ['image/jpg', 'image/png', 'image/jpeg'];
 
     if (validExtensions.includes(docType)) {
-        if (uploadedPhotos < maxPhotos) {
-            const fileReader = new FileReader();
-            const id = `file-${Math.random().toString(32).substring(7)}`;
-            uploadedPhotos++;
+        const fileReader = new FileReader();
+        fileReader.addEventListener("load", (e) => {
+            const fileUrl = fileReader.result;
+            container.innerHTML = ''; // Limpiar el contenido del contenedor
+            const photoContainer = document.createElement("div");
+            photoContainer.className = "photo-preview";
+            const photo = document.createElement("img");
+            photo.src = fileUrl;
+            photo.alt = file.name;
+            photoContainer.appendChild(photo);
 
-            fileReader.addEventListener("load", (e) => {
-                const fileUrl = fileReader.result;
-                const photoContainer = document.createElement("div");
-                photoContainer.className = "photo-preview";
-                const photo = document.createElement("img");
-                photo.id = id;
-                photo.src = fileUrl;
-                photo.alt = file.name;
-                photo.width = 170;
-                photoContainer.appendChild(photo);
+            container.appendChild(photoContainer);
+            photoContainer.style.display = 'block';
 
-                const cardImg = document.getElementById("card-img");
-                if (uploadedPhotos <= 1){
-                    cardImg.src = photo.src;
-                    cardImg.width = 600;
-                    cardImg.height = 200;
-                }
-
-                photoContainer.addEventListener("click", () => {
-                    photoContainer.remove();
-                    uploadedPhotos--;
-                });
-
-                const photoPreviewContainer = document.querySelector("#photo-preview-container");
-                photoPreviewContainer.insertBefore(photoContainer, photoPreviewContainer.firstChild);
+            photoContainer.addEventListener("click", () => {
+                container.innerHTML = '';
+                container.appendChild(button); // Reinsertar el botón para subir foto
+                container.appendChild(input);
             });
+        });
 
-            fileReader.readAsDataURL(file);
-            //uploadFile(file, id);
-        } else {
-            alert("Se ha alcanzado el límite de fotos (4).");
-        }
+        fileReader.readAsDataURL(file);
     } else {
         alert("No es un archivo válido: jpg, jpeg o png");
     }
 }
 
 //update de oferta en tiempo real
+
 function CardPreviewTitle() {
     let cardTileInput = document.getElementById("card_title_input").value;
     let cardTitle = document.getElementById("card_title");

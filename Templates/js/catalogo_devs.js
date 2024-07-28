@@ -47,8 +47,8 @@ document.addEventListener("keyup", e => {
     document.querySelectorAll(".cola").forEach(el => {
       const text = el.textContent || "";
       text.toLowerCase().includes(query)
-        ? el.classList.remove("hiden")
-        : el.classList.add("hiden");
+        ? el.classList.remove("hidden")
+        : el.classList.add("hidden");
     });
   }
 });
@@ -63,14 +63,14 @@ tags.forEach(tag => {
       .filter(t => t.classList.contains('tag-active'))
       .map(t => t.textContent.toLowerCase());
 
-    cols.forEach(cola => cola.classList.remove('hiden'));
+    cols.forEach(cola => cola.classList.remove('hidden'));
 
     if (activeTags.length > 0) {
       cols.forEach(cola => {
         const colText = (cola.textContent || "").toLowerCase();
         const shouldShow = activeTags.some(activeTag => colText.includes(activeTag));
         if (!shouldShow) {
-          cola.classList.add('hiden');
+          cola.classList.add('hidden');
         }
       });
     }

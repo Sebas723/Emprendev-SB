@@ -57,17 +57,30 @@
         <div class="container">
             <div class="form-card">
                 <div class="cover">
-                    <div class="col-md-7 form-container">
+                    <div class="col-md-8 form-container">
 
                         <form id="offer_form" action="" method="">
                             <div class="form-cover">
-                                <h2 style="margin-top: -8%;">Crear Oferta</h2>
+                                <h2 style="margin-top: -6%;">Crear Oferta</h2>
                                 <p>Fotos</p>
-                                <div class="drop-area">
-                                    <input type="button" class="subir-foto" value="Subir Fotos">
-                                    <input type="file" name="Images[]" id="photo-input" hidden multiple> 
-                                </div>
-                                <div id="photo-preview-container">
+                                <div class="container">
+                                    <div class="drop-area" data-index="1">
+                                        <input type="button" style="font-size: 30px;" class="subir-foto" value="+">
+                                        <input type="file" name="Images[]" id="photo-input-1" hidden accept="image/*"> 
+                                    </div>
+                                    <div class="drop-area" data-index="2">
+                                        <input type="button" style="font-size: 30px;" class="subir-foto" value="+">
+                                        <input type="file" name="Images[]" id="photo-input-2" hidden accept="image/*"> 
+                                    </div>
+                                    <div class="drop-area" data-index="3">
+                                        <input type="button" style="font-size: 30px;" class="subir-foto" value="+">
+                                        <input type="file" name="Images[]" id="photo-input-3" hidden accept="image/*"> 
+                                    </div>
+                                    <div class="drop-area" data-index="4">
+                                        <input type="button" style="font-size: 30px;" class="subir-foto" value="+">
+                                        <input type="file" name="Images[]" id="photo-input-4" hidden accept="image/*"> 
+                                    </div>
+
                                     
                                 </div>
                                 <div class="inputs">
@@ -146,11 +159,12 @@
                                 <div class="row mb-0 create-button">
                                     <button class="btn" style="color: white;" onclick="validarFormulario()">Crear Oferta</button>
                                 </div>
+                            </div>
 
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-4 card-container">
+                    <div class="col-md-3 card-container">
                         <h2 style="color: white;">Vista Previa</h2>
                         <div class="col">
                             <div class="card min-vh-60 max-vw-50 position-static">
