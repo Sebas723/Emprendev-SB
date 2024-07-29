@@ -3,16 +3,21 @@ package com.emprendev.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
-@Table(name = "tbl_tag")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String imageUrl;
+
+    @ManyToMany(mappedBy = "tags")
+    private List<Offer> offers;
+
+    // Getters y setters
 
     public Long getId() {
         return id;
@@ -37,4 +42,14 @@ public class Tag {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public List<Offer> getOffers() {
+        return offers;
+    }
+
+    public void setOffers(List<Offer> offers) {
+        this.offers = offers;
+    }
 }
+
+

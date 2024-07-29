@@ -22,7 +22,7 @@ public class LoggingController {
     private final String LogsRepository = "src/test/resources/logs.txt";
 
     @SneakyThrows
-    public LoggingController() {
+    public LoggingController() throws IOException {
         // Log a message to test
         logger.info("LoggingController initialized");
         createLoggerRepository();
@@ -30,14 +30,14 @@ public class LoggingController {
 
     @SneakyThrows
     @RequestMapping("/warningLog")
-    public void warningLogs() {
+    public void warningLogs() throws IOException {
         String log = "Este log es de warning";
         writeInLoggerRepository(log);
     }
 
     @SneakyThrows
     @RequestMapping("/infoLog")
-    public void infoLogs() {
+    public void infoLogs() throws IOException {
         String log = "Este log es de info";
         writeInLoggerRepository(log);
     }

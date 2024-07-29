@@ -24,6 +24,23 @@ public class Offer {
     private String imageUrl4;
     private Integer offerState;
 
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
+    }
+
+    @ManyToMany
+    @JoinTable(
+            name = "offer_tags",
+            joinColumns = @JoinColumn(name = "offer_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+
+    private List<Tag> tags;
+
     public Long getId() {
         return id;
     }

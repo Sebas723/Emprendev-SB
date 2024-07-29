@@ -7,20 +7,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.time.LocalDate;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/offers")
-@CrossOrigin(origins = "http://localhost")
+@CrossOrigin(origins = "http://localhost") // Permitir CORS si es necesario
 public class OfferController {
 
     @Autowired
     private OfferServices offerService;
 
-    @GetMapping
-    public List<Offer> getAllOffers() {
-        return offerService.getAllOffers();
+    @PostMapping
+    public ResponseEntity<Offer> createOffer(@RequestBody Offer offer) {
+        // Establecer valores predeterminados para fechas y estado
+        offer.setCreationDate(String.valueOf(LocalDate.now()));
+        offer.setFinalizationDate(String.valueOf(LocalDate.now().plusMonths(1)));
+        offer.setOfferState(1);
+
+        Offer savedOffer = offerService.saveOffer(offer);
+        return ResponseEntity.ok(savedOffer);
     }
 
     @GetMapping("/{id}")
@@ -31,11 +37,6 @@ public class OfferController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
-
-    @PostMapping
-    public Offer createOffer(@RequestBody Offer offer) {
-        return offerService.saveOffer(offer);
     }
 
     @PutMapping("/{id}")

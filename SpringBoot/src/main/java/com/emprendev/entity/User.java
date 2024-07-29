@@ -150,5 +150,13 @@ public class User {
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
+
+    public Long getDocNum() {
+        return docNum;
+    }
+
+    public void setDocNum(Long docNum) {
+        this.docNum = docNum;
+    }
 }
 
