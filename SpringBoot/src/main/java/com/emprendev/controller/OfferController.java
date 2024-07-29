@@ -41,9 +41,12 @@ public class OfferController {
     @PutMapping("/{id}")
     public ResponseEntity<Offer> updateOffer(@PathVariable Long id, @RequestBody Offer offerDetails) {
         try {
+            System.out.println("Updating offer with id: " + id);
+            System.out.println("Offer details: " + offerDetails);
             Offer updatedOffer = offerService.updateOffer(id, offerDetails);
             return ResponseEntity.ok(updatedOffer);
         } catch (ResourceNotFoundException e) {
+            System.out.println("Offer not found with id: " + id);
             return ResponseEntity.notFound().build();
         }
     }
