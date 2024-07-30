@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 text: 'Inicio de sesión exitoso...',
                             }).then(() => {
                                 if (rolUsuario === 'dev') {
-                                    window.location.href = 'catalogo.html';
+                                    window.location.href = 'Templates/catalogo.html';
                                 } else if (rolUsuario === 'mipyme') {
                                     window.location.href = 'catalogo_devs.html';
                                 } else if (rolUsuario === 'admin') {

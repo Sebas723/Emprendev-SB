@@ -8,10 +8,8 @@
     <link rel="stylesheet" href="css/sendEmail.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.min.css">
     <link rel="shortcut icon" href="svg/Logo.svg" type="image/x-icon">
-
     <title>Emprendev | Enviar correo</title>
 </head>
 
@@ -29,29 +27,24 @@
 
     <!--Main Screen-->
     <section class="main_screen">
-        <div class="img_login">
-            
-        </div>
-        <div class = "login-box form button">
+        <div class="img_login"></div>
+        <div class="login-box form button">
             <h2>Restablecer Contraseña</h2> 
-            
             <form>
-                <div class = "user-box">
-                    <input class="input" type = "text" name = "correo_usuario" id="correo_usuario" placeholder="Ingresa tu correo">
+                <div class="user-box">
+                    <input class="input" type="text" name="correo_usuario" id="correo_usuario" placeholder="Ingresa tu correo">
                 </div>
-
                 <button type="button" class="btn" onclick="sendPasswordResetRequest()">Enviar</button>
                 <br><br>
             </form>
         </div>
     </section>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="js/mandar_correo.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-<script src="js/mandar_correo.js"></script>
-<script src="bootstrap/js/bootstrap.js"></script>
-<script src="bootstrap/js/bootstrap.min.js"></script>
-<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </html>
