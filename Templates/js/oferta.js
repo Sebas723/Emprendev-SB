@@ -1,106 +1,55 @@
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('offer_form');
 
-
     form.addEventListener('submit', function (event) {
-        SaveOffer();
+        if (!validarFormulario()) {
+            event.preventDefault(); // Detiene el envío del formulario si no es válido
+        } else {
+            SaveOffer();
+        }
     });
+    CardPreviewDesc();
+    CardPreviewPago();
+    CardPreviewTitle();
 });
 
-function validarFormulario(){
+function validarFormulario() {
     const pago = document.querySelector('[name="pago"]').value;
     const cupos = document.querySelector('[name="cupos"]').value;
     const tituloOferta = document.querySelector('[name="titulo_oferta"]').value;
 
-    const validaciones = [
-        'tituloOferta',
-        'pago',
-        'cupos'
-    ];
-
-    for (let validacion of validaciones) {
-        switch (validacion) {
-            case 'tituloOferta':
-                if (tituloOferta.trim() === '') {
-                    alert('Por favor, completa el campo titulo');
-                    return false;
-                }
-                break;
-            case 'pago':
-                if (pago.trim() === '') {
-                    alert("Por favor, completa el campo pago.");
-                    return false;
-                }
-                if (pago <= 0) {
-                    alert('El pago por la oferta no puede ser menor o igual a 0');
-                    return false;
-                }
-                if(isNaN(pago)){
-                    alert("El pago por las ofertas no puede contener letras");
-                    return false;
-                }
-                break;
-            case 'cupos':
-                if (cupos.trim === '') {
-                    alert('Por favor, ingresa el numero de cupos');
-                    return false;
-                }
-                if(isNaN(cupos)){
-                    alert("El pago por las ofertas no puede contener letras");
-                    return false;
-                }
-                if (cupos <= 0) {
-                    alert('El pago por la oferta no puede ser menor o igual a 0');
-                    return false;
-                }
-                break;
-            default:
-                break;
-        }
+    if (tituloOferta.trim() === '') {
+        alert('Por favor, completa el campo título');
+        return false;
     }
+
+    if (pago.trim() === '') {
+        alert('Por favor, completa el campo pago.');
+        return false;
+    }
+    if (pago <= 0) {
+        alert('El pago por la oferta no puede ser menor o igual a 0');
+        return false;
+    }
+    if (isNaN(pago)) {
+        alert('El pago por las ofertas no puede contener letras');
+        return false;
+    }
+
+    if (cupos.trim() === '') {
+        alert('Por favor, ingresa el número de cupos');
+        return false;
+    }
+    if (isNaN(cupos)) {
+        alert('El número de cupos no puede contener letras');
+        return false;
+    }
+    if (cupos <= 0) {
+        alert('El número de cupos no puede ser menor o igual a 0');
+        return false;
+    }
+
     return true;
-}
-
-//guardar oferta a la database
-function SaveOffer() {
-    const title = $('#card_title_input').val();
-    const description = $('#card_desc_input').val();
-    const payment = $('#card_pago_input').val();
-    const fields = $('#offer_fields').val();
-    const offerState = 1;
-    const creationDate = new Date().toLocaleDateString();
-    const finalizationDate = "NF";
-
-    const newOffer = {
-        title: title,
-        description: description,
-        payment: payment,
-        fields: fields,
-        offerState: offerState,
-        creationDate: creationDate,
-        finalizationDate: finalizationDate
-    };
-
-    function Show() {
-        console.log(JSON.stringify(newOffer));
-    }
-
-    Show();
-
-    $.ajax({
-        type: "POST",
-        url: "http://localhost:8080/emprendev/v1/offer",
-        contentType: "application/json",
-        data: JSON.stringify(newOffer),
-        success: function (response) {
-            console.log("Oferta Agregada");
-        },
-        error: function (xhr, status, error) {
-            console.error("Error al agregar la oferta:", error);
-        }
-    });
-
-    window.location.href = 'catalogo_devs.html';
 }
 
 //fotos de oferta
@@ -176,6 +125,8 @@ function ShowFile(file, container) {
         const fileReader = new FileReader();
         fileReader.addEventListener("load", (e) => {
             const fileUrl = fileReader.result;
+
+            // Mostrar la imagen en el contenedor original
             container.innerHTML = ''; // Limpiar el contenido del contenedor
             const photoContainer = document.createElement("div");
             photoContainer.className = "photo-preview";
@@ -183,15 +134,14 @@ function ShowFile(file, container) {
             photo.src = fileUrl;
             photo.alt = file.name;
             photoContainer.appendChild(photo);
-
             container.appendChild(photoContainer);
             photoContainer.style.display = 'block';
 
-            photoContainer.addEventListener("click", () => {
-                container.innerHTML = '';
-                container.appendChild(button); // Reinsertar el botón para subir foto
-                container.appendChild(input);
-            });
+            // Copiar la imagen al contenedor de vista previa
+            const previewPhoto = document.getElementById("image-preview-container");
+            previewPhoto.src = photo.src;
+            previewPhoto.alt = file.name;
+            previewPhoto.className = "card-img";
         });
 
         fileReader.readAsDataURL(file);
@@ -279,4 +229,68 @@ function UpdateCard(){
     cardTagsPreview.innerHTML = html;
 }
 
+// Función para obtener la URL del archivo
+function getFileUrl(inputId) {
+    const fileInput = document.getElementById(inputId);
+    if (fileInput && fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        return URL.createObjectURL(file); // Crear una URL para el archivo
+    }
+    return ''; // Retorna una cadena vacía si no hay archivo
+}
 
+// Función para manejar el click del botón de envío
+document.getElementById('submit_offer').addEventListener('click', function() {
+    // Obtener los datos del formulario
+    const titleInput = document.getElementById('card_title_input');
+    const descriptionInput = document.getElementById('card_desc_input');
+    const paymentInput = document.getElementById('card_pago_input');
+    const fieldsInput = document.getElementById('offer_fields');
+
+    if (titleInput && descriptionInput && paymentInput && fieldsInput) {
+        const title = titleInput.value;
+        const description = descriptionInput.value;
+        const payment = paymentInput.value;
+        const fields = fieldsInput.value;
+
+        // Obtener las URLs de las imágenes
+        const imageUrl1 = getFileUrl('photo-input-1');
+        const imageUrl2 = getFileUrl('photo-input-2');
+        const imageUrl3 = getFileUrl('photo-input-3');
+        const imageUrl4 = getFileUrl('photo-input-4');
+
+        // Crear un objeto con los datos de la oferta
+        const offerData = {
+            title: title,
+            description: description,
+            payment: payment,
+            fields: fields,
+            imageUrl1: imageUrl1,
+            imageUrl2: imageUrl2,
+            imageUrl3: imageUrl3,
+            imageUrl4: imageUrl4,
+            // Aquí podrías agregar más campos si es necesario
+        };
+
+        // Enviar los datos al backend
+        fetch('http://localhost:8080/api/offers', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(offerData),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Oferta creada:', data);
+            alert('Oferta creada con éxito');
+            // Aquí puedes redirigir o actualizar la interfaz si es necesario
+        })
+        .catch(error => {
+            console.error('Error al crear la oferta:', error);
+            alert('Hubo un error al crear la oferta');
+        });
+    } else {
+        console.error('Uno o más elementos del formulario no se encontraron.');
+    }
+});

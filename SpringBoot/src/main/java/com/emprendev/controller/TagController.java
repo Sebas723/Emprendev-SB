@@ -22,5 +22,8 @@ public class TagController {
     public List<Tag> getAllTags() {
         return tagRepository.findAll();
     }
+
+    @PostMapping
+    public void saveTags(@RequestBody Tag tag) { tagRepository.save(tag); }
 }
 

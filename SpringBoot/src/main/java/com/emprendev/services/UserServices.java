@@ -79,8 +79,8 @@ public class UserServices {
         // Enviar el código por correo
         SimpleMailMessage mensaje = new SimpleMailMessage();
         mensaje.setTo(email);
-        mensaje.setSubject("Hola mor, como asi que se te olvido el correo pero bueno este es tu codigo, cambia la contraseña pues mor");
-        mensaje.setText("Chepe canto e' puelco este es tu código puñeta': " + code);
+        mensaje.setSubject("Restablecimiento  de Contraseña");
+        mensaje.setText("Código de Restablecimiento: " + code);
 
         mailSender.send(mensaje);
         return Optional.empty();
