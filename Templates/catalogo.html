@@ -28,24 +28,23 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="user_side container-fluid justify-content-end">
-        <div class="form-inline my-2 my-lg-0">
-          <input id="buscador" class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search"
-            autocomplete="off">
-        </div>
-        <img id="session_user_imgProfile" class="user_img" alt="" width="40" height="40" onclick="OpenPerfilSubMenu()">
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" list="keywords">
+        </form>
+        <img onclick="OpenPerfilSubMenu()" class="session_user_imgProfile" class="user_img" alt="" width="40" height="40">
         <div id="user-sub-menu" class="container-submenu">
           <div class="card-user-sub-menu border-0">
             <div class="box1-card-user-sub-menu"></div>
             <div class="card-content-user-sub-menu">
               <div class="img-user-sub-menu">
-                <img id="session_user_imgProfile" alt="">
+                <img class="session_user_imgProfile" alt="">
               </div>
               <div class="name-sub-menu">
                 <div>
-                  <span id="session_user_firstName" class="name">Nombre</span>
-                  <span id="session_user_lastName" class="name">Apellido</span>
+                  <span class="name session_user_firstName">Nombre</span>
+                  <span class="name session_user_lastName">Apellido</span>
                 </div>
-                <span id="session_user_role" class="proffesion">Rol</span>
+                <span class="proffesion session_user_role">Rol</span>
               </div>
               <div class="button-sub-menu">
                 <a href="perfil_mipyme.html"><button>Ver perfil</button></a>
@@ -53,10 +52,8 @@
                 <button id="logout_btn">Cerrar sesion</button>
               </div>
             </div>
-    
           </div>
         </div>
-      </div>
       </div>
     </nav>
   </header>

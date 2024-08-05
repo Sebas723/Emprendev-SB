@@ -1,6 +1,3 @@
-const session_user_name = document.getElementById("session_user_name");
-const session_user_role = document.getElementById("session_user_role");
-
 function checkSessionStatus() {
     $.ajax({
         url: 'http://localhost:8080/emprendev/v1/user/sessionStatus',
@@ -13,7 +10,7 @@ function checkSessionStatus() {
                 // Si la sesión está activa, se obtienen los datos del usuario
                 console.log('Session is active:', data);
                 // Aquí puedes usar los datos del usuario como desees
-                $('#session_user_id').text(data.id);
+                $('.session_user_id').text(data.id);
                 $('.session_user_firstName').text(data.firstName);
                 $('.session_user_secondName').text(data.secondName);
                 $('.session_user_lastName').text(data.lastName);

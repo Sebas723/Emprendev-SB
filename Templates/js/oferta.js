@@ -229,42 +229,24 @@ function UpdateCard(){
     cardTagsPreview.innerHTML = html;
 }
 
-// Función para obtener la URL del archivo
-function getFileUrl(inputId) {
-    const fileInput = document.getElementById(inputId);
-    if (fileInput && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        return URL.createObjectURL(file); // Crear una URL para el archivo
-    }
-    return ''; // Retorna una cadena vacía si no hay archivo
-}
-
 // Función para manejar el click del botón de envío
 document.getElementById('submit_offer').addEventListener('click', function() {
     // Obtener los datos del formulario
-    const titleInput = document.getElementById('card_title_input');
-    const descriptionInput = document.getElementById('card_desc_input');
-    const paymentInput = document.getElementById('card_pago_input');
-    const fieldsInput = document.getElementById('offer_fields');
+    const titleInput = document.getElementById('card_title_input')?.value;
+    const descriptionInput = document.getElementById('card_desc_input')?.value;
+    const paymentInput = document.getElementById('card_pago_input')?.value;
+    const fieldsInput = document.getElementById('offer_fields')?.value;
+    var imageUrl1 = document.getElementById('photo_input_1')?.files[0];
+    var imageUrl2 = document.getElementById('photo_input_2')?.files[0];
+    var imageUrl3 = document.getElementById('photo_input_3')?.files[0];
+    var imageUrl4 = document.getElementById('photo_input_4')?.files[0];
 
     if (titleInput && descriptionInput && paymentInput && fieldsInput) {
-        const title = titleInput.value;
-        const description = descriptionInput.value;
-        const payment = paymentInput.value;
-        const fields = fieldsInput.value;
-
-        // Obtener las URLs de las imágenes
-        const imageUrl1 = getFileUrl('photo-input-1');
-        const imageUrl2 = getFileUrl('photo-input-2');
-        const imageUrl3 = getFileUrl('photo-input-3');
-        const imageUrl4 = getFileUrl('photo-input-4');
-
-        // Crear un objeto con los datos de la oferta
         const offerData = {
-            title: title,
-            description: description,
-            payment: payment,
-            fields: fields,
+            title: titleInput,
+            description: descriptionInput,
+            payment: paymentInput,
+            fields: fieldsInput,
             imageUrl1: imageUrl1,
             imageUrl2: imageUrl2,
             imageUrl3: imageUrl3,

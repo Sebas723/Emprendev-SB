@@ -23,30 +23,32 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="user_side container-fluid justify-content-end">
-            <div class="form-inline my-2 my-lg-0">
-            </div>
-            <img class="user_img" src="img/UserDeafultIcon.png" alt="" width="40" height="40" onclick="OpenPerfilSubMenu()">
+            <form class="form-inline my-2 my-lg-0">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" list="keywords">
+            </form>
+            <img onclick="OpenPerfilSubMenu()" class="session_user_imgProfile" class="user_img" alt="" width="40" height="40">
             <div id="user-sub-menu" class="container-submenu">
               <div class="card-user-sub-menu border-0">
                 <div class="box1-card-user-sub-menu"></div>
                 <div class="card-content-user-sub-menu">
                   <div class="img-user-sub-menu">
-                    <img src="img/R.jpg" alt="">
+                    <img class="session_user_imgProfile" alt="">
                   </div>
                   <div class="name-sub-menu">
-                    <span class="name">Mathew Mcconahills</span>
-                    <span class="proffesion">Mipyme</span>
+                    <div>
+                      <span class="name session_user_firstName">Nombre</span>
+                      <span class="name session_user_lastName">Apellido</span>
+                    </div>
+                    <span class="proffesion session_user_role">Rol</span>
                   </div>
                   <div class="button-sub-menu">
-                    <a href="perfil_dev.html"><button>Ver perfil</button></a>
+                    <a href="perfil_mipyme.html"><button>Ver perfil</button></a>
                     <a href="terminosycondicones.html"></a><button>Terminos y condiciones</button>
-                    <button>Cerrar sesion</button>
+                    <button id="logout_btn">Cerrar sesion</button>
                   </div>
                 </div>
-        
               </div>
             </div>
-          </div>
           </div>
         </nav>
       </header>
@@ -66,19 +68,19 @@
                                 <div class="container">
                                     <div class="drop-area" data-index="1">
                                         <input type="button" style="font-size: 30px;" class="subir-foto" value="+">
-                                        <input type="file" name="Images[]" id="photo-input-1" hidden accept="image/*">
+                                        <input type="file" name="Images1[]" id="photo_input_1" hidden>
                                     </div>
                                     <div class="drop-area" data-index="2">
                                         <input type="button" style="font-size: 30px;" class="subir-foto" value="+">
-                                        <input type="file" name="Images[]" id="photo-input-2" hidden accept="image/*">
+                                        <input type="file" name="Images2[]" id="photo_input_2" hidden>
                                     </div>
                                     <div class="drop-area" data-index="3">
                                         <input type="button" style="font-size: 30px;" class="subir-foto" value="+">
-                                        <input type="file" name="Images[]" id="photo-input-3" hidden accept="image/*">
+                                        <input type="file" name="Images3[]" id="photo_input_3" hidden>
                                     </div>
                                     <div class="drop-area" data-index="4">
                                         <input type="button" style="font-size: 30px;" class="subir-foto" value="+">
-                                        <input type="file" name="Images[]" id="photo-input-4" hidden accept="image/*">
+                                        <input type="file" name="Images4[]" id="photo_input_4" hidden>
                                     </div>
                                 </div>
 
@@ -137,6 +139,7 @@
 </form> 
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="js/oferta.js"></script>
