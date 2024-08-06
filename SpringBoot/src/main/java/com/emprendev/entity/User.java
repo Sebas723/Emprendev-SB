@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Date;
-
 @Data
 @Entity
 @Table(name = "tbl_user")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "user_type")
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -31,7 +32,7 @@ public class User {
     private Integer accountState;
     private String creationDate;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 

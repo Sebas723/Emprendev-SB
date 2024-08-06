@@ -13,7 +13,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/offers")
 @CrossOrigin(origins = "http://localhost") // Permitir CORS si es necesario
-public class OfferController {
+public class  OfferController {
 
     @Autowired
     private OfferServices offerService;
