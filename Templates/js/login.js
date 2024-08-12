@@ -47,11 +47,11 @@ document.addEventListener('DOMContentLoaded', function () {
                                 title: 'Bienvenido',
                                 text: 'Inicio de sesión exitoso...',
                             }).then(() => {
-                                if (rolUsuario === 'dev') {
+                                if (rolUsuario === 'Desarrollador') {
                                     window.location.href = 'Templates/catalogo.html';
-                                } else if (rolUsuario === 'mipyme') {
+                                } else if (rolUsuario === 'Mipyme') {
                                     window.location.href = 'catalogo_devs.html';
-                                } else if (rolUsuario === 'admin') {
+                                } else if (rolUsuario === 'Admin') {
                                     window.location.href = 'admin.html';
                                 }
                             });

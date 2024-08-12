@@ -80,7 +80,7 @@ function OpenPerfilSubMenu(){
 
 const dropAreas = document.querySelectorAll('.drop-area');
 
-dropAreas.forEach((dropArea, index) => {
+/*dropAreas.forEach((dropArea, index) => {
     const button = dropArea.querySelector('.subir-foto');
     const input = dropArea.querySelector('input[type="file"]');
 
@@ -115,7 +115,7 @@ dropAreas.forEach((dropArea, index) => {
             dropArea.classList.remove("active");
         }
     });
-});
+});*/
 
 function ShowFile(file, container) {
     const docType = file.type;
@@ -230,49 +230,51 @@ function UpdateCard(){
 }
 
 // Función para manejar el click del botón de envío
-document.getElementById('submit_offer').addEventListener('click', function() {
-    // Obtener los datos del formulario
-    const titleInput = document.getElementById('card_title_input')?.value;
-    const descriptionInput = document.getElementById('card_desc_input')?.value;
-    const paymentInput = document.getElementById('card_pago_input')?.value;
-    const fieldsInput = document.getElementById('offer_fields')?.value;
-    var imageUrl1 = document.getElementById('photo_input_1')?.files[0];
-    var imageUrl2 = document.getElementById('photo_input_2')?.files[0];
-    var imageUrl3 = document.getElementById('photo_input_3')?.files[0];
-    var imageUrl4 = document.getElementById('photo_input_4')?.files[0];
+document.getElementById("submit_offer").addEventListener("click", function () {
+    // Validate the form
+    if (validarFormulario()) {
+        // Create a new FormData object
+        let formData = new FormData();
 
-    if (titleInput && descriptionInput && paymentInput && fieldsInput) {
-        const offerData = {
-            title: titleInput,
-            description: descriptionInput,
-            payment: paymentInput,
-            fields: fieldsInput,
-            imageUrl1: imageUrl1,
-            imageUrl2: imageUrl2,
-            imageUrl3: imageUrl3,
-            imageUrl4: imageUrl4,
-            // Aquí podrías agregar más campos si es necesario
-        };
+        // Append form fields to the FormData object
+        formData.append("title", document.getElementById("card_title_input").value);
+        formData.append("description", document.getElementById("card_desc_input").value);
+        formData.append("payment", document.getElementById("card_pago_input").value);
+        formData.append("fields", document.getElementById("offer_fields").value);
 
-        // Enviar los datos al backend
+        // Append image files to the FormData object
+        for (let i = 1; i <= 4; i++) {
+            let photoInput = document.getElementById(`photo_input_${i}`);
+            if (photoInput.files.length > 0) {
+                formData.append(`imageUrl${i}`, photoInput.files[0]);
+            }
+        }
+
+        // Send the form data using fetch
         fetch('http://localhost:8080/api/offers', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(offerData),
+            body: formData,
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Oferta creada:', data);
-            alert('Oferta creada con éxito');
-            // Aquí puedes redirigir o actualizar la interfaz si es necesario
+            if (data.success) {
+                alert('Oferta creada con éxito!');
+                // Optionally, reset the form here
+            } else {
+                alert('Error al crear la oferta.');
+            }
         })
         .catch(error => {
-            console.error('Error al crear la oferta:', error);
-            alert('Hubo un error al crear la oferta');
+            console.error('Error:', error);
+            alert('Hubo un problema al enviar la oferta.');
         });
     } else {
-        console.error('Uno o más elementos del formulario no se encontraron.');
+        alert("Por favor, complete todos los campos obligatorios.");
     }
 });
+
+function validarFormulario() {
+    // Aquí va la lógica de validación del formulario
+    // Retornar true si el formulario es válido, o false si no lo es
+    return true;
+}
