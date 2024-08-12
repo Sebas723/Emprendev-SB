@@ -1,7 +1,7 @@
 package com.emprendev.controller;
 
 import com.emprendev.entity.Dev;
-import com.emprendev.service.DevService;
+import com.emprendev.services.DevService;  // Asegúrate de importar la interfaz correcta
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +14,7 @@ import java.util.Optional;
 public class DevController {
 
     @Autowired
-    private com.emprendev.service.impl.DevService devService;
+    private DevService devService;  // Utiliza la interfaz en lugar de la implementación
 
     @PostMapping
     public ResponseEntity<Dev> createDev(@RequestBody Dev dev) {

@@ -1,8 +1,8 @@
-package com.emprendev.service.impl;
+package com.emprendev.services.impl;
 
 import com.emprendev.entity.Mipyme;
 import com.emprendev.repository.MipymeRepository;
-import com.emprendev.service.MipymeService;
+import com.emprendev.services.MipymeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,4 +46,3 @@ public class MipymeServiceImpl implements MipymeService {
         }
     }
 }
-
