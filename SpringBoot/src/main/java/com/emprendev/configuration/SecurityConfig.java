@@ -22,9 +22,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable) // Consider re-enabling CSRF protection in production
                 .authorizeRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/login").permitAll() // Allow login without authentication
+                        .requestMatchers("/mipyme/**").hasRole("MIPYME") // Restrict access to Mipyme users
+                        .requestMatchers("/dev/**").hasRole("DEV") // Restrict access to Dev users
+
                 )
                 .formLogin(formLogin -> formLogin
+
                         .loginPage("/login") // Login form endpoint
+                        .defaultSuccessUrl("/determineRedirect", true)
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
@@ -33,7 +38,8 @@ public class SecurityConfig {
                         .maxSessionsPreventsLogin(false)
                 )
                 .logout(logout -> logout
-                        .logoutUrl("/logout") // Logout endpoint
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")// Logout endpoint
                 );
 
         return http.build();
@@ -47,6 +53,18 @@ public class SecurityConfig {
                 .roles("USER")
                 .build();
 
-        return new InMemoryUserDetailsManager(user);
+        UserDetails mipymeUser = User.withDefaultPasswordEncoder()
+                .username("mipymeUser")
+                .password("password")
+                .roles("MIPYME")
+                .build();
+
+        UserDetails devUser = User.withDefaultPasswordEncoder()
+                .username("devUser")
+                .password("password")
+                .roles("DEV")
+                .build();
+
+        return new InMemoryUserDetailsManager(user, mipymeUser, devUser);
     }
 }
