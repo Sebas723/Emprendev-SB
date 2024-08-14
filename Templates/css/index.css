@@ -284,6 +284,16 @@ header{
     padding-left: 22%;
 }
 
+#footer a{
+    text-decoration: none;
+    color: white;
+}
+
+#footer a::before{
+    text-decoration: none;
+    color: white;
+}
+
 #footer line{
     background-color: #1c1c1c52;
 }

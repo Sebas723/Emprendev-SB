@@ -15,10 +15,6 @@ header {
     gap: 20px;
 }
 
-.bell{
-    filter: invert(100%);
-}
-
 header div img{
     border-radius: 50px;
 }
@@ -75,7 +71,7 @@ header div img{
     width: 100%;
     height: 25%;
     border-radius: 20px 20px 0 0;
-    background-color: rgba(36, 39, 41, 0.315);
+    background-image: url(../img/Pattern.png);
 }
 
 .card-user-sub-menu .name-sub-menu{

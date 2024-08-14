@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+
     const form = document.getElementById('offer_form');
 
     form.addEventListener('submit', function (event) {
@@ -14,43 +15,81 @@ document.addEventListener('DOMContentLoaded', function () {
     CardPreviewField();
 });
 
-function validarFormulario() {
-    const pago = document.querySelector('[name="pago"]').value;
-    const cupos = document.querySelector('[name="cupos"]').value;
+async function validateForm() {
     const tituloOferta = document.querySelector('[name="titulo_oferta"]').value;
+    const descripcionOferta = document.querySelector('[name="desc_oferta"]').value;
+    const pagoOferta = document.querySelector('[name="pago"]').value;
+    const cuposOferta = document.querySelector('[name="cupos"]').value;
 
-    if (tituloOferta.trim() === '') {
-        alert('Por favor, completa el campo título');
-        return false;
-    }
+    let todasLasValidacionesPasaron = true;
 
-    if (pago.trim() === '') {
-        alert('Por favor, completa el campo pago.');
-        return false;
-    }
-    if (pago <= 0) {
-        alert('El pago por la oferta no puede ser menor o igual a 0');
-        return false;
-    }
-    if (isNaN(pago)) {
-        alert('El pago por las ofertas no puede contener letras');
-        return false;
+    function showErrorMessage(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: message
+        });
+        todasLasValidacionesPasaron = false;
     }
 
-    if (cupos.trim() === '') {
-        alert('Por favor, ingresa el número de cupos');
-        return false;
-    }
-    if (isNaN(cupos)) {
-        alert('El número de cupos no puede contener letras');
-        return false;
-    }
-    if (cupos <= 0) {
-        alert('El número de cupos no puede ser menor o igual a 0');
-        return false;
-    }
+    const validaciones = [
+        'cupos',
+        'pago',
+        'descripcionOferta',
+        'tituloOferta'
+    ];
 
-    return true;
+    for (let validacion of validaciones) {
+        switch (validacion) {
+            case 'tituloOferta':
+                if (tituloOferta.trim() === '') {
+                    showErrorMessage("Por favor, completa el campo Titulo");
+                }
+            break;
+            case 'descripcionOferta':
+                if (descripcionOferta.trim() === '') {
+                    showErrorMessage("Por favor, completa el campo Descripcion");
+                }
+                if (descripcionOferta.length < 200) {
+                    showErrorMessage("La descripcion de la oferta debe contener por lo menos 200 caracteres");
+                }
+            break;
+            case 'pago':
+                if (pagoOferta.trim() === '') {
+                    showErrorMessage("Por favor, completa el campo Pago");
+                }
+                if(isNaN(pagoOferta)){
+                    showErrorMessage("El pago por la oferta solo puede contener numeros");
+                }
+                if(pagoOferta < 100000){
+                    showErrorMessage("El pago por la oferta no puede ser menor a 100.000");
+                }
+            break;
+            case 'cupos':
+                if (cuposOferta.trim() === '') {
+                    showErrorMessage("Por favor, completa el campo Cupos");
+                }
+                if(isNaN(cuposOferta)){
+                    showErrorMessage("Los cupos de la oferta solo pueden contener numeros");
+                }
+                if(cuposOferta <= 0){
+                    showErrorMessage("La oferta debe contener almenos un cupo");
+                }
+            break;
+            default:
+            break;
+        }
+    }
+    if (todasLasValidacionesPasaron) {
+        Swal.fire({
+          icon: "success",
+          title: "¡Oferta Creada!",
+          text: "La oferta ha sido creada exitosamente...",
+        }).then(() => {
+          // Redirigir a otra vista
+          window.location.href = "/catalogo.html"; // Cambia la URL a la ruta deseada
+        });
+      }
 }
 
 //fotos de oferta
