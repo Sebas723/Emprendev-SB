@@ -29,7 +29,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     async function validateForm() {
         const nombre = document.querySelector('[name="nombre"]').value;
+        const segundoNombre = document.querySelector('[name="nombre2"]').value;
         const apellido = document.querySelector('[name="apellido"]').value;
+        const segundoApellido = document.querySelector('[name="apellido2"]').value;
         const tipoDocumento = document.querySelector('[name="td"]').value;
         const documentoIdentidad = document.querySelector('[name="id_usuario"]').value;
         const fechaNacimiento = document.querySelector('[name="fecha_nac"]').value;
@@ -55,33 +57,99 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const validaciones = [
             'terminosCheckbox',
+            'confirmarContrasena',
             'contrasena',
             'correo',
             'telefono',
             'rol',
-            'edad',
             'fechaNacimiento',
             'documentoIdentidad',
             'tipoDocumento',
-            'nombreApellido',
-            'confirmarContrasena'
+            'segundoApellido',
+            'apellido',
+            'segundoNombre',
+            'nombre'
         ];
 
         for (let validacion of validaciones) {
             switch (validacion) {
-                case 'terminosCheckbox':
-                    if (!terminosCheckbox) {
-                        showErrorMessage('Debes aceptar los términos y condiciones.');
+                case 'nombre':
+                    if (/[\d\W]+/.test(nombre)) {
+                        showErrorMessage('Los nombres no pueden contener números o simbologias.');
+                    }
+                    if (nombre.trim() === "") {
+                        showErrorMessage('Por favor, completa el campo Primer Nombre');
                     }
                     break;
-                case 'confirmarContrasena':
-                    if (contrasena !== confirmarContrasena) {
-                        showErrorMessage('La contraseña no coincide');
+                case 'segundoNombre':
+                    if (/[\d\W]+/.test(segundoNombre)) {
+                        showErrorMessage('Los nombres no pueden contener números o simbologias.');
                     }
                     break;
-                case 'contrasena':
-                    if (!contrasena.match(validacionPassword)) {
-                        showErrorMessage('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.');
+                case 'apellido':
+                    if (/[\d\W]+/.test(apellido)) {
+                        showErrorMessage('Los apellidos no pueden contener números o simbologias.');
+                    }
+                    if (apellido.trim() === "") {
+                        showErrorMessage('Por favor, completa el campo Primer Apellido');
+                    }
+                    break;
+                case 'segundoApellido':
+                    if (/[\d\W]+/.test(segundoApellido)) {
+                        showErrorMessage('Los apellidos no pueden contener números o simbologias.');
+                    }
+                    break;
+                case 'tipoDocumento':
+                    if (tipoDocumento === "0") {
+                        showErrorMessage('Por favor, selecciona el tipo de documento.');
+                    }
+                    break;
+                case 'documentoIdentidad':
+                    if (isNaN(documentoIdentidad) || documentoIdentidad.length != 10) {
+                        showErrorMessage('El documento de identidad debe ser un número válido.');
+                    }
+                    break;
+                    case 'fechaNacimiento':
+                        if (!fechaNacimiento) {
+                            showErrorMessage('Por favor, ingresa tu fecha de nacimiento.');
+                        } else {
+                            const fechaNacimientoDate = new Date(fechaNacimiento);
+                            const hoy = new Date();
+                    
+                            // Validar que la fecha de nacimiento no esté en el futuro
+                            if (fechaNacimientoDate > hoy) {
+                                showErrorMessage('La fecha de nacimiento no puede estar en el futuro.');
+                                break;
+                            }
+                    
+                            // Validar que la fecha de nacimiento sea una fecha válida
+                            if (isNaN(fechaNacimientoDate.getTime())) {
+                                showErrorMessage('La fecha de nacimiento no es válida.');
+                                break;
+                            }
+                    
+                            let edad = hoy.getFullYear() - fechaNacimientoDate.getFullYear();
+                            if (hoy.getMonth() < fechaNacimientoDate.getMonth() || 
+                                (hoy.getMonth() === fechaNacimientoDate.getMonth() && hoy.getDate() < fechaNacimientoDate.getDate())) {
+                                edad--;
+                            }
+                    
+                            if (edad < 18 || edad > 70) {
+                                showErrorMessage('Tu edad no es válida, intenta nuevamente.');
+                            }
+                        }
+                        break;
+                case 'rol':
+                    if (rol === "0") {
+                        showErrorMessage('Por favor, selecciona un rol.');
+                    }
+                    break;
+                case 'telefono':
+                    if (isNaN(telefono)) {
+                        showErrorMessage('Por favor, ingrese un número de teléfono válido.');
+                    }
+                    if(telefono.length != 10){
+                        showErrorMessage('El numero de celular debe contener 10 digitos')
                     }
                     break;
                 case 'correo':
@@ -94,55 +162,25 @@ document.addEventListener('DOMContentLoaded', function () {
                         }
                     }
                     break;
-                case 'telefono':
-                    if (isNaN(telefono) || telefono.length != 10) {
-                        showErrorMessage('Por favor, ingrese un número de teléfono válido.');
+                case 'contrasena':
+                    if (!contrasena.match(validacionPassword)) {
+                        showErrorMessage('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.');
                     }
                     break;
-                case 'rol':
-                    if (rol === "0") {
-                        showErrorMessage('Por favor, selecciona un rol.');
+                case 'confirmarContrasena':
+                    if (contrasena !== confirmarContrasena) {
+                        showErrorMessage('La contraseña no coincide.');
                     }
                     break;
-                case 'edad':
-                    const fechaNacimientoDate = new Date(fechaNacimiento);
-                    const hoy = new Date();
-                    let edad = hoy.getFullYear() - fechaNacimientoDate.getFullYear();
-                    if (hoy.getMonth() < fechaNacimientoDate.getMonth() || (hoy.getMonth() === fechaNacimientoDate.getMonth() && hoy.getDate() < fechaNacimientoDate.getDate())) {
-                        edad--;
-                    }
-                    if (edad <= 18 || edad > 80) {
-                        showErrorMessage('Tu edad no es válida, intenta nuevamente');
-                    }
-                    break;
-                case 'fechaNacimiento':
-                    if (!fechaNacimiento) {
-                        showErrorMessage('Por favor, ingresa tu fecha de nacimiento.');
-                    }
-                    break;
-                case 'documentoIdentidad':
-                    if (isNaN(documentoIdentidad) || /^\s*$/.test(documentoIdentidad) || documentoIdentidad.length != 10) {
-                        showErrorMessage('El documento de identidad debe ser un número válido.');
-                    }
-                    break;
-                case 'tipoDocumento':
-                    if (tipoDocumento === "0") {
-                        showErrorMessage('Por favor, selecciona un tipo de documento.');
-                    }
-                    break;
-                case 'nombreApellido':
-                    if (/^\d+$/.test(nombre) || /^\d+$/.test(apellido)) {
-                        showErrorMessage('Los nombres y apellidos no pueden contener números.');
-                    }
-                    if (nombre.trim() === "" || apellido.trim() === "") {
-                        showErrorMessage('Por favor, completa los campos de nombres y apellidos.');
+                case 'terminosCheckbox':
+                    if (!terminosCheckbox) {
+                        showErrorMessage('Debes aceptar los términos y condiciones.');
                     }
                     break;
                 default:
                     break;
             }
-        }
-
+        }        
         return todasLasValidacionesPasaron;
     }
 });

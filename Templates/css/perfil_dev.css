@@ -328,8 +328,8 @@ header div img{
 
 .main-content{
     position: absolute;
-    left: 22%;
-    top: 10%;
+    left: 20%;
+    top: 8%;
     display: flex;
     width: 72%;
 }
@@ -338,24 +338,36 @@ embed{
     margin-top: 3%;
 }
 
-.flexbox-padre{
-    display: grid;
-    flex-direction: row;
-    gap: 2px;
-}
-
-.flexbox-hijo{
-    display: flex;
-    flex-direction: row;
-    gap: 5%;
-    list-style: none;
-    padding-left: 0%;
-}
-
-.flexbox-hijo li{
+.experiencia-laboral li{
     width: 100%;
     background-color: rgba(255, 255, 255, 0.37);
 }
 
+/* Estilos para el contenedor principal de información */
+.main-content-descripcion {
+    padding: 20px;
+}
+
+/* Contenedor para la información personal */
+.info-seccion {
+    margin-bottom: 20px;
+}
+
+/* Contenedor para las columnas de información personal */
+.contenido-laboral {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px; /* Espacio entre columnas */
+}
+
+/* Asegura que cada columna tenga un padding adecuado */
+.info-personal-col {
+    padding: 10px;
+}
+
+/* Contenedor para la información del negocio */
+.info-negocio {
+    padding: 10px;
+}
 /* Formulario de Actualizacion de Datos*/
 

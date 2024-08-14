@@ -100,7 +100,7 @@ window.addEventListener('scroll', function() {
   var scrollTop = window.scrollY || document.documentElement.scrollTop;
   var modal = document.querySelector('.modal-body');
   // var newTop = headerHeight + 30 - scrollTop;
-  var newTop =  headerHeight  + 200 - scrollTop;
+  var newTop =  headerHeight  + 750 - scrollTop;
 
   modal.style.top = newTop + 'px';
 });

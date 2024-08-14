@@ -24,9 +24,6 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="user_side container-fluid justify-content-end">
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" list="keywords">
-        </form>
         <img onclick="OpenPerfilSubMenu()" class="session_user_imgProfile" class="user_img" alt="" width="40" height="40">
         <div id="user-sub-menu" class="container-submenu">
           <div class="card-user-sub-menu border-0">
@@ -85,54 +82,126 @@
         </div>
     </section>
     <section class="main-content" id="descripcion-informacion">
-        <!--<img class="perfil-img-descripcion" src="img/Gato1.jpg" alt="" width="20%" height="20%">-->
+        
         <div class="main-content-descripcion">
-            <div>
-                <h2 id="tituloinfo">Descripcion</h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit dignissimos nesciunt, eum in aliquam consectetur a ex dicta quod consequatur harum iste. Lorem ipsum dolor, 
-                    sit amet consectetur adipisicing elit. Tempora at sit nostrum laborum obcaecati, est autem, cupiditate accusamus vero itaque
-                    assumenda perferendis praesentium molestias sequi ut aspernatur nam id fugiat? Non, tenetur dolores.</p>
-                <hr>
+
+            <!-- Información Personal -->
+            <div class="info-seccion">
+                <div>
+                    <h2 id="tituloinfo">Información Personal</h2>
+                    <hr>
+                </div>
+    
+                <div class="contenido-laboral">
+                    <div class="info-personal-col">
+                        <b>Primer Nombre:</b> <br>
+                        <p>example</p>
+                        <b>Segundo Nombre:</b> <br>
+                        <p>example</p>
+                        <b>Primer Apellido:</b> <br>
+                        <p>example</p>
+                        <b>Segundo Apellido:</b> <br>
+                        <p>example</p>
+                        <b>Tipo de Documento:</b> <br>
+                        <p>example</p>
+                        <b>Numero de Documento:</b> <br>
+                        <p>example</p>
+                    </div>
+                    <div class="info-personal-col">
+                        <b>Fecha de Nacimiento:</b> <br>
+                        <p>example</p>
+                        <b>Rol:</b> <br>
+                        <p>example</p>
+                        <b>Telefono:</b> <br>
+                        <p>example</p>
+                        <b>Direccion:</b> <br>
+                        <p>example</p>
+                        <b>Correo:</b> <br>
+                        <p>example@gmail.com</p>
+                    </div>
+                </div>
             </div>
-
-            <div>
-                <h2>Especializaciones</h2>
-                <ul>
-                    <li>JavaScript</li>
-                    <li>Python</li>
-                    <li>HTML</li>
-                    <li>CSS</li>
-                </ul>
-                <hr>
-            </div>
-
-            <div>
-                <h2>Educacion</h2>
-                <div class="flexbox-padre">
-                    <ol class="flexbox-hijo">
-                        <li><b>Universidad</b><br><b>Carrera</b> <br> <b>Año inicio</b><br> <b>Año fin</b></li>
-                        <li><b>Universidad</b><br><b>Carrera</b> <br> <b>Año inicio</b><br> <b>Año fin</b></li>
-                    </ol>
-
-                    <ol class="flexbox-hijo">
-                        <li><b>Universidad</b><br><b>Carrera</b> <br> <b>Año inicio</b><br> <b>Año fin</b></li>
-                        <li><b>Universidad</b><br><b>Carrera</b> <br> <b>Año inicio</b><br> <b>Año fin</b></li>
-                    </ol>
+            
+            <div class="info-seccion">
+                <div>
+                    <h2 id="tituloinfo">Descripcion del Perfil</h2>
+                    <p></p>
+                    <hr>
+                </div>
+    
+                <div>
+                    <div class="info-negocio"> 
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus iure omnis a 
+                            praesentium laboriosam assumenda. Cum velit libero laudantium aliquam, impedit illum ratione quaerat alias magni dolores, 
+                            sit maiores voluptatem error vero. Dolores non, minima impedit consequatur voluptas quia quod odio rem, expedita accusantium, 
+                            corporis excepturi modi cumque cum. Aperiam quos ducimus eius laudantium fuga illo nulla! Dicta culpa non laboriosam laborum ipsum, 
+                            aspernatur veritatis quae, alias modi consequatur eveniet dolor, exercitationem voluptatem error dolorem rem placeat perspiciatis assumenda! 
+                            Mollitia, ipsum. Ratione ipsam enim, quod dolores consectetur optio minus consequatur unde aperiam deserunt incidunt aliquam, magnam sequi natus 
+                            consequuntur quia?
+                        </p>
+                    </div>
                 </div>
             </div>
 
-            <div>
-                <h2>Experiencia Laboral</h2>
-                <div class="flexbox-padre">
-                    <ol class="flexbox-hijo">
-                        <li><b>Cargo</b><br><b>Empresa</b> <br> <b>Año inicio y año fin</b><br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, odio? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, atque. Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, neque! <br> <b>Telefono Empresa</b> <br> <b>Direccion Empresa</b> <br> <b>Referencias</b> </li>
-                        <li><b>Cargo</b><br><b>Empresa</b> <br> <b>Año inicio y año fin</b><br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, odio? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, atque. <br> <b>Telefono Empresa</b> <br> <b>Direccion Empresa</b> <br> <b>Referencias</b> </li>
-                    </ol>
+            <!-- Información del Negocio -->
+            <div class="info-seccion">
+                <div>
+                    <h2 id="tituloinfo">Educacion</h2>
+                    <hr>
+                </div>
 
-                    <ol class="flexbox-hijo">
-                        <li><b>Cargo</b><br><b>Empresa</b> <br> <b>Año inicio y año fin</b><br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, odio? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, atque. <br> <b>Telefono Empresa</b> <br> <b>Direccion Empresa</b> <br> <b>Referencias</b> </li>
-                        <li><b>Cargo</b><br><b>Empresa</b> <br> <b>Año inicio y año fin</b><br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eaque, odio? Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, atque. <br> <b>Telefono Empresa</b> <br> <b>Direccion Empresa</b> <br> <b>Referencias</b> </li>
-                    </ol>
+                <div class="contenido-laboral">
+                    <div class="info-personal-col">
+                        <b>Universidad:</b> <br>
+                        <p>example</p>
+                        <b>Carrera:</b> <br>
+                        <p>example</p>
+                        <b>Fecha Inicio:</b> <br>
+                        <p>example</p>
+                        <b>Fecha Fin:</b> <br>
+                        <p>example</p>
+                    </div>
+                    <div class="info-personal-col">
+                        <b>Universidad:</b> <br>
+                        <p>example</p>
+                        <b>Carrera:</b> <br>
+                        <p>example</p>
+                        <b>Fecha Inicio:</b> <br>
+                        <p>example</p>
+                        <b>Fecha Fin:</b> <br>
+                        <p>example</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-seccion">
+                <div>
+                    <h2 id="tituloinfo">Experiencia Laboral</h2>
+                    <hr>
+                </div>
+
+                <div>
+                    <div class="info-negocio">
+                        <b>Cargo:</b> <br>
+                        <p>example</p>
+                        <b>Empresa:</b> <br>
+                        <p>example</p> 
+                        <b>Fecha Inicio:</b> <br>
+                        <p>example</p> 
+                        <b>Fecha Fin:</b> <br>
+                        <p>example</p> 
+                        <b>Descripción Del Cargo:</b> <br> 
+                        <p>
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus iure omnis a 
+                            praesentium laboriosam assumenda. Cum velit libero laudantium aliquam, impedit illum ratione quaerat alias magni dolores, 
+                            sit maiores voluptatem error vero. Dolores non, minima impedit consequatur voluptas quia quod odio rem, expedita accusantium, 
+                            corporis excepturi modi cumque cum. Aperiam quos ducimus eius laudantium fuga illo nulla! Dicta culpa non laboriosam laborum ipsum, 
+                            aspernatur veritatis quae, alias modi consequatur eveniet dolor, exercitationem voluptatem error dolorem rem placeat perspiciatis assumenda! 
+                            Mollitia, ipsum. Ratione ipsam enim, quod dolores consectetur optio minus consequatur unde aperiam deserunt incidunt aliquam, magnam sequi natus 
+                            consequuntur quia?
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>

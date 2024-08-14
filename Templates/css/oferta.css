@@ -30,10 +30,6 @@ header {
     gap: 10px;
 }
 
-.bell{
-    filter: invert(100%);
-}
-
 header div img{
     border-radius: 50px;
 }
@@ -145,14 +141,12 @@ header div img{
     background-repeat: no-repeat;
     background-size: cover;
     background-image: url(../img/Pattern.png);
-    width: 100vw;
 }
 
 .form-container{
     position: relative;
     padding-top: 5.5%;
-    margin-left: 0vh;
-    width: 100vw;
+    width: 100%;
     border-radius: 5px;
     background-color: rgb(255, 255, 255);
 }
@@ -163,17 +157,18 @@ header div img{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 10px;
+    margin-bottom: 30px;
 }
 
 .cover{
-    width: 100%;
+    width: 103%;
 }
 
 .container {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 5px;
 }
 
 .drop-area {
@@ -189,7 +184,6 @@ header div img{
     align-items: center;
     justify-content: center;
     position: relative;
-    left: 4px;
 }
 
 .drop-area.active {
@@ -197,10 +191,27 @@ header div img{
 }
 
 .drop-area input[type="button"] {
-    border-style: none !important;
+    border-style: none;
     width: 40%;
     height: 6vh;
 }
+
+.drop-area input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.drop-area::before {
+    content: '+';
+    font-size: 2em;
+    color: #000000; /* Cambia el color según tus preferencias */
+}
+
 
 .photo-preview {
     width: 100%;

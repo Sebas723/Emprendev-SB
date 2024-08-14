@@ -24,7 +24,6 @@
           </button>
           <div class="user_side container-fluid justify-content-end">
             <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" list="keywords">
             </form>
             <img onclick="OpenPerfilSubMenu()" class="session_user_imgProfile" class="user_img" alt="" width="40" height="40">
             <div id="user-sub-menu" class="container-submenu">
@@ -54,11 +53,11 @@
       </header>
 
     <!--Offert-->
-    <div class="container-fluid form-container content-container">
+    <div class="form-container content-container">
         <div class="container">
             <div class="form-card">
                 <div class="cover">
-                    <div class="col-md-8 form-container">
+                    <div class="form-container">
 
                         <form id="offer_form" action="" method="">
                             <div class="form-cover">
@@ -83,11 +82,11 @@
                                 
                                 <div class="inputs">
                                     <input id="card_title_input" type="text" placeholder="Título de la oferta" required class="form-control" name="titulo_oferta" oninput="CardPreviewTitle()" maxlength="60">
-                                    <textarea id="card_desc_input" placeholder="Descripción de la oferta" rows="4" cols="50" class="form-control" name="desc_oferta" oninput="CardPreviewDesc()" style="margin-top: 1%;" maxlength="500"></textarea>
+                                    <textarea id="card_desc_input" placeholder="Descripción de la oferta" rows="4" cols="50" class="form-control" name="desc_oferta" oninput="CardPreviewDesc()" style="margin-top: 1%; height: 240px;" maxlength="500"></textarea>
                                 </div>
                                 <div class="two-inputs">
-                                    <input id="card_pago_input" type="text" placeholder="$ pago" required class="form-control input-border" name="pago" oninput="CardPreviewPago()" maxlength="8">
-                                    <input id="offer_fields" type="text" placeholder="Cupos (empleados)" class="form-control input-border" name="cupos" maxlength="2">
+                                    <input id="card_pago_input" type="text" placeholder="$ pago" required class="form-control input-border" name="pago" oninput="CardPreviewPago()" maxlength="9">
+                                    <input id="offer_fields" type="text" placeholder="Cupos (empleados)" class="form-control input-border" name="cupos" maxlength="2" oninput="CardPreviewField()">
                                 </div>
                                 <h3>Tags</h3>
                                 <div class="tags-container">
@@ -104,7 +103,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="col-md-3 card-container">
+                    <div class="card-container">
                         <h2 style="color: white;">Vista Previa</h2>
                         <div class="col">
                             <div class="card min-vh-60 max-vw-50 position-static">
@@ -115,6 +114,7 @@
                                     <h5 id="card_title" class="card-title">Título de Oferta</h5>
                                     <p id="card_desc" class="card-text">Descripción de Oferta</p>
                                     <p id="card_pago"><span>$</span>0</p>
+                                    <p id="card_fields"><span>Numero De Cupos</span> 0</p>
                                     <hr>
                                     <div id="card-tags-preview" class="card-tags">
                                     

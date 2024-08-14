@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     CardPreviewDesc();
     CardPreviewPago();
     CardPreviewTitle();
+    CardPreviewField();
 });
 
 function validarFormulario() {
@@ -189,6 +190,17 @@ function CardPreviewPago() {
     }
     else {
         cardPago.innerHTML = `<span>$</span>` + formatearNumero(cardPagoInput);
+    }
+}
+
+function CardPreviewField() {
+    let cardFieldInput = document.getElementById("offer_fields").value;
+    let cardField = document.getElementById("card_fields");
+
+    if(cardFieldInput.length === 0) {
+        cardField.textContent = "Cupos 0"
+    }else{
+        cardField.innerHTML = `<span>Cupos </span>` + formatearNumero(cardFieldInput);
     }
 }
 
