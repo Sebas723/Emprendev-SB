@@ -107,50 +107,8 @@ window.addEventListener('scroll', function() {
 
 //mostras desarrolladores en el catalogo
 function cargarUsuarios() {
-  $.ajax({
-      type: "GET",
-      url: "http://localhost:8080/emprendev/v1/user/listOrderAccount",
-      dataType: "json",
-      xhrFields: {
-          withCredentials: true
-      },
-      success: function (data) {
-          $.each(data, function (i, item) {
-              if (item.accountState == 1 && item.role == "dev") {
-                  var card =
-                      "<div class='cola'>" +
-                        "<div class='card border-0'>" +
-                          "<div class='box1'>" + "</div>" +
-                          "<div class='card-content'>" +
-                            "<div class='img'>" +
-                              "<img src=" + item.imgProfile + " alt=''>" + 
-                            "</div>" +
-                          "<div class='name-proffesion'>" +
-                            "<div class='dev_names'>" + 
-                              "<span class='name'>" + item.firstName + "</span>" +
-                              "<span class='name'>" + item.lastName + "</span>" +
-                            "</div>" +
-                            "<span class='profession'>" + item.role + "</span>" +
-                          "</div>" +
-                          "<hr>" +
-                          "<div class='about'>" +
-                            "<p></p>" +
-                          "</div>" +
-                          "<div class='button b1'>" +
-                            "<button class='about-me openModal'>ver mas</button>" +
-                          "</div>" +
-                        "</div>" +
-                      "</div>";
-                  $(".cards_container").append(card);
-              }
-          });
-          assignOpenModalEvents();
-          assignCloseModalEvents();
-      },
-      error: function (xhr, status, error) {
-          console.error("Error al cargar Usuarios:", error);
-      }
-  });
+  assignOpenModalEvents();
+  assignCloseModalEvents();
 }
 
 assignOpenModalEvents();

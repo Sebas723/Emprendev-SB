@@ -85,9 +85,7 @@
         </div>
     </section>
     <section class="main-content" id="descripcion-informacion">
-        
         <div class="main-content-descripcion">
-
             <!-- Información Personal -->
             <div class="info-seccion">
                 <div>
@@ -99,29 +97,29 @@
                 <div class="contenido-laboral">
                     <div class="info-personal-col">
                         <b>Primer Nombre:</b> <br>
-                        <p>example</p>
+                        <p class="session_user_firstName">example</p>
                         <b>Segundo Nombre:</b> <br>
-                        <p>example</p>
+                        <p class="session_user_secondName">example</p>
                         <b>Primer Apellido:</b> <br>
-                        <p>example</p>
+                        <p class="session_user_lastName">example</p>
                         <b>Segundo Apellido:</b> <br>
-                        <p>example</p>
+                        <p class="session_user_lastName2">example</p>
                         <b>Tipo de Documento:</b> <br>
-                        <p>example</p>
+                        <p class="session_user_docType">example</p>
                         <b>Numero de Documento:</b> <br>
-                        <p>example</p>
+                        <p class="session_user_docNum">example</p>
                     </div>
                     <div class="info-personal-col">
                         <b>Fecha de Nacimiento:</b> <br>
-                        <p>example</p>
+                        <p class="session_user_birthDate">example</p>
                         <b>Rol:</b> <br>
-                        <p>example</p>
+                        <p class="session_user_role">example</p>
                         <b>Telefono:</b> <br>
-                        <p>example</p>
+                        <p class="session_user_phoneNum">example</p>
                         <b>Direccion:</b> <br>
-                        <p>example</p>
+                        <p class="session_user_address">example</p>
                         <b>Correo:</b> <br>
-                        <p>example@gmail.com</p>
+                        <p class="session_user_email">example@gmail.com</p>
                     </div>
                 </div>
             </div>
@@ -137,13 +135,13 @@
                 <div>
                     <div class="info-negocio">
                         <b>Nombre del negocio:</b> <br>
-                        <span>example</span> <br> 
+                        <span class="nombre-negocio">example</span> <br> 
                         <b>Direccion del negocio:</b> <br>
-                        <span>example</span> <br> 
+                        <span class="direccion-negocio">example</span> <br> 
                         <b>Ubicación del negocio:</b> <br>
-                        <span>example</span> <br> 
+                        <span class="ubicacion-negocio">example</span> <br> 
                         <b>Descripción Del Negocio:</b> <br> 
-                        <p>
+                        <p class="descripcion-negocio">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus iure omnis a 
                             praesentium laboriosam assumenda. Cum velit libero laudantium aliquam, impedit illum ratione quaerat alias magni dolores, 
                             sit maiores voluptatem error vero. Dolores non, minima impedit consequatur voluptas quia quod odio rem, expedita accusantium, 
@@ -156,62 +154,8 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section>  
     
-
-    <!--Desde aqui Inicia El apartado de datos personales en el perfil-->
-    <section id="datos-personales" class="main-content">
-        <div class="container mt-5">
-            <form action method="POST">
-                <h5 class="text-center alert-secondary">Editar Usuario</h5>
-                <input type="hidden" name="id_usuario">
-                        <div class="form-row">
-                            <div class="form-group col-md-4">
-                                <label for="nombre">Nombre:</label>
-                                <input type="text" class="form-control" name="nombre">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="nombre2">Segundo Nombre:</label>
-                                <input type="text" class="form-control" name="nombre2">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="apellido">Apellido:</label>
-                                <input type="text" class="form-control" name="apellido">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="apellido2">Segundo Apellido:</label>
-                                <input type="text" class="form-control" name="apellido2">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="fec_nac">Fecha De Nacimiento:</label>
-                                <input type="date" class="form-control" name="fecha_nac">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="edad">Edad:</label>
-                                <input type="text" class="form-control" name="edad">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="telefono">Celular:</label>
-                                <input type="text" class="form-control" name="telefono">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="direccion">Direccion:</label>
-                                <input type="text" class="form-control" name="direccion">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="correo">Correo:</label>
-                                <input type="email" class="form-control" name="correo">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label for="contrasena">Contraseña:</label>
-                                <input type="password" class="form-control" name="contrasena">
-                            </div>
-                        </div>  
-                <button type="submit" class="btn btn-primary" name="botoneditar">Editar Usuario</button>
-    
-            </form>
-        </div>
-    </section>
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"

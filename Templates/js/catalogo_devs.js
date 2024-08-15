@@ -114,7 +114,7 @@ function cargarUsuarios() {
       },
       success: function (data) {
           $.each(data, function (i, item) {
-              if (item.accountState == 1 && item.role == "dev") {
+              if (item.accountState == 1 && item.role == "Desarrollador") {
                   var card =
                       "<div class='cola'>" +
                         "<div class='card border-0'>" +

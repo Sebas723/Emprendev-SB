@@ -1,3 +1,54 @@
+document.addEventListener("DOMContentLoaded", function() {
+    // Llamada a la función para cargar la información
+    checkSessionStatusForForm();
+});
+
+// Plasmar informacion en el formulario de edicion de datos
+
+async function checkSessionStatusForForm() {
+    try {
+        const response = await fetch('http://localhost:8080/emprendev/v1/user/sessionStatus', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include' // Asegúrate de que las credenciales se envíen
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+
+        if (data.sessionActive) {
+            console.log('Session is active:', data);
+
+            // Actualizar los campos del formulario con los datos de la sesión
+            document.querySelector('.first-name').value = data.firstName || 'No disponible';
+            document.querySelector('.second-name').value = data.secondName || 'No disponible';
+            document.querySelector('.last-name').value = data.lastName || 'No disponible';
+            document.querySelector('.last-name2').value = data.lastName2 || 'No disponible';
+            document.querySelector('.doc-type').value = data.docType || 'No disponible';
+            document.querySelector('.doc-num').value = data.docNum || 'No disponible';
+            document.querySelector('.birth-date').value = formatDate(new Date(data.birthDate)) || 'No disponible';
+            document.querySelector('.role').value = data.role || 'No disponible';
+            document.querySelector('.phone-num').value = data.phoneNum || 'No disponible';
+            document.querySelector('.address').value = data.address || 'No disponible';
+            document.querySelector('.email').value = data.Email || 'No disponible';
+            document.querySelector('.password').value = data.password || 'No disponible';
+            
+            // Si necesitas mostrar la imagen de perfil como una imagen en lugar de una URL en un input
+            document.querySelector('.img-profile-display').src = data.imgProfile || 'ruta_default.jpg';
+        } else {
+            console.log('No active session:', data.message);
+            // Puedes mostrar un mensaje al usuario si la sesión no está activa
+        }
+    } catch (error) {
+        console.error('Error checking session status:', error);
+    }
+}
+
 function checkSessionStatus() {
     $.ajax({
         url: 'http://localhost:8080/emprendev/v1/user/sessionStatus',
@@ -12,16 +63,16 @@ function checkSessionStatus() {
                 // Aquí puedes usar los datos del usuario como desees
                 $('.session_user_id').text(data.id);
                 $('.session_user_firstName').text(data.firstName);
-                $('.session_user_secondName').text(data.secondName);
+                $('.session_user_secondName').text(data.secondName || "No disponible");
                 $('.session_user_lastName').text(data.lastName);
-                $('.session_user_lastName2').text(data.lastName2);
-                $('.session_user_docType').prop(data.docType);
+                $('.session_user_lastName2').text(data.lastName2 || "No disponible");
+                $('.session_user_docType').text(data.docType);
                 $('.session_user_docNum').text(data.docNum);
                 $('.session_user_birthDate').text(data.birthDate);
                 $('.session_user_role').text(data.role);
                 $('.session_user_phoneNum').text(data.phoneNum);
-                $('.session_user_address').text(data.address);
-                $('.session_user_email').text(data.email);
+                $('.session_user_address').text(data.address || "No encontrado");
+                $('.session_user_email').text(data.Email);
                 $('.session_user_password').text(data.password);
                 $('.session_user_imgProfile').attr('src', data.imgProfile);
                 $('.session_user_accountState').text(data.accountState);
@@ -35,6 +86,19 @@ function checkSessionStatus() {
             console.error('Error checking session status:', textStatus, errorThrown);
         }
     });
+}
+
+// Función para formatear la fecha
+function formatDate(date) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('es-ES', options);
+}
+
+
+// Función para formatear la fecha
+function formatDate(date) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('es-ES', options);
 }
 
 //ir al perfil segun su rol

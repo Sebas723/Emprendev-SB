@@ -52,7 +52,6 @@
         </nav>
       </header>
 
-    <!--Offert-->
     <div class="container-fluid form-container content-container">
         <div class="container">
             <div class="form-card">
@@ -63,39 +62,39 @@
                                 <h2 style="margin-top: 0%;">Informacion Personal</h2>
                                 <div class="two-inputs">
                                   <input type="text" placeholder="Primer Nombre" name="nombre" required="" maxlength="20"
-                                      class="form-control">
-                                  <input type="text" placeholder="Segundo Nombre" name="segundo_nombre" class="form-control" maxlength="20">
+                                      class="form-control first-name">
+                                  <input type="text" placeholder="Segundo Nombre" name="segundo_nombre" class="form-control second-name" maxlength="20">
                               </div>
                               <div class="two-inputs">
                                   <input type="text" placeholder="Primer Apellido" name="apellido" required=""
-                                      class="form-control">
-                                  <input type="text" placeholder="Segundo Apellido" name="segundo_apellido" class="form-control">
+                                      class="form-control last-name">
+                                  <input type="text" placeholder="Segundo Apellido" name="segundo_apellido" class="form-control last-name2">
                               </div>
                               <div class="two-inputs">
                                   <input type="text" placeholder="Tipo de Documento" name="td" required="" disabled
-                                      class="form-control">
+                                      class="form-control doc-type">
                                   <input type="text" placeholder="Numero de Documento" name="id_usuario" required=""
-                                      class="form-control">
+                                      class="form-control doc-num">
                               </div>
                               <div class="two-inputs">
                                   <input type="date" placeholder="Fecha de nacimiento" name="fecha_nac" required=""
-                                      class="form-control">
-                                  <input type="text" placeholder="Rol" name="rol" required="" class="form-control" disabled>
+                                      class="form-control birth-date">
+                                  <input type="text" placeholder="Rol" name="rol" required="" class="form-control role" disabled>
                               </div>
                               <div class="two-inputs">
                                   <input type="text" placeholder="Telefono" name="telefono" required=""
-                                      class="form-control">
-                                  <input type="text" placeholder="Direccion" class="form-control" maxlength="50">
+                                      class="form-control phone-num">
+                                  <input type="text" placeholder="Direccion" class="form-control address" maxlength="50">
                               </div>
                               <div class="two-inputs">
                                   <input type="text" placeholder="Correo" name="correo" required="" maxlength="50"
-                                      class="form-control">
+                                      class="form-control email">
                               </div>
                               <div class="two-inputs">
                                   <input type="text" placeholder="Contraseña" name="contrasena" required="" maxlength="25"
-                                      class="form-control">
+                                      class="form-control password">
                                   <input type="text" placeholder="Confirmar Contraseña" name="confirmarContrasena" maxlength="25"
-                                      required="" class="form-control">
+                                      required="" class="form-control password">
                               </div>
                                 <h2 style="margin-top: 1%;" >Informacion Del Negocio</h2>
                                 <div class="two-inputs">
@@ -123,6 +122,8 @@
     </div>
 </body>
 </html>
+
+<script src="js/session.js"></script>
 <script src="js/editar_mipyme.js"></script>
 <script src="bootstrap/js/bootstrap.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
