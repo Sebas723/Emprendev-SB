@@ -2,6 +2,7 @@ package com.emprendev.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NonNull;
 
 import java.util.List;
 
@@ -18,28 +19,14 @@ public class Offer {
     private String finalizationDate;
     private Integer fields;
     private Long payment;
-    private byte[] imageUrl1;
-    private byte[] imageUrl2;
-    private byte[] imageUrl3;
-    private byte[] imageUrl4;
+    @NonNull
+    @Lob
+    @Column(name = "image", columnDefinition="longblob", nullable = false)
+    private byte[] image;
     private Integer offerState;
 
-    public List<Tag> getTags() {
-        return tags;
+    public Offer() {
     }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
-    }
-
-    @ManyToMany
-    @JoinTable(
-            name = "offer_tags",
-            joinColumns = @JoinColumn(name = "offer_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-
-    private List<Tag> tags;
 
     public Long getId() {
         return id;
@@ -95,43 +82,19 @@ public class Offer {
         this.payment = payment;
     }
 
-    public byte[] getImageUrl1() {
-        return imageUrl1;
-    }
-
-    public void setImageUrl1(byte[] imageUrl1) {
-        this.imageUrl1 = imageUrl1;
-    }
-
-    public byte[] getImageUrl2() {
-        return imageUrl2;
-    }
-
-    public void setImageUrl2(byte[] imageUrl2) {
-        this.imageUrl2 = imageUrl2;
-    }
-
-    public byte[] getImageUrl3() {
-        return imageUrl3;
-    }
-
-    public void setImageUrl3(byte[] imageUrl3) {
-        this.imageUrl3 = imageUrl3;
-    }
-
-    public byte[] getImageUrl4() {
-        return imageUrl4;
-    }
-
-    public void setImageUrl4(byte[] imageUrl4) {
-        this.imageUrl4 = imageUrl4;
-    }
-
     public Integer getOfferState() {
         return offerState;
     }
 
     public void setOfferState(Integer offerState) {
         this.offerState = offerState;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

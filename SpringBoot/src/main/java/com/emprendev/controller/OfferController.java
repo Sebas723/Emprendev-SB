@@ -4,6 +4,7 @@ import com.emprendev.entity.Offer;
 import com.emprendev.exceptions.ResourceNotFoundException;
 import com.emprendev.services.OfferServices;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,31 +21,34 @@ public class  OfferController {
     private OfferServices offerService;
 
     @PostMapping
-    public ResponseEntity<Offer> createOffer(
+    public ResponseEntity<?> createOffer(
             @RequestPart("title") String title,
             @RequestPart("description") String description,
             @RequestPart("payment") String payment,
             @RequestPart("fields") String fields,
-            @RequestPart(value = "imageUrl1", required = false) MultipartFile imageUrl1,
-            @RequestPart(value = "imageUrl2", required = false) MultipartFile imageUrl2,
-            @RequestPart(value = "imageUrl3", required = false) MultipartFile imageUrl3,
-            @RequestPart(value = "imageUrl4", required = false) MultipartFile imageUrl4
+            @RequestParam("image") MultipartFile file
     ) {
-        Offer offer = new Offer();
-        offer.setTitle(title);
-        offer.setDescription(description);
-        offer.setPayment(Long.parseLong(payment));
-        offer.setFields(Integer.parseInt(fields));
+        try {
+            Offer offer = new Offer();
+            offer.setTitle(title);
+            offer.setDescription(description);
+            offer.setPayment(Long.parseLong(payment));
+            offer.setFields(Integer.parseInt(fields));
 
-        // Establecer valores predeterminados para fechas y estado
-        offer.setCreationDate(String.valueOf(LocalDate.now()));
-        offer.setFinalizationDate(String.valueOf(LocalDate.now().plusMonths(1)));
-        offer.setOfferState(1);
+            // Establecer valores predeterminados para fechas y estado
+            offer.setCreationDate(String.valueOf(LocalDate.now()));
+            offer.setFinalizationDate(String.valueOf(LocalDate.now().plusMonths(1)));
+            offer.setOfferState(1);
 
-        // Aquí puedes manejar la lógica para guardar los archivos de imagen si es necesario.
+            // Aquí puedes manejar la lógica para guardar los archivos de imagen si es necesario.
 
-        Offer savedOffer = offerService.saveOffer(offer);
-        return ResponseEntity.ok(savedOffer);
+            Offer savedOffer = offerService.saveOffer(offer, file);
+            return ResponseEntity.ok(savedOffer);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"message\":\"Failed to save image\"}");
+        }
+
     }
 
     @GetMapping("/{id}")

@@ -5,7 +5,9 @@ import com.emprendev.entity.Offer;
 import com.emprendev.repository.OfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -24,8 +26,12 @@ public class OfferServices {
         return offerRepository.findById(id);
     }
 
-    public Offer saveOffer(Offer offer) {
+    public Offer saveOffer(Offer offer, MultipartFile file) throws IOException {
         // Establecer valores predeterminados
+        byte[] imageBytes = file.getBytes();
+        offer = new Offer();
+        offer.setImage(imageBytes);
+
         if (offer.getCreationDate() == null) {
             offer.setCreationDate(String.valueOf(LocalDate.now())); // Fecha actual
         }
@@ -58,14 +64,8 @@ public class OfferServices {
             offer.setFinalizationDate(offerDetails.getFinalizationDate());
             offer.setFields(offerDetails.getFields());
             offer.setPayment(offerDetails.getPayment());
-            offer.setImageUrl1(offerDetails.getImageUrl1());
-            offer.setImageUrl2(offerDetails.getImageUrl2());
-            offer.setImageUrl3(offerDetails.getImageUrl3());
-            offer.setImageUrl4(offerDetails.getImageUrl4());
+            offer.setImage(offerDetails.getImage());
             offer.setOfferState(offerDetails.getOfferState());
-
-            // Actualizar los tags
-            offer.setTags(offerDetails.getTags());
 
             return offerRepository.save(offer);
         } else {
