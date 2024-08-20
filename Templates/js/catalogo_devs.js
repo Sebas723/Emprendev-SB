@@ -132,10 +132,10 @@ function cargarUsuarios() {
                           "</div>" +
                           "<hr>" +
                           "<div class='about'>" +
-                            "<p></p>" +
+                            "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores, eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit illo ea et. Ullam adipisci, consequuntur laborum dolorum nostrum voluptas inventore quae explicabo vero omnis necessitatibus quasi ut blanditiis labore cum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, temporibus. Repellat fugit vel esse, voluptatum doloribus ut aliquid quam dolorum.</p>" +
                           "</div>" +
                           "<div class='button b1'>" +
-                            "<button class='about-me openModal'>ver mas</button>" +
+                            "<button class='about-me openModal'>Ver mas</button>" +
                           "</div>" +
                         "</div>" +
                       "</div>";

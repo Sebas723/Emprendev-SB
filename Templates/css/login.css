@@ -6,6 +6,10 @@
     --light: #aaaaaac8;
 }
 
+.hiden{
+    display: none;
+}
+
 body {
     padding: 0;
     margin: 0;

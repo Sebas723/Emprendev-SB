@@ -94,43 +94,6 @@ function formatDate(date) {
     return date.toLocaleDateString('es-ES', options);
 }
 
-
-// Función para formatear la fecha
-function formatDate(date) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('es-ES', options);
-}
-
-//ir al perfil segun su rol
-$(document).on('click', '#check_profile', function () {
-    $.ajax({
-        url: 'http://localhost:8080/emprendev/v1/user/sessionStatus',
-        type: 'GET',
-        xhrFields: {
-            withCredentials: true
-        },
-        success: function (data) {
-            if (data.sessionActive) {
-                // Si la sesión está activa, se obtienen los datos del usuario
-                console.log('Session is active:', data);
-                // redirección al perfil
-                if (data.role == 'mipyme') {
-                    window.location.href = 'perfil_mipyme.html';
-                } else if (data.role == 'dev'){
-                    window.location.href = 'perfil_dev.html';
-                }
-            } else {
-                // Si la sesión no está activa, se muestra un mensaje
-                console.log('No active session:', data.message);
-                window.location.href = 'index.html';
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            console.error('Error checking session status:', textStatus, errorThrown);
-        }
-    });
-});
-
 // Llama a la función para verificar el estado de la sesión
 checkSessionStatus();
 
@@ -156,3 +119,51 @@ $(document).on('click', '#logout_btn', function () {
         });
     }
 });
+
+
+// Esta funcion para es para redirigir al usuario al perfil segun su rol
+redirectButton.addEventListener('click', function () {
+    checkRoleAndRedirect();
+});
+
+function checkRoleAndRedirect() {
+    $.ajax({
+        url: 'http://localhost:8080/emprendev/v1/user/sessionStatus',
+        type: 'GET',
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (data) {
+            if (data.sessionActive) {
+
+                console.log('Session is active:', data);
+
+                let url;
+                const rolUsuario = data.role; 
+                
+
+                if (rolUsuario === 'Desarrollador') {
+                    url = './perfil_dev.html';
+                } else if (rolUsuario === 'Mipyme') {
+                    url = './perfil_Mipyme.html';
+                } else {
+                    url = './ocurrio-un-error.html'; // URL por defecto si no coincide con ningún rol
+                }
+
+                // Redirigir a la URL correspondiente
+                window.location.href = url;
+            } else {
+                console.log('No active session:', data.message);
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error('Error checking session status:', textStatus, errorThrown);
+            // Opcional: Mostrar un mensaje al usuario en caso de error
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'No se pudo verificar el estado de la sesión.',
+            });
+        }
+    });
+}
