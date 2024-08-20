@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // Plasmar informacion en el formulario de edicion de datos
 
-async function checkSessionStatusForForm() {
+/*async function checkSessionStatusForForm() {
     try {
         const response = await fetch('http://localhost:8080/emprendev/v1/user/sessionStatus', {
             method: 'GET',
@@ -47,7 +47,7 @@ async function checkSessionStatusForForm() {
     } catch (error) {
         console.error('Error checking session status:', error);
     }
-}
+}*/
 
 function checkSessionStatus() {
     $.ajax({
@@ -105,16 +105,20 @@ $(document).on('click', '#logout_btn', function () {
             url: "http://localhost:8080/emprendev/v1/user/logout",
             success: function (response) {
                 Swal.fire({
-                    icon: 'warning',
-                    title: 'cerrar sesión',
-                    text: 'su sesión ha terminado',
+                    icon: 'success', // Cambio a 'success' para indicar que la operación fue exitosa
+                    title: 'Cerrar sesión',
+                    text: 'Su sesión ha terminado',
                 }).then(() => {
                     window.location.href = "index.html";
                 });
-
             },
             error: function (xhr, status, error) {
                 console.error("Error:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un problema al cerrar sesión.',
+                });
             }
         });
     }

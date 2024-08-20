@@ -14,7 +14,7 @@ modalContainers.forEach(modal => modal.classList.add("hidden"));
 overlay.classList.add("hidden");
 
 // Asignar eventos a los botones de abrir modal
-function assignOpenModalEvents() {
+async function assignOpenModalEvents() {
   openModalButtons.forEach(button => {
     button.addEventListener("click", (e) => {
       e.preventDefault();
@@ -115,7 +115,7 @@ function cargarUsuarios() {
       success: function (data) {
           $.each(data, function (i, item) {
               if (item.accountState == 1 && item.role == "Desarrollador") {
-                  var card =
+                var card =
                       "<div class='cola'>" +
                         "<div class='card border-0'>" +
                           "<div class='box1'>" + "</div>" +
@@ -139,7 +139,7 @@ function cargarUsuarios() {
                           "</div>" +
                         "</div>" +
                       "</div>";
-                  $(".cards_container").append(card);
+                $(".cards_container").append(card);
               }
           });
           assignOpenModalEvents();

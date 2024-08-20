@@ -54,7 +54,7 @@
     <!--Info-->
     <section id="Info">
         <div class="perfil-img">
-            <img src="img/DEVELOPER ICON.png" alt="" width="60%" height="60%" id="user-img-perfil">
+            <img class="session_user_imgProfile" alt="" width="60%" height="60%" id="user-img-perfil">
             <div  class="img-perfil-user-up">
                 <form action="" class="form-bigicon">
                     <div>
@@ -65,8 +65,9 @@
             </div>
         </div>
         <br>
-        <h2>Ejemplo De Nombre
-        </h2>
+        <div class="profile_name">
+            <h2><span class="session_user_firstName">Nombre</span></h2><h2><span class="session_user_lastName">Apellido</span></h2>
+        </div>
         
         
         <hr>
@@ -263,8 +264,11 @@
     </section>
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="js/perfil_dev.js"></script>
 <script src="js/session.js"></script>
 <script src="bootstrap/js/bootstrap.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>

@@ -19,6 +19,14 @@ header div img{
     border-radius: 50px;
 }
 
+.profile_name{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
 /*Estilo para el menu desplegable del perfil del usuario*/
 
 .container-submenu{
