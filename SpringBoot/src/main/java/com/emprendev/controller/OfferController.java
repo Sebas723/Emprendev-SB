@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -21,34 +22,33 @@ public class  OfferController {
     private OfferServices offerService;
 
     @PostMapping
-    public ResponseEntity<?> createOffer(
-            @RequestPart("title") String title,
-            @RequestPart("description") String description,
-            @RequestPart("payment") String payment,
-            @RequestPart("fields") String fields,
+    public ResponseEntity<Offer> createOffer(
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("payment") String payment,
+            @RequestParam("fields") String fields,
             @RequestParam("image") MultipartFile file
     ) {
+        Offer offer = new Offer();
+        // Establece los demás atributos
+        offer.setTitle(title);
+        offer.setDescription(description);
+        offer.setPayment(Long.parseLong(payment));
+        offer.setFields(Integer.parseInt(fields));
+
+        // Establecer valores predeterminados para fechas y estado
+        offer.setCreationDate(String.valueOf(LocalDate.now()));
+        offer.setFinalizationDate(String.valueOf(LocalDate.now().plusMonths(1)));
+        offer.setOfferState(1);
+
+        // Guarda la oferta usando el servicio
+        Offer savedOffer = null;
         try {
-            Offer offer = new Offer();
-            offer.setTitle(title);
-            offer.setDescription(description);
-            offer.setPayment(Long.parseLong(payment));
-            offer.setFields(Integer.parseInt(fields));
-
-            // Establecer valores predeterminados para fechas y estado
-            offer.setCreationDate(String.valueOf(LocalDate.now()));
-            offer.setFinalizationDate(String.valueOf(LocalDate.now().plusMonths(1)));
-            offer.setOfferState(1);
-
-            // Aquí puedes manejar la lógica para guardar los archivos de imagen si es necesario.
-
-            Offer savedOffer = offerService.saveOffer(offer, file);
-            return ResponseEntity.ok(savedOffer);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("{\"message\":\"Failed to save image\"}");
+            savedOffer = offerService.saveOffer(offer, file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-
+        return ResponseEntity.ok(savedOffer);
     }
 
     @GetMapping("/{id}")

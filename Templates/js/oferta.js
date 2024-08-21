@@ -87,7 +87,7 @@ async function validateForm() {
           text: "La oferta ha sido creada exitosamente...",
         }).then(() => {
           // Redirigir a otra vista
-          window.location.href = "/catalogo.html"; // Cambia la URL a la ruta deseada
+          window.location.href = "catalogo.html"; // Cambia la URL a la ruta deseada
         });
       }
 }
@@ -117,78 +117,34 @@ function OpenPerfilSubMenu(){
 
 
 //fotos oferta
+const form = document.getElementById("form");
+const photoInput = document.getElementById("photoInput");
+const photoContainer = document.getElementById("photoContainer");
+const photoPreview = document.getElementById("photoPreview");
+const imagePreviewContainer = document.getElementById("image-preview-container");
 
-const dropAreas = document.querySelectorAll('.drop-area');
+// Vista previa de la imagen subida
+photoInput.addEventListener("change", function(event) {
+    const file = event.target.files[0];
 
-/*dropAreas.forEach((dropArea, index) => {
-    const button = dropArea.querySelector('.subir-foto');
-    const input = dropArea.querySelector('input[type="file"]');
+    if (file) {
+        const reader = new FileReader();
 
-    button.addEventListener("click", (e) => {
-        input.click();
-    });
+        reader.onload = function(e) {
+            photoPreview.src = e.target.result;
+            photoPreview.style.display = 'block';
+            // Actualiza la vista previa de la imagen en la tarjeta
+            imagePreviewContainer.src = e.target.result;
+        };
 
-    input.addEventListener("change", (e) => {
-        e.preventDefault();
-        const file = e.target.files[0];
-        if (file) {
-            ShowFile(file, dropArea);
-            dropArea.classList.remove("active");
-        }
-    });
-
-    dropArea.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        dropArea.classList.add("active");
-    });
-
-    dropArea.addEventListener("dragleave", (e) => {
-        e.preventDefault();
-        dropArea.classList.remove("active");
-    });
-
-    dropArea.addEventListener("drop", (e) => {
-        e.preventDefault();
-        const file = e.dataTransfer.files[0];
-        if (file) {
-            ShowFile(file, dropArea);
-            dropArea.classList.remove("active");
-        }
-    });
-});*/
-
-function ShowFile(file, container) {
-    const docType = file.type;
-    const validExtensions = ['image/jpg', 'image/png', 'image/jpeg'];
-
-    if (validExtensions.includes(docType)) {
-        const fileReader = new FileReader();
-        fileReader.addEventListener("load", (e) => {
-            const fileUrl = fileReader.result;
-
-            // Mostrar la imagen en el contenedor original
-            container.innerHTML = ''; // Limpiar el contenido del contenedor
-            const photoContainer = document.createElement("div");
-            photoContainer.className = "photo-preview";
-            const photo = document.createElement("img");
-            photo.src = fileUrl;
-            photo.alt = file.name;
-            photoContainer.appendChild(photo);
-            container.appendChild(photoContainer);
-            photoContainer.style.display = 'block';
-
-            // Copiar la imagen al contenedor de vista previa
-            const previewPhoto = document.getElementById("image-preview-container");
-            previewPhoto.src = photo.src;
-            previewPhoto.alt = file.name;
-            previewPhoto.className = "card-img";
-        });
-
-        fileReader.readAsDataURL(file);
+        reader.readAsDataURL(file);
     } else {
-        alert("No es un archivo válido: jpg, jpeg o png");
+        photoPreview.src = '';
+        photoPreview.style.display = 'none';
+        // Borra la imagen en la tarjeta de vista previa
+        imagePreviewContainer.src = 'svg/ImageIcon.svg';
     }
-}
+});
 
 //update de oferta en tiempo real
 
@@ -280,28 +236,27 @@ function UpdateCard(){
     cardTagsPreview.innerHTML = html;
 }
 
+const file = photoInput.files[0];
+
 // Función para manejar el click del botón de envío
 document.getElementById("submit_offer").addEventListener("click", function () {
-    // Validate the form
     if (validarFormulario()) {
-        // Create a new FormData object
+        // Crea un nuevo FormData
         let formData = new FormData();
 
-        // Append form fields to the FormData object
+        // Obtén los valores del formulario
         formData.append("title", document.getElementById("card_title_input").value);
         formData.append("description", document.getElementById("card_desc_input").value);
         formData.append("payment", document.getElementById("card_pago_input").value);
         formData.append("fields", document.getElementById("offer_fields").value);
 
-        // Append image files to the FormData object
-        for (let i = 1; i <= 4; i++) {
-            let photoInput = document.getElementById(`photo_input_${i}`);
-            if (photoInput.files.length > 0) {
-                formData.append(`imageUrl${i}`, photoInput.files[0]);
-            }
+        // Obtén el archivo de imagen
+        const file = document.getElementById("photoInput").files[0];
+        if (file) {
+            formData.append("image", file);
         }
 
-        // Send the form data using fetch
+        // Enviar datos usando fetch
         fetch('http://localhost:8080/api/offers', {
             method: 'POST',
             body: formData,
@@ -309,18 +264,35 @@ document.getElementById("submit_offer").addEventListener("click", function () {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Oferta creada con éxito!');
-                // Optionally, reset the form here
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Oferta Creada!',
+                    text: 'La oferta ha sido creada exitosamente...',
+                }).then(() => {
+                    window.location.href = "catalogo.html"; // Cambia la URL a la ruta deseada
+                });
             } else {
-                alert('Error al crear la oferta.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al crear la oferta.',
+                });
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Hubo un problema al enviar la oferta.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un problema al enviar la oferta.',
+            });
         });
     } else {
-        alert("Por favor, complete todos los campos obligatorios.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Por favor, complete todos los campos obligatorios.',
+        });
     }
 });
 

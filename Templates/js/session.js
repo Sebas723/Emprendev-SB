@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     // Llamada a la función para cargar la información
-    checkSessionStatusForForm();
+    //checkSessionStatusForForm();
 });
 
 // Plasmar informacion en el formulario de edicion de datos
@@ -171,3 +171,37 @@ function checkRoleAndRedirect() {
         }
     });
 }
+
+function disableBtnsByRole(){
+    const create_offer_btn = document.getElementById("create_offer_btn");
+    const my_offers_btn = document.getElementById("my_offers_btn");
+  
+    $.ajax({
+      url: 'http://localhost:8080/emprendev/v1/user/sessionStatus',
+      type: 'GET',
+      xhrFields: {
+          withCredentials: true
+      },
+      success: function (data) {
+        if (data.sessionActive) {
+          if (create_offer_btn && my_offers_btn) {
+            if (data.role === "Desarrollador") {
+              create_offer_btn.classList.add("hidden");
+              my_offers_btn.classList.add("hidden");
+            }
+          } else {
+            console.log('No active session:', data.message);
+          }
+        }
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+          console.error('Error checking session status:', textStatus, errorThrown);
+          // Opcional: Mostrar un mensaje al usuario en caso de error
+          Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo verificar el estado de la sesión.',
+          });
+      }
+    });
+  }

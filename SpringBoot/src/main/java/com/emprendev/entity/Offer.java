@@ -14,15 +14,19 @@ public class Offer {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String title;
+
+    @Column(name = "description", columnDefinition = "text")
     private String description;
+
     private String creationDate;
     private String finalizationDate;
     private Integer fields;
     private Long payment;
     @NonNull
     @Lob
-    @Column(name = "image", columnDefinition="longblob", nullable = false)
+    @Column(name = "image", columnDefinition="longblob")
     private byte[] image;
+
     private Integer offerState;
 
     public Offer() {

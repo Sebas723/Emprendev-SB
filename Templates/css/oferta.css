@@ -171,6 +171,34 @@ header div img{
     gap: 5px;
 }
 
+.photoContainer {
+    position: relative; 
+    padding: 2%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    gap: 10px; 
+    border-radius: 10px; /* Desplazamiento vertical si hay muchas imágenes */
+}
+
+input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #084cdf;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+}
+  
+input[type=file]::file-selector-button:hover {
+    background: #0d45a5;
+}
+
 .drop-area {
     width: 150px;
     height: 150px;
