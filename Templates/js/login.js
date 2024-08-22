@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                     window.location.href = './catalogo.html';
                                 } else if (rolUsuario === 'Mipyme') {
                                     window.location.href = './catalogo_devs.html';
-                                } else if (rolUsuario === 'Admin') {
+                                } else if (rolUsuario === 'Administrador') {
                                     window.location.href = './admin.html';
                                 }
                             });

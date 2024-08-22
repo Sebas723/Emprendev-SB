@@ -98,7 +98,7 @@ window.addEventListener('scroll', function() {
   var scrollTop = window.scrollY || document.documentElement.scrollTop;
   var modal = document.querySelector('.modal-body');
   // var newTop = headerHeight + 30 - scrollTop;
-  var newTop =  headerHeight  + 60 - scrollTop;
+  var newTop =  headerHeight  + 430 - scrollTop;
 
   modal.style.top = newTop + 'px';
 });
@@ -106,50 +106,63 @@ window.addEventListener('scroll', function() {
 //mostras desarrolladores en el catalogo
 function cargarUsuarios() {
   $.ajax({
-      type: "GET",
-      url: "http://localhost:8080/emprendev/v1/user/listOrderAccount",
-      dataType: "json",
-      xhrFields: {
-          withCredentials: true
-      },
-      success: function (data) {
-          $.each(data, function (i, item) {
-              if (item.accountState == 1 && item.role == "Desarrollador") {
-                var card =
-                      "<div class='cola'>" +
-                        "<div class='card border-0'>" +
-                          "<div class='box1'>" + "</div>" +
-                          "<div class='card-content'>" +
-                            "<div class='img'>" +
-                              "<img src=" + item.imgProfile + " alt=''>" + 
-                            "</div>" +
-                          "<div class='name-proffesion'>" +
-                            "<div class='dev_names'>" + 
-                              "<span class='name'>" + item.firstName + "</span>" +
-                              "<span class='name'>" + item.lastName + "</span>" +
-                            "</div>" +
-                            "<span class='profession'>" + item.role + "</span>" +
-                          "</div>" +
-                          "<hr>" +
-                          "<div class='about'>" +
-                            "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores, eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit illo ea et. Ullam adipisci, consequuntur laborum dolorum nostrum voluptas inventore quae explicabo vero omnis necessitatibus quasi ut blanditiis labore cum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, temporibus. Repellat fugit vel esse, voluptatum doloribus ut aliquid quam dolorum.</p>" +
-                          "</div>" +
-                          "<div class='button b1'>" +
-                            "<button class='about-me openModal'>Ver mas</button>" +
-                          "</div>" +
-                        "</div>" +
-                      "</div>";
-                $(".cards_container").append(card);
-              }
-          });
-          assignOpenModalEvents();
-          assignCloseModalEvents();
-      },
-      error: function (xhr, status, error) {
-          console.error("Error al cargar Usuarios:", error);
-      }
+    type: "GET",
+    url: "http://localhost:8080/emprendev/v1/user/listOrderAccount",
+    dataType: "json",
+    xhrFields: {
+      withCredentials: true
+    },
+    success: function (data) {
+      $(".cards_container").empty(); // Limpiar la contenedor antes de agregar nuevos elementos
+      $.each(data, function (i, item) {
+        if (item.accountState == 1 && item.role == "Desarrollador") {
+          var card =
+            "<div class='cola'>" +
+              "<div class='card border-0'>" +
+                "<div class='box1'></div>" +
+                "<div class='card-content'>" +
+                  "<div class='img'>" +
+                    "<img src='" + item.imgProfile + "' alt=''>" +
+                  "</div>" +
+                  "<div class='name-proffesion'>" +
+                    "<div class='dev_names'>" +
+                      "<span class='name'>" + item.firstName + "</span>" +
+                      "<span class='name'>" + item.lastName + "</span>" +
+                    "</div>" +
+                    "<span class='profession'>" + item.role + "</span>" +
+                  "</div>" +
+                  "<hr>" +
+                  "<div class='about'>" +
+                    "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores, eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit illo ea et. Ullam adipisci, consequuntur laborum dolorum nostrum voluptas inventore quae explicabo vero omnis necessitatibus quasi ut blanditiis labore cum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, temporibus. Repellat fugit vel esse, voluptatum doloribus ut aliquid quam dolorum.</p>" +
+                  "</div>" +
+                  "<div class='button b1'>" +
+                    "<button class='about-me openModal' data-id='${item.id}'>Ver más</button>" +
+                  "</div>" +
+                "</div>" +
+              "</div>" +
+            "</div>";
+          $(".cards_container").append(card);
+        }
+      });
+      // Asignar eventos después de agregar los elementos al DOM
+      assignOpenModalEvents();
+      assignCloseModalEvents();
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al cargar Usuarios:", error);
+    }
   });
+
 }
 
-assignOpenModalEvents();
-assignCloseModalEvents();
+  //Mostrar Modal
+  $(document).on('click', '.openModal', function () {
+    $(".overlay").show(); 
+    $(".modal-container").show(); 
+  });
+  
+  // Ocultar modal
+  $(document).on('click', '.closeModal, .overlay', function () {
+    $(".overlay").hide(); 
+    $(".modal-container").hide(); 
+  });

@@ -210,6 +210,90 @@ $(document).ready(function () {
             });
         }
     });
+
+
+
+    //Desde aqui empiezan las pruebas para la llamada de la oferta en la tabla
+
+    function cargarOfertas(offerId) {
+        $.ajax({
+            type: "GET",
+            url: `http://localhost:8080/api/offers/${offerId}`,
+            dataType: "json",
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                $("#tablaOferta > tbody").empty();
+                
+                // Convertir la imagen de bytes a una URL para mostrarla
+                var imageUrl = data.image ? `data:image/jpeg;base64,${btoa(String.fromCharCode(...new Uint8Array(data.image)))}` : 'default_image.png';
+                
+                // Limitar la descripción a 50 caracteres
+                var limitedDescription = data.description.length > 50 ? data.description.substring(0, 50) + '...' : data.description;
+    
+                var row =
+                    `<tr>
+                        <td>${data.imageUrl}</td>
+                        <td>${data.title}</td>
+                        <td>${limitedDescription}</td>
+                        <td>${data.payment}</td>
+                        <td>${data.fields}</td>
+                        <td>${data.creationDate}</td>
+                        <td>${data.offerState}</td>
+                        <td> 
+                            <button class='btn btn-primary btn-sm editar' data-offer-id='${data.id}'>Editar</button>
+                        </td>
+                        <td> 
+                            <button class='btn btn-danger btn-sm desactivar' data-offer-id='${data.id}'>Desactivar</button>
+                        </td>
+                    </tr>`;
+                
+                $("#tablaOferta > tbody").append(row);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error al cargar Ofertas:", error);
+            }
+        });
+    }
+    
+    // Llama a la función con un ID específico de oferta
+    cargarOfertas(1);
+
+// Mostrar el formulario de edición con los datos de la oferta
+$(document).on('click', '.editar', function () {
+    var id = $(this).data('offer-id'); // Usa 'data-offer-id'
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/offers/" + id,
+        dataType: "json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (data) {
+            $("#edit-offer-id").val(data.id);
+            $("#edit_offer_tittle").val(data.title);
+            $("#edit_offer_desc").val(data.description);
+            $("#edit_offer_price").val(data.payment);
+            $("#edit_offer_fields").val(data.fields);
+            $("#edit_offer_creation_date").val(data.creationDate);
+            $("#edit_offer_finalization_date").val(data.finalizationDate);
+            $("#edit_offer_state").val(data.offerState);
+            $("#edit-offer-form").show();
+        },
+        error: function (xhr, status, error) {
+            console.error("Error al cargar datos de la Oferta:", error);
+        }
+    });
+});
+
+// Desactivar la oferta
+$(document).on('click', '.desactivar', function () {
+    var id = $(this).data('offer-id'); // Usa 'data-offer-id'
+    $("#edit-offer-id").val(id);
+    $("#deactivate-offer-form").show();
+});
+
 });
 
 //functionalities
@@ -231,6 +315,8 @@ const offerdroplist = document.getElementById("offer-drop-list");
 
 var TituloTabla = document.getElementById("TituloTabla");
 
+
+user_sub_menu.classList.add("hidden");
 user_btn_IsShowing = false;
 function OpenUserSubMenu(){
     if (!user_btn_IsShowing){
