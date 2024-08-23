@@ -212,29 +212,33 @@ $(document).ready(function () {
     });
 
 
-
-    //Desde aqui empiezan las pruebas para la llamada de la oferta en la tabla
-
+    //Desde aqui empiezan las llamada de la oferta en la tabla para el administrador
+    //Desde aqui empiezan las llamada de la oferta en la tabla para el administrador
+    //Desde aqui empiezan las llamada de la oferta en la tabla para el administrador
     function cargarOfertas(offerId) {
         $.ajax({
             type: "GET",
             url: `http://localhost:8080/api/offers/${offerId}`,
-            dataType: "json",
             xhrFields: {
                 withCredentials: true
             },
             success: function (data) {
                 $("#tablaOferta > tbody").empty();
                 
-                // Convertir la imagen de bytes a una URL para mostrarla
-                var imageUrl = data.image ? `data:image/jpeg;base64,${btoa(String.fromCharCode(...new Uint8Array(data.image)))}` : 'default_image.png';
+            // Convertir el BLOB en una URL para la imagen
+            if (data.image) {
+                var imgSrc = 'data:image/jpeg;base64,' + data.image;
+                $("#edit_offer_image").attr("src", imgSrc).show();
+            } else {
+                $("#edit_offer_image").hide();
+            }
                 
                 // Limitar la descripción a 50 caracteres
                 var limitedDescription = data.description.length > 50 ? data.description.substring(0, 50) + '...' : data.description;
     
                 var row =
                     `<tr>
-                        <td>${data.imageUrl}</td>
+                        <td><img src="${imgSrc}" alt="imagen-oferta" width="50px" height="30px"></td>
                         <td>${data.title}</td>
                         <td>${limitedDescription}</td>
                         <td>${data.payment}</td>
@@ -255,14 +259,18 @@ $(document).ready(function () {
                 console.error("Error al cargar Ofertas:", error);
             }
         });
-    }
+    }    
     
     // Llama a la función con un ID específico de oferta
-    cargarOfertas(1);
+    cargarOfertas(7);
+
+
 
 // Mostrar el formulario de edición con los datos de la oferta
 $(document).on('click', '.editar', function () {
-    var id = $(this).data('offer-id'); // Usa 'data-offer-id'
+
+    var id = $(this).data('offer-id');
+
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/offers/" + id,
@@ -274,11 +282,21 @@ $(document).on('click', '.editar', function () {
             $("#edit-offer-id").val(data.id);
             $("#edit_offer_tittle").val(data.title);
             $("#edit_offer_desc").val(data.description);
-            $("#edit_offer_price").val(data.payment);
+            $("#edit_offer_payment").val(data.payment);
             $("#edit_offer_fields").val(data.fields);
-            $("#edit_offer_creation_date").val(data.creationDate);
-            $("#edit_offer_finalization_date").val(data.finalizationDate);
             $("#edit_offer_state").val(data.offerState);
+
+            // Almacenar las fechas existentes en los campos ocultos
+            $("#hidden_creation_date").val(data.creationDate);
+            $("#hidden_finalization_date").val(data.finalizationDate);
+
+            if (data.image) {
+                var imgSrc = 'data:image/jpeg;base64,' + data.image;
+                $("#edit_offer_image").attr("src", imgSrc).show();
+            } else {
+                $("#edit_offer_image").hide();
+            }
+
             $("#edit-offer-form").show();
         },
         error: function (xhr, status, error) {
@@ -287,12 +305,132 @@ $(document).on('click', '.editar', function () {
     });
 });
 
-// Desactivar la oferta
-$(document).on('click', '.desactivar', function () {
-    var id = $(this).data('offer-id'); // Usa 'data-offer-id'
-    $("#edit-offer-id").val(id);
-    $("#deactivate-offer-form").show();
+
+// Manejar la previsualización de la nueva imagen seleccionada
+$(document).on('change', '#edit_offer_image_input', function () {
+    var file = this.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            // Mostrar la imagen seleccionada en el formulario
+            $("#edit_offer_image").attr("src", e.target.result).show();
+        };
+        reader.readAsDataURL(file);
+    }
 });
+
+
+
+
+// Funcionalidad de guardado para los cambios de la oferta
+$(document).on('click', '#save-edit-form-btn', function () {
+    if (confirm("¿Desea Guardar Los cambios Realizados?") == true) {
+        var id = $("#edit-offer-id").val();
+        var title = $("#edit_offer_tittle").val();
+        var description = $("#edit_offer_desc").val();
+        var payment = $("#edit_offer_payment").val();
+        var fields = $("#edit_offer_fields").val();
+        var offerState = $("#edit_offer_state").val();
+
+        // Usar las fechas almacenadas en los campos ocultos
+        var creationDate = $("#hidden_creation_date").val();
+        var finalizationDate = $("#hidden_finalization_date").val();
+
+        var data = {
+            title: title,
+            description: description,
+            payment: payment,
+            fields: fields,
+            offerState: offerState,
+            creationDate: creationDate,
+            finalizationDate: finalizationDate
+        };
+
+        $.ajax({
+            type: "PUT",
+            url: "http://localhost:8080/api/offers/" + id,
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (response) {
+                $("#edit-offer-form").hide();
+                cargarOfertas(); // Asume que esta función recarga la lista de ofertas
+            },
+            error: function (xhr, status, error) {
+                console.error("Error al actualizar la oferta:", error);
+            }
+        });
+    } else {
+        $("#edit-offer-form").hide();
+    }
+});
+
+
+
+// Mostrar formulario de desactivacion de la oferta
+$(document).on('click', '.desactivar', function () {
+    var id = $(this).data('offer-id'); // Asegúrate de que 'offer-id' es el nombre correcto del atributo de datos
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8080/api/offers/" + id, // URL para obtener la oferta
+        dataType: "json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (data) {
+            $("#edit-offer-id").val(data.id);
+            $("#deactivate-offer-form").show(); // Mostrar el formulario de desactivación de oferta
+        },
+        error: function (xhr, status, error) {
+            console.error("Error al cargar datos de Oferta:", error);
+        }
+    });
+});
+
+//Actualizar estado de la oferta para la desactivacion
+$(document).on('click', '#deactivate-offer-btn', function () {
+    if (confirm("¿Desea desactivar esta oferta?") == true) {
+        var id = $("#edit-offer-id").val();
+
+        // Primero, obtenemos los datos actuales de la oferta
+        $.ajax({
+            type: "GET",
+            url: "http://localhost:8080/api/offers/" + id,
+            contentType: "application/json",
+            success: function (offer) {
+                // Cambiamos solo el estado de la oferta
+                offer.offerState = 0;
+
+                // Enviamos la oferta completa con el estado actualizado
+                $.ajax({
+                    type: "PUT",
+                    url: "http://localhost:8080/api/offers/" + id,
+                    contentType: "application/json",
+                    data: JSON.stringify(offer),
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    success: function (response) {
+                        $("#deactivate-offer-form").hide();
+                        cargarOfertas(); // Actualiza la lista de ofertas
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error al actualizar la oferta:", error);
+                    }
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error al obtener la oferta:", error);
+            }
+        });
+    } else {
+        $("#deactivate-offer-form").hide();
+    }
+});
+
+
 
 });
 

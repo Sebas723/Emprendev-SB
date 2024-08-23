@@ -21,10 +21,11 @@ header {
     position: fixed;
     width: 100%;
     height: 60px;
-    background-color: #000000;
+    background-image: url(../img/Pattern.png);
     z-index: 10;
     padding: 0;
     margin: 0;
+    border-bottom: solid 1px white;
 }
 
 .user_side{
@@ -94,7 +95,7 @@ header div img{
     width: 100%;
     height: 25%;
     border-radius: 20px 20px 0 0;
-    background-color: rgba(36, 39, 41, 0.315);
+    background-image: url(../img/Pattern.png);
 }
 
 .card-user-sub-menu .name-sub-menu{
@@ -273,7 +274,7 @@ header div img{
     border-left-style: solid;
     border-left-width: 1px;
     padding-top: 5%;
-    background-color: #525252;
+    background-image: url(../img/Pattern.png);
     border-left-color:  rgb(110, 110, 110);
     color: white;
 }

@@ -28,7 +28,7 @@
       </button>
       <div class="user_side container-fluid justify-content-end">
         <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" list="keywords">
+          <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" list="keywords"> -->
         </form>
         <img onclick="OpenAdminMenu()" class="session_user_imgProfile" class="user_img" alt="" width="40" height="40">
         <div id="user-sub-menu" class="container-submenu">
@@ -158,7 +158,9 @@
     </div>
 
 
-
+    <!--Ofertas-->
+    <!--Ofertas-->
+    <!--Ofertas-->
     <!--Ofertas-->
     <div id="offerTable" class="offertableContainer">
       <div class="tableContainer"
@@ -186,6 +188,13 @@
       <input type="hidden" id="edit-offer-id">
       <div class="edit_form_row">
         <div class="mb-3 input_container">
+          <img id="edit_offer_image" alt="Oferta Imagen" style="display: none;" />
+      </div>
+      <div class="mb-3 input_container">
+          <label for="edit_offer_image_input">Subir nueva imagen</label>
+          <input type="file" id="edit_offer_image_input" />
+      </div>
+        <div class="mb-3 input_container">
           <label for="edit_first_name" class="form-label">Titulo</label>
           <input type="text" class="" id="edit_offer_tittle">
         </div>
@@ -195,30 +204,37 @@
         </div>
         <div class="mb-3 input_container">
           <label for="edit_last_name" class="form-label">Precio</label>
-          <input type="text" class="" id="edit_offer_price">
+          <input type="text" class="" id="edit_offer_payment">
         </div>
         <div class="mb-3 input_container">
           <label for="edit_last_name2" class="form-label">Cupos</label>
           <input type="text" class="" id="edit_offer_fields">
         </div>
+        <div class="mb-3 input_container">
+          <label for="edit_offer_state" class="form-label">Estado de la Oferta</label>
+          <input type="text" class="" id="edit_offer_state">
+        </div>
+        <div class="mb-3 input_container">
+          <input type="hidden" id="hidden_creation_date" />
+        </div>
+        <div class="mb-3 input_container">
+          <input type="hidden" id="hidden_finalization_date" />
+        </div>
       </div>
-      <button id="save-edit-btn" class="btn btn-primary btn-sm">Guardar</button>
+      <button id="save-edit-form-btn" class="btn btn-primary btn-sm">Guardar</button>
     </div>
 
     <div class="container update_offer" id="deactivate-offer-form" style="display: none;">
-      <h1 class="text-center">Desactivar Usuario</h1>
+      <h1 class="text-center">Desactivar Oferta</h1>
       <input type="hidden" id="edit-offer-id">
       <div class="edit_form_row">
-        <div class="mb-3 input_container">
-          <label for="edit_email" class="form-label">Motivo de Reporte</label>
-          <textarea name="" id="" cols=""></textarea>
-        </div>
+          <div class="mb-3 input_container">
+              <label for="desactivate-offer" class="form-label">Motivo de la desactivación</label>
+              <textarea id="" cols="30" rows="4"></textarea>
+          </div>
       </div>
-      <div class="edit_form_row">
-
-      </div>
-      <button id="deactivate-user-btn" class="btn btn-danger btn-sm">Desactivar Usuario</button>
-    </div>
+      <button id="deactivate-offer-btn" class="btn btn-danger btn-sm">Desactivar Oferta</button>
+  </div>  
 
     </div>
   </section>
