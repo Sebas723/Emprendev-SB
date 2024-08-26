@@ -4,13 +4,13 @@ import com.emprendev.entity.Offer;
 import com.emprendev.exceptions.ResourceNotFoundException;
 import com.emprendev.services.OfferServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -49,6 +49,11 @@ public class  OfferController {
             throw new RuntimeException(e);
         }
         return ResponseEntity.ok(savedOffer);
+    }
+
+    @GetMapping("/listOrderAccount")
+    public List<Offer> getAllAccountState(){
+        return offerService.getAllOrderByAccountState();
     }
 
     @GetMapping("/{id}")

@@ -3,7 +3,6 @@ package com.emprendev.services;
 import com.emprendev.exceptions.ResourceNotFoundException;
 import com.emprendev.entity.Offer;
 import com.emprendev.repository.OfferRepository;
-import jakarta.mail.Multipart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,6 +53,10 @@ public class OfferServices {
         Offer offer = new Offer();
         offer.setImage(imageBytes);
         offerRepository.save(offer);
+    }
+
+    public List<Offer> getAllOrderByAccountState(){
+        return offerRepository.findByAccountState();
     }
 
     public void deleteOffer(Long id) {
