@@ -104,6 +104,8 @@ window.addEventListener('scroll', function() {
 });
 
 //mostras desarrolladores en el catalogo
+let allCards = []; // Almacena todas las tarjetas generadas
+
 function cargarUsuarios() {
   $.ajax({
     type: "GET",
@@ -112,48 +114,91 @@ function cargarUsuarios() {
     xhrFields: {
       withCredentials: true
     },
+    beforeSend: function() {
+      $(".cards_container").html('<p>Loading...</p>'); // Indicador de carga
+    },
     success: function (data) {
-      $(".cards_container").empty(); // Limpiar la contenedor antes de agregar nuevos elementos
-      $.each(data, function (i, item) {
-        if (item.accountState == 1 && item.role == "Desarrollador") {
-          var card =
-            "<div class='cola'>" +
-              "<div class='card border-0'>" +
-                "<div class='box1'></div>" +
-                "<div class='card-content'>" +
-                  "<div class='img'>" +
-                    "<img src='" + item.imgProfile + "' alt=''>" +
-                  "</div>" +
-                  "<div class='name-proffesion'>" +
-                    "<div class='dev_names'>" +
-                      "<span class='name'>" + item.firstName + "</span>" +
-                      "<span class='name'>" + item.lastName + "</span>" +
-                    "</div>" +
-                    "<span class='profession'>" + item.role + "</span>" +
-                  "</div>" +
-                  "<hr>" +
-                  "<div class='about'>" +
-                    "<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores, eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit illo ea et. Ullam adipisci, consequuntur laborum dolorum nostrum voluptas inventore quae explicabo vero omnis necessitatibus quasi ut blanditiis labore cum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, temporibus. Repellat fugit vel esse, voluptatum doloribus ut aliquid quam dolorum.</p>" +
-                  "</div>" +
-                  "<div class='button b1'>" +
-                    "<button class='about-me openModal' data-id='${item.id}'>Ver más</button>" +
-                  "</div>" +
-                "</div>" +
-              "</div>" +
-            "</div>";
-          $(".cards_container").append(card);
-        }
+      $(".cards_container").empty(); // Limpiar el contenedor antes de agregar nuevos elementos
+
+      // Filtrar y crear tarjetas solo para desarrolladores activos
+      const filteredData = data.filter(item => item.accountState == 1 && item.role === "Desarrollador"); 
+      allCards = filteredData.map(item => {
+        return {
+          id: item.id,
+          imgProfile: item.imgProfile,
+          firstName: item.firstName,
+          lastName: item.lastName,
+          role: item.role,
+          // Otros campos necesarios
+        };
       });
-      // Asignar eventos después de agregar los elementos al DOM
-      assignOpenModalEvents();
-      assignCloseModalEvents();
+
+      mostrarTarjetas(allCards); // Mostrar todas las tarjetas
+      asignarEventosTags(); // Asignar eventos a los tags después de cargar los usuarios
     },
     error: function (xhr, status, error) {
       console.error("Error al cargar Usuarios:", error);
+      $(".cards_container").html('<p>Error al cargar usuarios. Inténtelo de nuevo más tarde.</p>'); // Mensaje de error
     }
   });
-
 }
+
+function mostrarTarjetas(cards) {
+  const cardsHtml = cards.map(item => `
+    <div class='cola' data-role='${item.role.toLowerCase()}'>
+      <div class='card border-0'>
+        <div class='box1'></div>
+        <div class='card-content'>
+          <div class='img'>
+            <img src='${item.imgProfile}' alt=''>
+          </div>
+          <div class='name-proffesion'>
+            <div class='dev_names'>
+              <span class='name'>${item.firstName}</span>
+              <span class='name'>${item.lastName}</span>
+            </div>
+            <span class='profession'>${item.role}</span>
+          </div>
+          <hr>
+          <div class='about'>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores, eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit illo ea et. Ullam adipisci, consequuntur laborum dolorum nostrum voluptas inventore quae explicabo vero omnis necessitatibus quasi ut blanditiis labore cum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, temporibus. Repellat fugit vel esse, voluptatum doloribus ut aliquid quam dolorum.</p>
+          </div>
+          <div class='button b1'>
+            <button class='about-me openModal' data-id='${item.id}'>Ver más</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  $(".cards_container").html(cardsHtml);
+  assignOpenModalEvents();
+  assignCloseModalEvents();
+}
+
+function asignarEventosTags() {
+  $(".tag").on("click", function() {
+    $(this).toggleClass("tag-active");
+    filtrarTarjetas();
+  });
+}
+
+function filtrarTarjetas() {
+  const activeTags = $(".tag.tag-active").map(function() {
+    return $(this).text().trim().toLowerCase();
+  }).get();
+
+  const filteredCards = allCards.filter(card => {
+    // Filtra las tarjetas basándose en los tags activos
+    return activeTags.length === 0 || activeTags.includes(card.role.toLowerCase());
+  });
+
+  mostrarTarjetas(filteredCards); // Muestra las tarjetas filtradas
+}
+
+// Llamar a la función para cargar usuarios al cargar la página
+$(document).ready(function() {
+  cargarUsuarios();
+});
 
   //Mostrar Modal
   $(document).on('click', '.openModal', function () {

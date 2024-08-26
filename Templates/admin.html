@@ -28,7 +28,7 @@
       </button>
       <div class="user_side container-fluid justify-content-end">
         <form class="form-inline my-2 my-lg-0">
-          <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" list="keywords"> -->
+          <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" list="keywords">
         </form>
         <img onclick="OpenAdminMenu()" class="session_user_imgProfile" class="user_img" alt="" width="40" height="40">
         <div id="user-sub-menu" class="container-submenu">
@@ -105,7 +105,7 @@
       <input type="hidden" id="edit-id">
       <div class="edit_form_row">
         <div class="mb-3 input_container">
-          <label for="edit_first_name" class="form-label">Nombre</label>
+          <label for="edit_first_name" class="form-label session_user_firstName">Nombre</label>
           <input type="text" class="" id="edit_first_name">
         </div>
         <div class="mb-3 input_container">

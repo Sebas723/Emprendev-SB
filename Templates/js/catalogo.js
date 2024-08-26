@@ -93,6 +93,64 @@ function OpenPerfilSubMenu(){
     SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
 };
 
+//cargarOfertas
+$(document).ready(function () {
+  function cargarOfertas() {
+    $.ajax({
+        type: "GET",
+        url: `http://localhost:8080/api/offers/listOrderAccount`,
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (offers) {
+            $(".cards_container").empty();
+            $.each(offers, function (i, data) {
+                // Convertir el BLOB en una URL para la imagen
+                var imgSrc = data.image ? 'data:image/jpeg;base64,' + data.image : '';
+  
+                // Limitar la descripción a 50 caracteres, comprobando que no sea null o undefined
+                var limitedDescription = data.description ?
+                    (data.description.length > 60 ? data.description.substring(0, 60) + '...' : data.description) : '';
+  
+                // Verificar el estado de la oferta y construir la fila correspondiente
+                if (data.offerState == 1) {
+                  var card =
+                  "<div class='cola'>" + 
+                    "<div class='card border-0'>" +
+                      "<div class='box1'>" +
+                        "<img src='" + imgSrc + "' alt='' style='width: 100%; height: 105%; border-radius:20px;' />" +
+                      "</div>" +
+                      "<div class='card-content'>" +
+                        "<div class='name-proffesion'>" +
+                          "<span class='name'>" + (data.title || '') + "</span>" +
+                        "</div>" +
+                        "<div class='about'>" +
+                          "<p>" + limitedDescription + "</p>" +
+                          "<span>Pago: " + (data.payment || '') + "</span>" +
+                          "<br>" +
+                          "<span>Fecha de Publicacion: " + (data.creationDate || '') + "</span>" +
+                          "<br>" +
+                          "<span>Creador: </span>" +
+                        "</div>" +
+                        "<div class='button b1'>" +
+                          "<button class='about-me openModal'>Ver más</button>" +
+                        "</div>" +
+                      "</div>" +
+                    "</div>" +
+                  "</div>";
+  
+                  $(".cards_container").append(card);
+                }
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Error al cargar Ofertas:", error);
+        }
+    });
+  }
+  
+  cargarOfertas();
+});
 
 //Scroll Ventana modal
 window.addEventListener('scroll', function() {
