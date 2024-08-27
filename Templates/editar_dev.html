@@ -64,76 +64,74 @@
                             <div class="form-cover">
                                 <h2 style="margin-top: 0%;">Informacion Personal</h2>
                                 <div class="two-inputs">
-                                    <input type="text" placeholder="Primer Nombre" name="nombre" required="" maxlength="20"
+                                    <input id="id" type="text" hidden>
+                                    <input id="firstName" type="text" placeholder="Primer Nombre" name="nombre" required="" maxlength="20"
                                         class="form-control">
-                                    <input type="text" placeholder="Segundo Nombre" name="segundo_nombre" class="form-control" maxlength="20">
+                                    <input id="secondName" type="text" placeholder="Segundo Nombre" name="segundo_nombre" class="form-control" maxlength="20">
                                 </div>
                                 <div class="two-inputs">
-                                    <input type="text" placeholder="Primer Apellido" name="apellido" required=""
+                                    <input id="lastName" type="text" placeholder="Primer Apellido" name="apellido" required=""
                                         class="form-control">
-                                    <input type="text" placeholder="Segundo Apellido" name="segundo_apellido" class="form-control">
+                                    <input id="lastName2" type="text" placeholder="Segundo Apellido" name="segundo_apellido" class="form-control">
                                 </div>
                                 <div class="two-inputs">
-                                    <input type="text" placeholder="Tipo de Documento" name="td" required="" disabled
+                                    <input id="docType" type="text" placeholder="Tipo de Documento" name="td" required="" disabled
                                         class="form-control">
-                                    <input type="text" placeholder="Numero de Documento" name="id_usuario" required=""
-                                        class="form-control">
-                                </div>
-                                <div class="two-inputs">
-                                    <input type="date" placeholder="Fecha de nacimiento" name="fecha_nac" required=""
-                                        class="form-control">
-                                    <input type="text" placeholder="Rol" name="rol" required="" class="form-control" disabled>
-                                </div>
-                                <div class="two-inputs">
-                                    <input type="text" placeholder="Telefono" name="telefono" required=""
-                                        class="form-control">
-                                    <input type="text" placeholder="Direccion" class="form-control" maxlength="50">
-                                </div>
-                                <div class="two-inputs">
-                                    <input type="text" placeholder="Correo" name="correo" required="" maxlength="50"
+                                    <input id="docNum" type="text" placeholder="Numero de Documento" name="id_usuario" required=""
                                         class="form-control">
                                 </div>
                                 <div class="two-inputs">
-                                    <input type="text" placeholder="Contraseña" name="contrasena" required="" maxlength="25"
+                                    <input id="birthDate" type="date" placeholder="Fecha de nacimiento" name="fecha_nac" required=""
                                         class="form-control">
-                                    <input type="text" placeholder="Confirmar Contraseña" name="confirmarContrasena" maxlength="25"
-                                        required="" class="form-control">
+                                    <input id="role" type="text" placeholder="Rol" name="rol" required="" class="form-control" disabled>
+                                </div>
+                                <div class="two-inputs">
+                                    <input id="phoneNum" type="text" placeholder="Telefono" name="telefono" required=""
+                                        class="form-control">
+                                    <input id="address" type="text" placeholder="Direccion" class="form-control" maxlength="50">
+                                </div>
+                                <div class="two-inputs">
+                                    <input id="email" type="text" placeholder="Correo" name="correo" required="" maxlength="50"
+                                        class="form-control">
+                                </div>
+                                <div class="two-inputs">
+                                    <button>Reestablecer Contraseña</button>
                                 </div>
 
                                 <h2 style="margin-top: 0%;">Informacion Laboral</h2>
                                 <div class="two-inputs">
-                                    <textarea id="card_desc_input" placeholder="Descripción del perfil" rows="8"
+                                    <textarea id="profileDescription" placeholder="Descripción del perfil" rows="8"
                                         cols="100" class="form-control" name="desc" style="margin-top: 1%;"></textarea>
                                 </div>
                                 <h5>Estudios</h5>
                                 <div class="two-inputs">
-                                    <input type="text" placeholder="Universidad" required="" class="form-control" maxlength="40"
+                                    <input id="university" type="text" placeholder="Universidad" class="form-control" maxlength="40"
                                         >
-                                    <input type="text" placeholder="Carrera" required="" class="form-control" maxlength="50"
+                                    <input id="career" type="text" placeholder="Carrera" class="form-control" maxlength="50"
                                         >
                                 </div>
                                 <div class="two-inputs">
-                                    <input type="date" required="" class="form-control"
+                                    <input id="careerStartDate" type="date" class="form-control"
                                         >
-                                    <input type="date" required="" class="form-control"
+                                    <input id="careerEndDate" type="date" class="form-control"
                                         >
                                 </div>
 
                                 <h5>Experiencia Laboral</h5>
                                 <div class="two-inputs">
-                                    <input type="text" placeholder="Cargo" required="" class="form-control" maxlength="40"
+                                    <input id="charge" type="text" placeholder="Cargo" class="form-control" maxlength="40"
                                         >
-                                    <input type="text" placeholder="Empresa" required="" class="form-control" maxlength="50"
-                                        >
-                                </div>
-                                <div class="two-inputs">
-                                    <input type="date" required="" class="form-control"
-                                        >
-                                    <input type="date" required="" class="form-control"
+                                    <input id="company" type="text" placeholder="Empresa" class="form-control" maxlength="50"
                                         >
                                 </div>
                                 <div class="two-inputs">
-                                    <textarea id="card_desc_input" placeholder="Descripción" rows="8" cols="100"
+                                    <input id="chargeStartDate" type="date" class="form-control"
+                                        >
+                                    <input id="chargeEndDate" type="date" class="form-control"
+                                        >
+                                </div>
+                                <div class="two-inputs">
+                                    <textarea id="chargeDescription" placeholder="Descripción" rows="8" cols="100"
                                         class="form-control" name="desc" style="margin-top: 1%;"></textarea>
                                 </div>
                                 <div class="barra"></div>
@@ -151,7 +149,10 @@
 
 </html>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="js/editar_dev.js"></script>
+<script src="js/session.js"></script>
 <script src="bootstrap/js/bootstrap.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script src="bootstrap/js/bootstrap.bundle.min.js"></script>

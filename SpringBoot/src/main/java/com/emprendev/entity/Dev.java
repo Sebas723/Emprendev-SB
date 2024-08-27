@@ -15,6 +15,7 @@ public class Dev extends User {
     private long id;
     private String profileDescription;
     private String university;
+    private String career;
     private Date careerStartDate;
     private Date careerEndDate;
     private String charge;
@@ -23,10 +24,13 @@ public class Dev extends User {
     private Date chargeEndDate;
     private String chargeDescription;
 
-    public Dev(long id, String profileDescription, String university, Date careerStartDate, Date careerEndDate, String charge, String company, Date chargeStartDate, Date chargeEndDate, String chargeDescription) {
+    public Dev(){}
+
+    public Dev(long id, String profileDescription, String university, String career, Date careerStartDate, Date careerEndDate, String charge, String company, Date chargeStartDate, Date chargeEndDate, String chargeDescription) {
         this.id = id;
         this.profileDescription = profileDescription;
         this.university = university;
+        this.career = career;
         this.careerStartDate = careerStartDate;
         this.careerEndDate = careerEndDate;
         this.charge = charge;
@@ -60,6 +64,10 @@ public class Dev extends User {
     public void setUniversity(String university) {
         this.university = university;
     }
+
+    public String getCareer() {return career;}
+
+    public void setCareer(String career) {this.career = career;}
 
     public Date getCareerStartDate() {
         return careerStartDate;

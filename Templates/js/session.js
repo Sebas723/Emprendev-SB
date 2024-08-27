@@ -37,12 +37,6 @@ function checkSessionStatus() {
     });
 }
 
-// Función para formatear la fecha
-function formatDate(date) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('es-ES', options);
-}
-
 // Llama a la función para verificar el estado de la sesión
 checkSessionStatus();
 

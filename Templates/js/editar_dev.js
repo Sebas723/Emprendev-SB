@@ -129,6 +129,115 @@ function validarFormulario() {
     return true;
 }
 
+$(document).ready(function() {
+    function populateForm(data) {
+        const formattedDate = formatDate(data.birthDate);
+        $('#id').val(data.userId);
+        $('#firstName').val(data.firstName);
+        $('#lastName').val(data.lastName);
+        $('#secondName').val(data.secondName || "");
+        $('#lastName2').val(data.lastName2 || "");
+        $('#docType').val(data.docType);
+        $('#docNum').val(data.docNum);
+        $('#birthDate').val(formattedDate);
+        $('#role').val(data.role);
+        $('#phoneNum').val(data.phoneNum);
+        $('#address').val(data.address || "");
+        $('#email').val(data.Email);
+        $('#password').val(data.password);
+        $('#imgProfile').val(data.imgProfile);
+        $('#accountState').val(data.accountState);
+        $('#creationDate').val(data.creationDate);
+    }
+    
+    function loadUserData() {
+        $.ajax({
+            url: 'http://localhost:8080/emprendev/v1/user/sessionStatus',
+            type: 'GET',
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (data) {
+                if (data.sessionActive) {
+                    console.log('Session is active:', data);
+                    populateForm(data);
+                } else {
+                    console.log('No active session:', data.message);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error('Error checking session status:', textStatus, errorThrown);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo verificar el estado de la sesión.',
+                });
+            }
+        });
+    }
+
+    
+// Función para formatear la fecha
+    function formatDate(date) {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return date.toLocaleDateString;
+    }
+
+    // Llama a la función para cargar los datos del usuario cuando el documento esté listo
+    loadUserData();
+});
+
+//Guardar los datos editados
+const form = document.getElementById('form-dev');
+const id = $("#id").val();
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+
+    // Recolecta los datos del formulario
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+        // Envía los datos al servidor usando fetch con método PUT
+        const response = await fetch(`http://localhost:8080/api/devs${id}` , {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        // Maneja la respuesta del servidor
+        console.log('Success:', result);
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Los datos se han actualizado correctamente.',
+        });
+
+        // Opcional: redirige o limpia el formulario
+        // window.location.href = 'somePage.html'; // Redirige si es necesario
+        form.reset(); // Limpia el formulario
+
+    } catch (error) {
+        console.error('Error:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Hubo un problema al actualizar los datos.',
+        });
+    }
+});
+
 
 //Submenu del perfil del usuario (imagen arriba a la izquierda)
 
