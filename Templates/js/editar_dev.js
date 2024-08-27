@@ -9,10 +9,6 @@ function validarFormulario() {
     const fechaNacimiento = document.querySelector('[name="fecha_nac"]').value;
     const telefono = document.querySelector('[name="telefono"]').value;
     const correo = document.querySelector('[name="correo"]').value;
-    const contrasena = document.querySelector('[name="contrasena"]').value;
-    const confirmarContrasena = document.querySelector('[name="confirmarContrasena"]').value;
-
-    const validacionPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,15}$/;
 
     const validaciones = [
         'nombre',
@@ -24,28 +20,10 @@ function validarFormulario() {
         'edad',
         'telefono',
         'correo',
-        'contrasena',
-        'confirmarContrasena'
     ];
 
     for (let validacion of validaciones) {
         switch (validacion) {
-            case 'confirmarContrasena':
-                if (contrasena !== confirmarContrasena) {
-                    alert('La contraseña no coincide');
-                    return false;
-                }
-                break;
-            case 'contrasena':
-                if (contrasena.trim() === '') {
-                    alert("Por favor, completa el campo Contraseña.");
-                    return false;
-                }
-                if (!contrasena.match(validacionPassword)) {
-                    alert('La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.');
-                    return false;
-                }
-                break;
             case 'correo':
                 if (!/^\S+@\S+\.\S+$/.test(correo)) {
                     alert('Por favor, ingresa un correo electrónico válido.');
@@ -195,26 +173,51 @@ form.addEventListener('submit', async (event) => {
     event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
 
     // Recolecta los datos del formulario
-    const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+
+    const formData = {
+        firstName: $("#firstName").val(),
+        lastName: $("#lastName").val(),
+        secondName: $("#secondName").val(),
+        lastName2: $("#lastName2").val(),
+        docType: $("#docType").val(),
+        docNum: $("#docNum").val(),
+        birthDate: $("#birthDate").val(),
+        role: $("#role").val(),
+        phoneNum: $("#phoneNum").val(),
+        address: $('#address').val(),
+        Email: $('#email').val(),
+    }
+
+    const formData2 = {
+        profileDescription: $("#profileDescription").val(),
+        university: $("#university").val(),
+        career: $("#career").val(),
+        careerStartDate: $("#careerStartDate").val(),
+        careerEndDate: $("#careerEndDate").val(),
+        charge: $("#charge").val(),
+        company: $("#company").val(),
+        chargeStartDate: $("#chargeStartDate").val(),
+        chargeEndDate: $("#chargeEndDate").val(),
+        chargeDescription: $('#chargeDescription').val(),
+    }
 
     try {
         // Envía los datos al servidor usando fetch con método PUT
-        const response = await fetch(`http://localhost:8080/api/devs${id}` , {
+        const userUpdate = await fetch(`http://localhost:8080/emprendev/v1/user/${id}` , {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json',
             },
             credentials: 'include',
-            body: JSON.stringify(data)
+            body: JSON.stringify(formData)
         });
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        if (!userUpdate.ok) {
+            throw new Error(`HTTP error! status: ${userUpdate.status}`);
         }
 
-        const result = await response.json();
+        const result = await userUpdate.json();
 
         // Maneja la respuesta del servidor
         console.log('Success:', result);
@@ -224,9 +227,32 @@ form.addEventListener('submit', async (event) => {
             text: 'Los datos se han actualizado correctamente.',
         });
 
+        const dataUpdate = await fetch(`http://localhost:8080/api//devs/${id}` , {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify(formData2)
+        });
+
+        if (!dataUpdate.ok) {
+            throw new Error(`HTTP error! status: ${dataUpdate.status}`);
+        }
+
+        const results = await dataUpdate.json();
+
+        // Maneja la respuesta del servidor
+        console.log('Success:', results);
+        Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Los datos se han actualizado correctamente.',
+        });
+
         // Opcional: redirige o limpia el formulario
-        // window.location.href = 'somePage.html'; // Redirige si es necesario
-        form.reset(); // Limpia el formulario
+        window.location.href = 'perfil_dev.html'; // Redirige si es necesario
 
     } catch (error) {
         console.error('Error:', error);
