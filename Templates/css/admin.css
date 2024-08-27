@@ -207,25 +207,50 @@ header div img{
 /* Estilos para el recuadro de edicion  de oferta */
 .update_offer{
     position: relative;
-    width: 100%;
+    width: 50%;
     border-style: solid;
     border-color: #000000;
     border-width: 1px;
-    padding: 2%;
-    margin-top: 0%;
+    display: flex;
+    flex-direction: column;
+    padding: 2% 4% 2% 4%;
+    margin: 0 auto;
 }
 
 .update_offer textarea{
-    width: 500px;
-    height: 300px;
+    width: 600px;
+    height: 200px;
 }
 
 .update_offer #edit_offer_tittle{
-    width: 300px;
+    width: 600px;
 }
 
+.update_offer img{
+    border-radius: 20px;
+    height: 300px;
+    width: 600px;
+}
 
-/*formulario de edicion*/
+.edit-form-column{
+    display: flex;
+    flex-direction: row;
+}
+
+.edit_form_row{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.two-inputs{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 1%;
+}
+
+/*formulario de edicion de usuarios*/
 .update_user{
     position: relative;
     width: 100%;
@@ -233,10 +258,14 @@ header div img{
     border-color: #000000;
     border-width: 1px;
     padding: 2%;
-    margin: 0% 0% 5% 0%;
+    margin: 0% 0% 2% 0%;
 }
 
-.edit_form_row{
+.update_user input{
+    width: 300px;
+}
+
+.edit_form_user_row{
     display: flex;
     flex-direction: row;
     justify-content: space-between;

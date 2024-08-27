@@ -152,6 +152,18 @@ $(document).ready(function () {
   cargarOfertas();
 });
 
+  //Mostrar Modal
+  $(document).on('click', '.openModal', function () {
+    $(".overlay").show(); 
+    $(".modal-container").show(); 
+  });
+  
+  // Ocultar modal
+  $(document).on('click', '.closeModal, .overlay', function () {
+    $(".overlay").hide(); 
+    $(".modal-container").hide(); 
+  });
+
 //Scroll Ventana modal
 window.addEventListener('scroll', function() {
   var headerHeight = document.querySelector('header').offsetHeight;

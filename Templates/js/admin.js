@@ -228,6 +228,7 @@ $(document).ready(function () {
                 }
 
                 $("#edit-offer-form").show();
+                $("#deactivate-offer-form").hide();
             },
             error: function (xhr, status, error) {
                 console.error("Error al cargar datos de la Oferta:", error);
@@ -307,6 +308,7 @@ $(document).ready(function () {
             success: function (data) {
                 $("#edit-offer-id").val(data.id);
                 $("#deactivate-offer-form").show(); // Mostrar el formulario de desactivación de oferta
+                $("#edit-offer-form").hide();
             },
             error: function (xhr, status, error) {
                 console.error("Error al cargar datos de Oferta:", error);
@@ -497,6 +499,10 @@ function UserTableSelected() {
     offertable.style.display = "none";
     UserTable.style.display = "block";
     adminButtons.style.display = "block";
+
+    $("#deactivate-offer-form").hide();
+    $("#edit-offer-form").hide();
+    $("#edit-form").hide();
 }
 
 function DevTableSelected() {
@@ -517,6 +523,10 @@ function DevTableSelected() {
     offertable.style.display = "none";
     UserTable.style.display = "block";
     adminButtons.style.display = "block";
+
+    $("#deactivate-offer-form").hide();
+    $("#edit-offer-form").hide();
+    $("#edit-form").hide();
 }
 
 function MipymeTableSelected() {
@@ -537,6 +547,10 @@ function MipymeTableSelected() {
     offertable.style.display = "none";
     UserTable.style.display = "block";
     adminButtons.style.display = "block";
+
+    $("#deactivate-offer-form").hide();
+    $("#edit-offer-form").hide();
+    $("#edit-form").hide();
 }
 
 //offers
@@ -572,6 +586,10 @@ function OpenOffers() {
 
     dev_tbl_btn.style.backgroundColor = "#f5f5f5";
     dev_tbl_btn.style.color = "black";
+
+    $("#deactivate-offer-form").hide();
+    $("#edit-offer-form").hide();
+    $("#edit-form").hide();
 }
 
 function AddAnimation() {
