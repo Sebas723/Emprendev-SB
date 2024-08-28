@@ -4,12 +4,8 @@ function validarFormulario() {
   const nombre = document.querySelector('[name="nombre"]').value;
   const segundoNombre = document.querySelector('[name="segundo_nombre"]').value;
   const apellido = document.querySelector('[name="apellido"]').value;
-  const segundoApellido = document.querySelector(
-    '[name="segundo_apellido"]'
-  ).value;
-  const documentoIdentidad = document.querySelector(
-    '[name="id_usuario"]'
-  ).value;
+  const segundoApellido = document.querySelector('[name="segundo_apellido"]').value;
+  const documentoIdentidad = document.querySelector('[name="id_usuario"]').value;
   const fechaNacimiento = document.querySelector('[name="fecha_nac"]').value;
   const telefono = document.querySelector('[name="telefono"]').value;
   const correo = document.querySelector('[name="correo"]').value;
@@ -182,38 +178,40 @@ $(document).ready(function () {
     });
   }
 
-  // Función para formatear la fecha
-  function formatDate(date) {
-    const options = { year: "numeric", month: "long", day: "numeric" };
-    return date.toLocaleDateString;
-  }
-
   // Llama a la función para cargar los datos del usuario cuando el documento esté listo
   loadUserData();
 });
 
-//Guardar los datos editados
-const form = document.getElementById("form-dev");
-const id = $("#id").val();
+// Función para comprobar los datos y actualizar
+function checkDataAndUpdate(id, formData2) {
+  $.ajax({
+    type: "GET",
+    url: `http://localhost:8080/api/devs/${id}`,
+    dataType: "json",
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: function (response) {
+      // Si la solicitud GET es exitosa, eso significa que hay datos.
+      console.log("Datos encontrados:", response);
+      // Realiza la solicitud PUT si hay datos
+      updateData(id, formData2);
+    },
+    error: function (xhr, status, error) {
+      // Si la solicitud GET falla con un error 404, eso significa que no hay datos.
+      if (xhr.status === 404) {
+        console.log("Datos no encontrados. Realizando POST...");
+        // Realiza la solicitud POST si no hay datos
+        createData();
+      } else {
+        console.error("Error al verificar datos:", error);
+      }
+    }
+  });
+}
 
-form.addEventListener("submit", async (event) => {
-  event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
-
-  // Recolecta los datos del formulario
-
-  const formData = {
-    firstName: $("#firstName").val(),
-    lastName: $("#lastName").val(),
-    secondName: $("#secondName").val(),
-    lastName2: $("#lastName2").val(),
-    docType: $("#docType").val(),
-    docNum: $("#docNum").val(),
-    birthDate: $("#birthDate").val(),
-    role: $("#role").val(),
-    phoneNum: $("#phoneNum").val(),
-    address: $("#address").val(),
-    Email: $("#email").val(),
-  };
+// Función para crear datos
+function createData() {
 
   const formData2 = {
     profileDescription: $("#profileDescription").val(),
@@ -228,76 +226,113 @@ form.addEventListener("submit", async (event) => {
     chargeDescription: $("#chargeDescription").val(),
   };
 
+  $.ajax({
+    type: "POST",
+    url: "http://localhost:8080/api/devs",
+    contentType: "application/json",
+    data: JSON.stringify(formData2),
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: function () {
+      console.log("Datos creados exitosamente.");
+      // Aquí puedes agregar lógica para manejar el éxito del POST
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al crear datos:", error);
+    }
+  });
+}
+
+// Función para actualizar datos
+function updateData(id, formData2) {
+  $.ajax({
+    type: "PUT",
+    url: `http://localhost:8080/api/devs/${id}`,
+    contentType: "application/json",
+    data: JSON.stringify(formData2),
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: function () {
+      console.log("Datos actualizados exitosamente.");
+      // Aquí puedes agregar lógica para manejar el éxito del PUT
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al actualizar datos:", error);
+    }
+  });
+}
+
+//Guardar los datos editados
+const form = document.getElementById("form-dev");
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+  const id = $("#id").val();
+
+  // Recolecta los datos del formulario principal
+  const formData = {
+    firstName: $("#firstName").val(),
+    lastName: $("#lastName").val(),
+    secondName: $("#secondName").val(),
+    lastName2: $("#lastName2").val(),
+    docNum: $("#docNum").val(),
+    birthDate: $("#birthDate").val(),
+    phoneNum: $("#phoneNum").val(),
+    address: $("#address").val(),
+    email: $("#email").val(),
+  };
+
+  // Recolecta los datos adicionales del formulario
+  const formData2 = {
+    profileDescription: $("#profileDescription").val(),
+    university: $("#university").val(),
+    career: $("#career").val(),
+    careerStartDate: $("#careerStartDate").val(),
+    careerEndDate: $("#careerEndDate").val(),
+    charge: $("#charge").val(),
+    company: $("#company").val(),
+    chargeStartDate: $("#chargeStartDate").val(),
+    chargeEndDate: $("#chargeEndDate").val(),
+    chargeDescription: $("#chargeDescription").val(),
+  };
+
   try {
-    // Envía los datos al servidor usando fetch con método PUT
-    const userUpdate = await fetch(
-      `http://localhost:8080/emprendev/v1/user/${id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(formData),
-      }
-    );
-
-    if (!userUpdate.ok) {
-      throw new Error(`HTTP error! status: ${userUpdate.status}`);
-    }
-
-    const result = await userUpdate.json();
-
-    // Maneja la respuesta del servidor
-    console.log("Success:", result);
-    Swal.fire({
-      icon: "success",
-      title: "Éxito",
-      text: "Los datos se han actualizado correctamente.",
-    });
-
-    const dataUpdate = await fetch(`http://localhost:8080/api//devs/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+    // Envía los datos del formulario principal al servidor usando fetch con método PUT
+    $.ajax({
+      type: "PUT",
+      url: `http://localhost:8080/emprendev/v1/user/${id}`,
+      contentType: "application/json",
+      data: JSON.stringify(formData),
+      xhrFields: {
+        withCredentials: true,
       },
-      credentials: "include",
-      body: JSON.stringify(formData2),
+      success: function () {
+        $("#edit-form").hide();
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al actualizar Usuario:", error);
+      },
     });
 
-    if (!dataUpdate.ok) {
-      throw new Error(`HTTP error! status: ${dataUpdate.status}`);
-    }
+    // Llama a la función para verificar los datos y actualizar o crear datos
+    checkDataAndUpdate(id, formData2);
 
-    const results = await dataUpdate.json();
-
-    // Maneja la respuesta del servidor
-    console.log("Success:", results);
-    Swal.fire({
-      icon: "success",
-      title: "Éxito",
-      text: "Los datos se han actualizado correctamente.",
-    });
-
-    // Opcional: redirige o limpia el formulario
-    window.location.href = "perfil_dev.html"; // Redirige si es necesario
   } catch (error) {
-    console.error("Error:", error);
+    // Mostrar error si hubo un problema
     Swal.fire({
-      icon: "error",
-      title: "Error",
-      text: "Hubo un problema al actualizar los datos.",
+      icon: 'error',
+      title: 'Error',
+      text: `No se pudo actualizar los datos. ${error.message}`,
     });
   }
 });
 
 //Submenu del perfil del usuario (imagen arriba a la izquierda)
-
 userSubMenu.style.display = "none";
 
-SubmenuPerfilBtn_isShowing = false;
+let SubmenuPerfilBtn_isShowing = false;
 function OpenPerfilSubMenu() {
   if (!SubmenuPerfilBtn_isShowing) {
     userSubMenu.style.display = "block";
@@ -308,13 +343,12 @@ function OpenPerfilSubMenu() {
 }
 
 //drag n drop tags
-
 let tags = document.getElementsByClassName("tag");
 let tagsContainer = document.getElementById("tags-container");
 let dropAreaTags = document.getElementById("drop-area-tags");
 let cardTagsPreview = document.getElementById("card-tags-preview");
 
-for (tag of tags) {
+for (let tag of tags) {
   tag.addEventListener("dragstart", function (e) {
     let selected = e.target;
 
