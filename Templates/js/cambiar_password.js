@@ -1,12 +1,32 @@
+function validatePassword(password) {
+    const validacionPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,15}$/;
+    return validacionPassword.test(password);
+}
+
+function showErrorMessage(message) {
+    Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: message,
+    });
+}
+
 function resetPassword(event) {
     event.preventDefault();
 
-    var token = document.getElementById("codigo").value;
-    var newPassword = document.getElementById("newPassword").value;
-    var confirmPassword = document.getElementById("confirmPassword").value;
+    const token = document.getElementById("codigo").value;
+    const newPassword = document.getElementById("newPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
 
+    // Validación de la nueva contraseña
+    if (!validatePassword(newPassword)) {
+        showErrorMessage("La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.");
+        return;
+    }
+
+    // Validación de confirmación de contraseña
     if (newPassword !== confirmPassword) {
-        Swal.fire('¡Error!', 'Las contraseñas no coinciden', 'error');
+        showErrorMessage("La contraseña no coincide.");
         return;
     }
 

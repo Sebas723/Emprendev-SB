@@ -309,11 +309,11 @@ section .card .about{
     margin-top: 5px;
 }
 
-.card .b1 button{
+.card .b1 .about-me{
     background-color: #3f3f3e;
 }
 
-.card .button button{
+.card .button .about-me{
     outline: none;
     border: none;
     color: #fff;
@@ -325,6 +325,44 @@ section .card .about{
 }
 
 .card .button button:hover{
+    opacity: 0.8;
+}
+
+.card .b1 .edition{
+    background-color: #011fcc;
+}
+
+.card .button .edition{
+    outline: none;
+    border: none;
+    color: #fff;
+    padding: 8px 22px;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.card .button .edition:hover{
+    opacity: 0.8;
+}
+
+.card .b1 .delete{
+    background-color: #af0101;
+}
+
+.card .button .delete{
+    outline: none;
+    border: none;
+    color: #fff;
+    padding: 8px 22px;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.card .button .delete:hover{
     opacity: 0.8;
 }
 

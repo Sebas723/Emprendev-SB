@@ -333,3 +333,11 @@ header div img{
 .create-button:hover{
     background-color: rgb(8, 8, 58);
 }
+
+.create-button .btn-password{
+    color: white;
+}
+
+.create-button a:hover{
+    color: white;
+}

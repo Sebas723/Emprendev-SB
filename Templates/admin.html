@@ -103,17 +103,23 @@
     <div class="container update_user" id="edit-form" style="display: none;">
       <h1 class="text-center">Actualizar Usuario</h1>
       <input type="hidden" id="edit-id">
+      <div class="user-img-edit">
+        <img src="" alt="" class="session_user_imgProfile">
+            
+      </div>
       <div class="edit_form_user_row">
+
         <div class="mb-3 input_container">
-          <label for="edit_first_name" class="form-label session_user_firstName">Nombre</label>
+          <label for="edit_first_name" class="form-label">Primer Nombre</label>
           <input type="text" class="" id="edit_first_name">
         </div>
+
         <div class="mb-3 input_container">
           <label for="edit_sec_name" class="form-label">Segundo Nombre</label>
           <input type="text" class="" id="edit_sec_name">
         </div>
         <div class="mb-3 input_container">
-          <label for="edit_last_name" class="form-label">Apellido</label>
+          <label for="edit_last_name" class="form-label">Primer Apellido</label>
           <input type="text" class="" id="edit_last_name">
         </div>
         <div class="mb-3 input_container">
@@ -123,9 +129,25 @@
       </div>
       <div class="edit_form_user_row">
         <div class="mb-3 input_container">
-          <label for="edit_birth_date" class="form-label">Fecha de Nacimiento</label>
-          <input type="text" class="" id="edit_birth_date">
+          <label for="edit_phone_number" class="form-label">Tipo De Documento</label>
+          <input type="text" class="" id="edit_type_id" disabled>
         </div>
+        <div class="mb-3 input_container">
+          <label for="edit_phone_number" class="form-label">Numero De Documento</label>
+          <input type="text" class="" id="edit_number_id">
+        </div>
+        <div class="mb-3 input_container">
+          <label for="edit_birth_date" class="form-label">Fecha De Nacimiento</label>
+          <input type="date" class="" id="edit_birth_date">
+        </div>
+        <div class="mb-3 input_container">
+          <label for="edit_phone_number" class="form-label">Rol</label>
+          <input type="text" class="" id="edit_rol">
+        </div>
+      </div>
+
+      <div class="edit_form_user_row">
+
         <div class="mb-3 input_container">
           <label for="edit_phone_number" class="form-label">Numero Celular</label>
           <input type="text" class="" id="edit_phone_number">
@@ -139,6 +161,7 @@
           <input type="text" class="" id="edit_email">
         </div>
       </div>
+
       <button id="user-save-edit-btn" class="btn btn-primary btn-sm">Guardar</button>
     </div>
 

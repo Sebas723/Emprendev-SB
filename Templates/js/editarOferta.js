@@ -211,102 +211,10 @@ function CardPreviewField() {
     }
 }
 
-//drag n drop tags
-
-let tags = document.getElementsByClassName("tag");
-let tagsContainer = document.getElementById("tags-container");
-let dropAreaTags = document.getElementById("drop-area-tags");
-let cardTagsPreview = document.getElementById("card-tags-preview");
-
-for (tag of tags){
-    tag.addEventListener("dragstart", function(e){
-        let selected = e.target;
-
-        tagsContainer.addEventListener("dragover", function(e){
-            e.preventDefault();
-        })
-        tagsContainer.addEventListener("drop", function(e){
-            tagsContainer.appendChild(selected);
-            UpdateCard();
-            selected = null;
-        })
-
-        dropAreaTags.addEventListener("dragover", function(e){
-            e.preventDefault();
-            dropAreaTags.classList.add("active")
-        })
-        dropAreaTags.addEventListener("drop", function(e){
-            dropAreaTags.appendChild(selected);
-            UpdateCard();
-            selected = null;
-        })
-    })
-}
-
-function UpdateCard(){
-    let html = `<div id="drop-area-tags" class="card-area-tags">${dropAreaTags.innerHTML}</div>`;
-    cardTagsPreview.innerHTML = html;
-}
 
 const file = photoInput.files[0];
 
-// Función para manejar el click del botón de envío
-document.getElementById("submit_offer").addEventListener("click", function () {
-    if (validarFormulario()) {
-        // Crea un nuevo FormData
-        let formData = new FormData();
 
-        // Obtén los valores del formulario
-        formData.append("title", document.getElementById("card_title_input").value);
-        formData.append("description", document.getElementById("card_desc_input").value);
-        formData.append("payment", document.getElementById("card_pago_input").value);
-        formData.append("fields", document.getElementById("offer_fields").value);
-
-        // Obtén el archivo de imagen
-        const file = document.getElementById("photoInput").files[0];
-        if (file) {
-            formData.append("image", file);
-        }
-
-        // Enviar datos usando fetch
-        fetch('http://localhost:8080/api/offers', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Oferta Creada!',
-                    text: 'La oferta ha sido creada exitosamente...',
-                }).then(() => {
-                    window.location.href = "catalogo.html"; // Cambia la URL a la ruta deseada
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error al crear la oferta.',
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Hubo un problema al enviar la oferta.',
-            });
-        });
-    } else {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Por favor, complete todos los campos obligatorios.',
-        });
-    }
-});
 
 function validarFormulario() {
     // Aquí va la lógica de validación del formulario
