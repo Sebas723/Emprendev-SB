@@ -109,7 +109,7 @@ function cargarOfertas() {
         // Texto completo de la oferta
         var fullText = `${data.title || ''} ${data.description || ''} ${data.payment || ''} ${data.creationDate || ''}`;
 
-        // Limitar la descripción a 60 caracteres para la vista en el catalogo
+        // Limitar la descripción a 60 caracteres para la vista en el catálogo
         var limitedDescription = data.description ?
           (data.description.length > 60 ? data.description.substring(0, 300) + '...' : data.description) : '';
 
@@ -133,7 +133,8 @@ function cargarOfertas() {
                     "<span>Creador: </span>" +
                   "</div>" +
                   "<div class='button b1'>" +
-                    "<a href='./editarOferta.html'><button class='edition'>Editar</button></a>" +
+                    // Aquí se inserta dinámicamente el ID de la oferta
+                    "<a href='./editarOferta.html?id=" + data.id + "'><button class='edition'>Editar</button></a>" +
                     "<button class='about-me openModal'>Ver más</button>" +
                     "<button class='delete'>Eliminar</button>" +
                   "</div>" +

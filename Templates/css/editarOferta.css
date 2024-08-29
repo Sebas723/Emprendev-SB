@@ -140,8 +140,8 @@ header div img{
     top: 0;
     left: 0;
     width: 100%;
-    min-height: 100vh; /* Inicia con al menos la altura de la ventana */
-    height: auto; /* Permite que el contenedor crezca según el contenido */
+    min-height: 100vh;
+    height: auto; 
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -181,7 +181,6 @@ header div img{
     justify-content: center;
     align-items: center;
     gap: 10px;
-    gap: 10px; 
     border-radius: 10px; /* Desplazamiento vertical si hay muchas imágenes */
 }
 
@@ -198,47 +197,6 @@ input[type=file]::file-selector-button {
   
 input[type=file]::file-selector-button:hover {
     background: #0d45a5;
-}
-
-.drop-area {
-    width: 150px;
-    height: 150px;
-    background-color: rgba(238, 238, 238, 0.836);
-    border-style: dashed;
-    border-width: 2px;
-    border-radius: 5px;
-    border-color: rgba(128, 128, 128, 0.315);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.drop-area.active {
-    background-color: rgba(0, 255, 255, 0.267);
-}
-
-.drop-area input[type="button"] {
-    border-style: none;
-    width: 40%;
-    height: 6vh;
-}
-
-.drop-area input[type="file"] {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.drop-area::before {
-    content: '+';
-    font-size: 2em;
-    color: #000000; /* Cambia el color según tus preferencias */
 }
 
 
@@ -277,9 +235,9 @@ input[type=file]::file-selector-button:hover {
 
 .card-container {
     position: fixed;
-    top: 6%;
+    top: 7%;
     padding-top: 2%;
-    left: 60%;
+    left: 50%;
     width: 20%;
     border-left-style: solid;
     border-width: 1px;
@@ -301,7 +259,7 @@ input[type=file]::file-selector-button:hover {
     position: relative;
     display: grid;
     flex-flow: row;
-    width: 100%;
+    width: 150%;
 }
 
 #image-preview-container {

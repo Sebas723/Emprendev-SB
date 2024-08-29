@@ -1,3 +1,5 @@
+
+
 $(document).ready(function () {
   function cargarUsuarios() {
     $.ajax({
@@ -121,44 +123,163 @@ $(document).ready(function () {
       },
     });
   });
+  
+  $(document).on("click", "#user-save-edit-btn", async function () {
+    const validacionesPasaron = await validateForm();
 
-  $(document).on("click", "#user-save-edit-btn", function () {
-    if (confirm("¿Desea Guardar Los cambios Realizados?")) {
-      const id = $("#edit-id").val();
+    if (validacionesPasaron && confirm("¿Desea Guardar Los cambios Realizados?")) {
+        const id = $("#edit-id").val();
 
-      const data = {
-        firstName: $("#edit_first_name").val(),
-        secondName: $("#edit_sec_name").val(),
-        lastName: $("#edit_last_name").val(),
-        lastName2: $("#edit_last_name2").val(),
-        docNum: $("#edit_number_id").val(),
-        birthDate: $("#edit_birth_date").val(),
-        role: $("#edit_rol").val(),
-        phoneNum: $("#edit_phone_number").val(),
-        address: $("#edit_address").val(),
-        email: $("#edit_email").val(),
-      };
+        const data = {
+            firstName: $("#edit_first_name").val(),
+            secondName: $("#edit_sec_name").val(),
+            lastName: $("#edit_last_name").val(),
+            lastName2: $("#edit_last_name2").val(),
+            docNum: $("#edit_number_id").val(),
+            birthDate: $("#edit_birth_date").val(),
+            role: $("#edit_rol").val(),
+            phoneNum: $("#edit_phone_number").val(),
+            address: $("#edit_address").val(),
+            email: $("#edit_email").val(),
+        };
 
-      $.ajax({
-        type: "PUT",
-        url: `http://localhost:8080/emprendev/v1/user/${id}`,
-        contentType: "application/json",
-        data: JSON.stringify(data),
-        xhrFields: {
-          withCredentials: true,
-        },
-        success: function () {
-          $("#edit-form").hide();
-          cargarUsuarios();
-        },
-        error: function (xhr, status, error) {
-          console.error("Error al actualizar Usuario:", error);
-        },
-      });
+        $.ajax({
+            type: "PUT",
+            url: `http://localhost:8080/emprendev/v1/user/${id}`,
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            xhrFields: {
+                withCredentials: true,
+            },
+            success: function () {
+                $("#edit-form").show();
+                cargarUsuarios();
+            },
+            error: function (xhr, status, error) {
+                console.error("Error al actualizar Usuario:", error);
+            },
+        });
     } else {
-      $("#edit-form").hide();
+        $("#edit-form").show();
     }
-  });
+});
+
+async function validateForm() {
+  const nombre = $("#edit_first_name").val();
+  const segundoNombre = $("#edit_sec_name").val();
+  const apellido = $("#edit_last_name").val();
+  const segundoApellido = $("#edit_last_name2").val();
+  const documentoIdentidad = $("#edit_number_id").val();
+  const fechaNacimiento = $("#edit_birth_date").val();
+  const rol = $("#edit_rol").val();
+  const telefono = $("#edit_phone_number").val();
+  const correo = $("#edit_email").val();
+
+  let todasLasValidacionesPasaron = true;
+
+  function showErrorMessage(message) {
+      Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: message,
+      });
+      todasLasValidacionesPasaron = false;
+  }
+
+  const validaciones = [
+      "nombre",
+      "segundoNombre",
+      "apellido",
+      "segundoApellido",
+      "documentoIdentidad",
+      "fechaNacimiento",
+      "rol",
+      "telefono",
+      "correo"
+  ];
+
+  for (let validacion of validaciones) {
+      switch (validacion) {
+          case "nombre":
+              if (/[\d\W]+/.test(nombre)) {
+                  showErrorMessage("Los nombres no pueden contener números o simbologías.");
+              }
+              if (nombre.trim() === "") {
+                  showErrorMessage("Por favor, completa el campo Primer Nombre");
+              }
+              break;
+          case "segundoNombre":
+              if (/[\d\W]+/.test(segundoNombre)) {
+                  showErrorMessage("Los nombres no pueden contener números o simbologías.");
+              }
+              break;
+          case "apellido":
+              if (/[\d\W]+/.test(apellido)) {
+                  showErrorMessage("Los apellidos no pueden contener números o simbologías.");
+              }
+              if (apellido.trim() === "") {
+                  showErrorMessage("Por favor, completa el campo Primer Apellido");
+              }
+              break;
+          case "segundoApellido":
+              if (/[\d\W]+/.test(segundoApellido)) {
+                  showErrorMessage("Los apellidos no pueden contener números o simbologías.");
+              }
+              break;
+          case "documentoIdentidad":
+              if (isNaN(documentoIdentidad) || /^\s*$/.test(documentoIdentidad)) {
+                  showErrorMessage("El documento de identidad debe ser un número válido.");
+              }
+              break;
+          case "fechaNacimiento":
+              if (!fechaNacimiento) {
+                  showErrorMessage("Por favor, ingresa tu fecha de nacimiento.");
+              } else {
+                  const fechaNacimientoDate = new Date(fechaNacimiento);
+                  const hoy = new Date();
+                  if (fechaNacimientoDate > hoy) {
+                      showErrorMessage("La fecha de nacimiento no puede estar en el futuro.");
+                  } else {
+                      let edad = hoy.getFullYear() - fechaNacimientoDate.getFullYear();
+                      if (
+                          hoy.getMonth() < fechaNacimientoDate.getMonth() ||
+                          (hoy.getMonth() === fechaNacimientoDate.getMonth() &&
+                              hoy.getDate() < fechaNacimientoDate.getDate())
+                      ) {
+                          edad--;
+                      }
+                      if (edad < 18 || edad > 70) {
+                          showErrorMessage("Tu edad no es válida, intenta nuevamente.");
+                      }
+                  }
+              }
+              break;
+          case "rol":
+              if (rol != "Desarrollador" && rol != "Mipyme" && rol != "Administrador") {
+                  showErrorMessage("Por favor, digita un rol permitido");
+              }
+              break;
+          case "telefono":
+              if (isNaN(telefono)) {
+                  showErrorMessage("Por favor, ingrese un número de teléfono válido.");
+              }
+              break;
+          case "correo":
+              if (!/^\S+@\S+\.\S+$/.test(correo)) {
+                  showErrorMessage("Por favor, ingresa un correo electrónico válido.");
+              }
+              break;
+          default:
+              break;
+      }
+  }
+
+  console.log("Todas las validaciones pasaron:", todasLasValidacionesPasaron);
+
+  return todasLasValidacionesPasaron;
+}
+
+
 
   $(document).on("click", ".desactivarUser, .reactivarUser", function () {
     const id = $(this).data("id");
@@ -305,49 +426,133 @@ $(document).ready(function () {
   });
 
   // Funcionalidad de guardado para los cambios de la oferta
-  $(document).on("click", "#offer-save-edit-btn", function () {
-    if (confirm("¿Desea Guardar Los cambios Realizados?") == true) {
-      var id = $("#edit-offer-id").val();
-      var title = $("#edit_offer_tittle").val();
-      var description = $("#edit_offer_desc").val();
-      var payment = $("#edit_offer_payment").val();
-      var fields = $("#edit_offer_fields").val();
-      var offerState = $("#edit_offer_state").val();
+  $(document).on("click", "#offer-save-edit-btn", async function () {
+    // Validar el formulario antes de continuar
+    const validacionesPasaron = await validateForm();
 
-      // Usar las fechas almacenadas en los campos ocultos
-      var creationDate = $("#hidden_creation_date").val();
-      var finalizationDate = $("#hidden_finalization_date").val();
+    if (validacionesPasaron && confirm("¿Desea Guardar Los cambios Realizados?")) {
+        var id = $("#edit-offer-id").val();
+        var title = $("#edit_offer_tittle").val();
+        var description = $("#edit_offer_desc").val();
+        var payment = $("#edit_offer_payment").val();
+        var fields = $("#edit_offer_fields").val();
+        var offerState = $("#edit_offer_state").val();
 
-      var data = {
-        title: title,
-        description: description,
-        payment: payment,
-        fields: fields,
-        offerState: offerState,
-        creationDate: creationDate,
-        finalizationDate: finalizationDate,
-      };
+        // Usar las fechas almacenadas en los campos ocultos
+        var creationDate = $("#hidden_creation_date").val();
+        var finalizationDate = $("#hidden_finalization_date").val();
 
-      $.ajax({
-        type: "PUT",
-        url: "http://localhost:8080/api/offers/" + id,
-        contentType: "application/json",
-        data: JSON.stringify(data),
-        xhrFields: {
-          withCredentials: true,
-        },
-        success: function (response) {
-          $("#edit-offer-form").hide();
-          cargarOfertas(); // Recargar la lista de ofertas
-        },
-        error: function (xhr, status, error) {
-          console.error("Error al actualizar la oferta:", error);
-        },
-      });
+        var data = {
+            title: title,
+            description: description,
+            payment: payment,
+            fields: fields,
+            offerState: offerState,
+            creationDate: creationDate,
+            finalizationDate: finalizationDate,
+        };
+
+        $.ajax({
+            type: "PUT",
+            url: "http://localhost:8080/api/offers/" + id,
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            xhrFields: {
+                withCredentials: true,
+            },
+            success: function (response) {
+                $("#edit-offer-form").hide();
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Oferta Actualizada!",
+                    text: "La oferta ha sido actualizada exitosamente...",
+                }).then(() => {
+                    cargarOfertas(); // Recargar la lista de ofertas
+                });
+            },
+            error: function (xhr, status, error) {
+                console.error("Error al actualizar la oferta:", error);
+            },
+        });
     } else {
-      $("#edit-offer-form").hide();
+        $("#edit-offer-form").show();
     }
-  });
+});
+
+// Función de validación del formulario
+async function validateForm() {
+    const tituloOferta = document.querySelector('#edit_offer_tittle').value;
+    const descripcionOferta = document.querySelector('#edit_offer_desc').value;
+    const pagoOferta = document.querySelector('#edit_offer_payment').value;
+    const cuposOferta = document.querySelector('#edit_offer_fields').value;
+
+    let todasLasValidacionesPasaron = true;
+
+    function showErrorMessage(message) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: message
+        });
+        todasLasValidacionesPasaron = false;
+    }
+
+    const validaciones = [
+        'tituloOferta',
+        'descripcionOferta',
+        'pagoOferta',
+        'cuposOferta'
+    ];
+
+    for (let validacion of validaciones) {
+        switch (validacion) {
+            case 'tituloOferta':
+                if (tituloOferta.trim() === '') {
+                    showErrorMessage("Por favor, completa el campo Titulo");
+                }
+                break;
+            case 'descripcionOferta':
+                if (descripcionOferta.trim() === '') {
+                    showErrorMessage("Por favor, completa el campo Descripcion");
+                }
+                if (descripcionOferta.length < 200) {
+                    showErrorMessage("La descripcion de la oferta debe contener por lo menos 200 caracteres");
+                }
+                break;
+            case 'pagoOferta':
+                if (pagoOferta.trim() === '') {
+                    showErrorMessage("Por favor, completa el campo Pago");
+                }
+                if (isNaN(pagoOferta)) {
+                    showErrorMessage("El pago por la oferta solo puede contener números");
+                }
+                if (parseFloat(pagoOferta) < 100000) {
+                    showErrorMessage("El pago por la oferta no puede ser menor a 100.000");
+                }
+                break;
+            case 'cuposOferta':
+                if (cuposOferta.trim() === '') {
+                    showErrorMessage("Por favor, completa el campo Cupos");
+                }
+                if (isNaN(cuposOferta)) {
+                    showErrorMessage("Los cupos de la oferta solo pueden contener números");
+                }
+                if (parseInt(cuposOferta) <= 0) {
+                    showErrorMessage("La oferta debe contener al menos un cupo");
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    return todasLasValidacionesPasaron;
+}
+
+
+
+
+
 
   // Mostrar formulario de desactivación de la oferta
   $(document).on("click", ".desactivarOffer", function () {

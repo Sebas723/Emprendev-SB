@@ -14,7 +14,8 @@ public class Offer {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String title;
-
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
     @Column(name = "description", columnDefinition = "text")
     private String description;
 
@@ -30,6 +31,14 @@ public class Offer {
     private Integer offerState;
 
     public Offer() {
+    }
+
+    public Long getUserId(){
+        return userId;
+    }
+
+    public  void setUserId(Long userId){
+        this.userId = userId;
     }
 
     public Long getId() {

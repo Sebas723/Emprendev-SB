@@ -3,6 +3,7 @@ package com.emprendev.controller;
 import com.emprendev.entity.Offer;
 import com.emprendev.exceptions.ResourceNotFoundException;
 import com.emprendev.services.OfferServices;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,33 +17,39 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/offers")
 @CrossOrigin(origins = "http://localhost") // Permitir CORS si es necesario
-public class  OfferController {
+public class OfferController {
 
     @Autowired
     private OfferServices offerService;
 
-    @PostMapping
+    @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<Offer> createOffer(
             @RequestParam("title") String title,
             @RequestParam("description") String description,
-            @RequestParam("payment") String payment,
-            @RequestParam("fields") String fields,
-            @RequestParam("image") MultipartFile file
+            @RequestParam("payment") Long payment,
+            @RequestParam("fields") Integer fields,
+            @RequestPart("image") MultipartFile file,
+            HttpSession session
     ) {
+        // Obtener el ID del usuario desde la sesión
+        Long userId = (Long) session.getAttribute("userId");
+
+        if (userId == null) {
+            return ResponseEntity.status(401).body(null); // No autorizado si no hay sesión
+        }
+
+        // Crear y configurar la oferta
         Offer offer = new Offer();
-        // Establece los demás atributos
         offer.setTitle(title);
         offer.setDescription(description);
-        offer.setPayment(Long.parseLong(payment));
-        offer.setFields(Integer.parseInt(fields));
-
-        // Establecer valores predeterminados para fechas y estado
+        offer.setPayment(payment);
+        offer.setFields(fields);
+        offer.setUserId(userId);
         offer.setCreationDate(String.valueOf(LocalDate.now()));
         offer.setFinalizationDate(String.valueOf(LocalDate.now().plusMonths(1)));
         offer.setOfferState(1);
 
-        // Guarda la oferta usando el servicio
-        Offer savedOffer = null;
+        Offer savedOffer;
         try {
             savedOffer = offerService.saveOffer(offer, file);
         } catch (IOException e) {
@@ -50,6 +57,11 @@ public class  OfferController {
         }
         return ResponseEntity.ok(savedOffer);
     }
+
+
+
+
+
 
     @GetMapping("/listOrderAccount")
     public List<Offer> getAllAccountState(){
