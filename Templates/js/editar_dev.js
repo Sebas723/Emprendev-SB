@@ -157,8 +157,8 @@ $(document).ready(function () {
       },
       success: function (data) {
         if (data.sessionActive) {
-          console.log("Session is active:", data);
           populateForm(data);
+          console.log($("#email").val());
         } else {
           console.log("No active session:", data.message);
         }
@@ -182,88 +182,6 @@ $(document).ready(function () {
   loadUserData();
 });
 
-// Función para comprobar los datos y actualizar
-function checkDataAndUpdate(id, formData2) {
-  $.ajax({
-    type: "GET",
-    url: `http://localhost:8080/api/devs/${id}`,
-    dataType: "json",
-    xhrFields: {
-      withCredentials: true,
-    },
-    success: function (response) {
-      // Si la solicitud GET es exitosa, eso significa que hay datos.
-      console.log("Datos encontrados:", response);
-      // Realiza la solicitud PUT si hay datos
-      updateData(id, formData2);
-    },
-    error: function (xhr, status, error) {
-      // Si la solicitud GET falla con un error 404, eso significa que no hay datos.
-      if (xhr.status === 404) {
-        console.log("Datos no encontrados. Realizando POST...");
-        // Realiza la solicitud POST si no hay datos
-        createData();
-      } else {
-        console.error("Error al verificar datos:", error);
-      }
-    }
-  });
-}
-
-// Función para crear datos
-function createData() {
-
-  const formData2 = {
-    profileDescription: $("#profileDescription").val(),
-    university: $("#university").val(),
-    career: $("#career").val(),
-    careerStartDate: $("#careerStartDate").val(),
-    careerEndDate: $("#careerEndDate").val(),
-    charge: $("#charge").val(),
-    company: $("#company").val(),
-    chargeStartDate: $("#chargeStartDate").val(),
-    chargeEndDate: $("#chargeEndDate").val(),
-    chargeDescription: $("#chargeDescription").val(),
-  };
-
-  $.ajax({
-    type: "POST",
-    url: "http://localhost:8080/api/devs",
-    contentType: "application/json",
-    data: JSON.stringify(formData2),
-    xhrFields: {
-      withCredentials: true,
-    },
-    success: function () {
-      console.log("Datos creados exitosamente.");
-      // Aquí puedes agregar lógica para manejar el éxito del POST
-    },
-    error: function (xhr, status, error) {
-      console.error("Error al crear datos:", error);
-    }
-  });
-}
-
-// Función para actualizar datos
-function updateData(id, formData2) {
-  $.ajax({
-    type: "PUT",
-    url: `http://localhost:8080/api/devs/${id}`,
-    contentType: "application/json",
-    data: JSON.stringify(formData2),
-    xhrFields: {
-      withCredentials: true,
-    },
-    success: function () {
-      console.log("Datos actualizados exitosamente.");
-      // Aquí puedes agregar lógica para manejar el éxito del PUT
-    },
-    error: function (xhr, status, error) {
-      console.error("Error al actualizar datos:", error);
-    }
-  });
-}
-
 //Guardar los datos editados
 const form = document.getElementById("form-dev");
 
@@ -281,7 +199,7 @@ form.addEventListener("submit", async (event) => {
     birthDate: $("#birthDate").val(),
     phoneNum: $("#phoneNum").val(),
     address: $("#address").val(),
-    email: $("#email").val(),
+    email: $("#email").val()
   };
 
   // Recolecta los datos adicionales del formulario
@@ -295,12 +213,12 @@ form.addEventListener("submit", async (event) => {
     company: $("#company").val(),
     chargeStartDate: $("#chargeStartDate").val(),
     chargeEndDate: $("#chargeEndDate").val(),
-    chargeDescription: $("#chargeDescription").val(),
+    chargeDescription: $("#chargeDescription").val()
   };
 
   try {
     // Envía los datos del formulario principal al servidor usando fetch con método PUT
-    $.ajax({
+    await $.ajax({
       type: "PUT",
       url: `http://localhost:8080/emprendev/v1/user/${id}`,
       contentType: "application/json",
@@ -308,22 +226,46 @@ form.addEventListener("submit", async (event) => {
       xhrFields: {
         withCredentials: true,
       },
-      success: function () {
-        $("#edit-form").hide();
+      success: function (response) {
+        console.log("Usuario actualizado con éxito:", response);
       },
       error: function (xhr, status, error) {
-        console.error("Error al actualizar Usuario:", error);
+        console.error("Error al actualizar Usuario:", xhr.responseText);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al actualizar Usuario',
+          text: `Detalles: ${xhr.responseText}`,
+        });
       },
     });
 
-    // Llama a la función para verificar los datos y actualizar o crear datos
-    checkDataAndUpdate(id, formData2);
+    // Envía los datos adicionales al servidor usando fetch con método PUT
+    await $.ajax({
+      type: "PUT",
+      url: `http://localhost:8080/api/devs/${id}`,
+      contentType: "application/json",
+      data: JSON.stringify(formData2),
+      xhrFields: {
+        withCredentials: true,
+      },
+      success: function (response) {
+        console.log("Datos adicionales actualizados con éxito:", response);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error al actualizar Datos adicionales:", xhr.responseText);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al actualizar Datos adicionales',
+          text: `Detalles: ${xhr.responseText}`,
+        });
+      },
+    });
 
   } catch (error) {
     // Mostrar error si hubo un problema
     Swal.fire({
       icon: 'error',
-      title: 'Error',
+      title: 'Error general',
       text: `No se pudo actualizar los datos. ${error.message}`,
     });
   }
@@ -340,40 +282,4 @@ function OpenPerfilSubMenu() {
     userSubMenu.style.display = "none";
   }
   SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
-}
-
-//drag n drop tags
-let tags = document.getElementsByClassName("tag");
-let tagsContainer = document.getElementById("tags-container");
-let dropAreaTags = document.getElementById("drop-area-tags");
-let cardTagsPreview = document.getElementById("card-tags-preview");
-
-for (let tag of tags) {
-  tag.addEventListener("dragstart", function (e) {
-    let selected = e.target;
-
-    tagsContainer.addEventListener("dragover", function (e) {
-      e.preventDefault();
-    });
-    tagsContainer.addEventListener("drop", function (e) {
-      tagsContainer.appendChild(selected);
-      UpdateCard();
-      selected = null;
-    });
-
-    dropAreaTags.addEventListener("dragover", function (e) {
-      e.preventDefault();
-      dropAreaTags.classList.add("active");
-    });
-    dropAreaTags.addEventListener("drop", function (e) {
-      dropAreaTags.appendChild(selected);
-      UpdateCard();
-      selected = null;
-    });
-  });
-}
-
-function UpdateCard() {
-  let html = `<div id="drop-area-tags" class="card-area-tags">${dropAreaTags.innerHTML}</div>`;
-  cardTagsPreview.innerHTML = html;
 }

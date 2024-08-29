@@ -1,8 +1,10 @@
 package com.emprendev.services;
 
+import com.emprendev.entity.Dev;
 import com.emprendev.entity.Token;
 import com.emprendev.entity.User;
 import com.emprendev.repository.UserRepository;
+import com.emprendev.repository.DevRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,6 +20,9 @@ public class UserServices {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    DevRepository devRepository;
 
     @Autowired
     private com.emprendev.repository.TokenRepository tokenRepository;
@@ -38,9 +43,56 @@ public class UserServices {
         return userRepository.findById(id);
     }
 
-    public void saveOrUpdate(User user) {
-        userRepository.save(user);
+    public User saveOrUpdate(User user) {
+        if ("Desarrollador".equals(user.getRole())) {
+            Optional<User> existingUserOptional = userRepository.findByEmail(user.getEmail());
+
+            if (existingUserOptional.isPresent()) {
+                // Actualiza el Dev existente
+                Dev existingDev = (Dev) existingUserOptional.get();
+                existingDev.setFirstName(user.getFirstName());
+                existingDev.setSecondName(user.getSecondName());
+                existingDev.setLastName(user.getLastName());
+                existingDev.setLastName2(user.getLastName2());
+                existingDev.setDocType(user.getDocType());
+                existingDev.setDocNum(user.getDocNum());
+                existingDev.setBirthDate(user.getBirthDate());
+                existingDev.setRole(user.getRole());
+                existingDev.setPhoneNum(user.getPhoneNum());
+                existingDev.setAddress(user.getAddress());
+                existingDev.setPassword(user.getPassword());
+                existingDev.setImgProfile(user.getImgProfile());
+                existingDev.setAccountState(user.getAccountState());
+                existingDev.setCreationDate(user.getCreationDate());
+
+                return devRepository.save(existingDev);
+            } else {
+                // Si el usuario no existe, crea uno nuevo
+                Dev dev = new Dev();
+                dev.setFirstName(user.getFirstName());
+                dev.setSecondName(user.getSecondName());
+                dev.setLastName(user.getLastName());
+                dev.setLastName2(user.getLastName2());
+                dev.setDocType(user.getDocType());
+                dev.setDocNum(user.getDocNum());
+                dev.setBirthDate(user.getBirthDate());
+                dev.setRole(user.getRole());
+                dev.setPhoneNum(user.getPhoneNum());
+                dev.setAddress(user.getAddress());
+                dev.setEmail(user.getEmail());
+                dev.setPassword(user.getPassword());
+                dev.setImgProfile(user.getImgProfile());
+                dev.setAccountState(user.getAccountState());
+                dev.setCreationDate(user.getCreationDate());
+
+                return devRepository.save(dev);
+            }
+        } else {
+            // Maneja otros tipos de usuarios si es necesario
+            return userRepository.save(user);
+        }
     }
+
 
     public void delete(Long id) {
         userRepository.deleteById(id);

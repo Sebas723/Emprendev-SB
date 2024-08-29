@@ -2,17 +2,17 @@ package com.emprendev.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "tbl_dev")
 @DiscriminatorValue("DEV")
 public class Dev extends User {
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long id;
+
     private String profileDescription;
     private String university;
     private String career;
@@ -24,10 +24,9 @@ public class Dev extends User {
     private Date chargeEndDate;
     private String chargeDescription;
 
-    public Dev(){}
+    public Dev() {}
 
-    public Dev(long id, String profileDescription, String university, String career, Date careerStartDate, Date careerEndDate, String charge, String company, Date chargeStartDate, Date chargeEndDate, String chargeDescription) {
-        this.id = id;
+    public Dev(String profileDescription, String university, String career, Date careerStartDate, Date careerEndDate, String charge, String company, Date chargeStartDate, Date chargeEndDate, String chargeDescription) {
         this.profileDescription = profileDescription;
         this.university = university;
         this.career = career;
@@ -37,91 +36,6 @@ public class Dev extends User {
         this.company = company;
         this.chargeStartDate = chargeStartDate;
         this.chargeEndDate = chargeEndDate;
-        this.chargeDescription = chargeDescription;
-    }
-
-    @Override
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getProfileDescription() {
-        return profileDescription;
-    }
-
-    public void setProfileDescription(String profileDescription) {
-        this.profileDescription = profileDescription;
-    }
-
-    public String getUniversity() {
-        return university;
-    }
-
-    public void setUniversity(String university) {
-        this.university = university;
-    }
-
-    public String getCareer() {return career;}
-
-    public void setCareer(String career) {this.career = career;}
-
-    public Date getCareerStartDate() {
-        return careerStartDate;
-    }
-
-    public void setCareerStartDate(Date careerStartDate) {
-        this.careerStartDate = careerStartDate;
-    }
-
-    public Date getCareerEndDate() {
-        return careerEndDate;
-    }
-
-    public void setCareerEndDate(Date careerEndDate) {
-        this.careerEndDate = careerEndDate;
-    }
-
-    public String getCharge() {
-        return charge;
-    }
-
-    public void setCharge(String charge) {
-        this.charge = charge;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public Date getChargeStartDate() {
-        return chargeStartDate;
-    }
-
-    public void setChargeStartDate(Date chargeStartDate) {
-        this.chargeStartDate = chargeStartDate;
-    }
-
-    public Date getChargeEndDate() {
-        return chargeEndDate;
-    }
-
-    public void setChargeEndDate(Date chargeEndDate) {
-        this.chargeEndDate = chargeEndDate;
-    }
-
-    public String getChargeDescription() {
-        return chargeDescription;
-    }
-
-    public void setChargeDescription(String chargeDescription) {
         this.chargeDescription = chargeDescription;
     }
 }
