@@ -11,6 +11,8 @@ async function checkSessionStatus() {
     if (data.sessionActive) {
       console.log("Session is active:", data);
 
+      localStorage.setItem('userId', data.userId);
+
       // Formatear la fecha de nacimiento
       const birthDateMillis = data.birthDate;
       const birthDate = new Date(birthDateMillis);
@@ -20,7 +22,7 @@ async function checkSessionStatus() {
       const formattedDate = `${day}/${month}/${year}`;
 
       // Actualizar el DOM con los datos del usuario
-      $(".session_user_id").text(data.id);
+      $(".session_user_id").text(data.userId);
       $(".session_user_firstName").text(data.firstName);
       $(".session_user_secondName").text(data.secondName || "No disponible");
       $(".session_user_lastName").text(data.lastName);

@@ -258,6 +258,7 @@ document.getElementById("submit_offer").addEventListener("click", function () {
 
         // Obtén los valores del formulario
         formData.append("title", document.getElementById("card_title_input").value);
+        formData.append("userId", localStorage.getItem('userId'));
         formData.append("description", document.getElementById("card_desc_input").value);
         formData.append("payment", document.getElementById("card_pago_input").value);
         formData.append("fields", document.getElementById("offer_fields").value);
