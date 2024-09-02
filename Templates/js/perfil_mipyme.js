@@ -1,67 +1,3 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//     // Llamada a la función para cargar la información
-//     cargarInformacion();
-// });
-
-// async function cargarInformacion() {
-//     try {
-//         const response = await fetch("http://localhost:8080/emprendev/v1/user/listOrderAccount", {
-//             method: "GET",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             credentials: "include" // Asegúrate de que las credenciales se envíen
-//         });
-
-//         if (!response.ok) {
-//             throw new Error("Network response was not ok");
-//         }
-
-//         const data = await response.json();
-
-//         // Recorre los datos y actualiza el DOM
-//         data.forEach(item => {
-//             if (item.accountState == 1 && item.role == "dev") {
-//                 // Actualizar los elementos con las clases correspondientes
-//                 updateElements(".primer-nombre", item.firstName);
-//                 updateElements(".segundo-nombre", item.secondName);
-//                 updateElements(".primer-apellido", item.lastName);
-//                 updateElements(".segundo-apellido", item.lastName2);
-//                 updateElements(".tipo-documento", item.docType);
-//                 updateElements(".numero-documento", item.docNum);
-//                 updateElements(".fecha-nacimiento", formatDate(new Date(item.birthDate)));
-//                 updateElements(".rol", item.role);
-//                 updateElements(".telefono", item.phoneNum);
-//                 updateElements(".direccion", item.address);
-//                 updateElements(".correo", item.email);
-//                 updateElements(".nombre-negocio", item.businessName);
-//                 updateElements(".direccion-negocio", item.businessAddress);
-//                 updateElements(".ubicacion-negocio", item.businessLocation);
-//                 updateElements(".descripcion-negocio", item.businessDescription || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus iure omnis a praesentium laboriosam assumenda. Cum velit libero laudantium aliquam, impedit illum ratione quaerat alias magni dolores, sit maiores voluptatem error vero. Dolores non, minima impedit consequatur voluptas quia quod odio rem, expedita accusantium, corporis excepturi modi cumque cum. Aperiam quos ducimus eius laudantium fuga illo nulla! Dicta culpa non laboriosam laborum ipsum, aspernatur veritatis quae, alias modi consequatur eveniet dolor, exercitationem voluptatem error dolorem rem placeat perspiciatis assumenda! Mollitia, ipsum. Ratione ipsam enim, quod dolores consectetur optio minus consequatur unde aperiam deserunt incidunt aliquam, magnam sequi natus consequuntur quia?");
-//             }
-//         });
-//     } catch (error) {
-//         console.error("Error al cargar la información:", error);
-//     }
-// }
-
-// Función para actualizar elementos con una clase dada
-function updateElements(selector, value) {
-    const elements = document.querySelectorAll(selector);
-    elements.forEach(el => {
-        el.textContent = value || 'No disponible';
-    });
-}
-
-// Función para formatear la fecha
-function formatDate(date) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('es-ES', options);
-}
-
-
-
-
 const PersonalInformationBtn = document.getElementById("datos-personales-btn");
 const DescriptionBtn = document.getElementById("descripcion-btn");
 const TituloInfo = document.getElementById("tituloinfo");
@@ -123,3 +59,49 @@ File.addEventListener('change', e => {
     }
 });
 
+async function checkSessionStatus() {
+    try {
+        const data = await $.ajax({
+            url: "http://localhost:8080/emprendev/v1/user/sessionStatus",
+            type: "GET",
+            xhrFields: {
+                withCredentials: true,
+            },
+        });
+
+        if (data.sessionActive) {
+            const id = data.userId;
+
+            // Solicitar datos adicionales de Dev
+            const mipymeData = await $.ajax({
+                url: `http://localhost:8080/api/mipymes/${id}`,
+                type: "GET",
+                xhrFields: {
+                    withCredentials: true,
+                },
+            });
+
+            // Verifica los datos que recibes
+            console.log("Datos de Mipyme:", mipymeData);
+
+            // Actualiza el DOM con los datos de Dev
+            $(".nameBusiness").text(mipymeData.nameBusiness) || "Descripción del negocio";
+            $(".cityBusiness").text(mipymeData.cityBusiness);
+            $(".addressBusiness").text(mipymeData.addressBusiness);
+            $(".descriptionBusiness").text(mipymeData.descriptionBusiness);
+
+        } else {
+            console.log("No active session:", data.message);
+        }
+    } catch (error) {
+        console.error("Error checking session status:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No se pudo verificar el estado de la sesión o cargar los datos del mipyme.",
+        });
+    }
+}
+
+// Llama a la función para verificar el estado de la sesión
+checkSessionStatus();

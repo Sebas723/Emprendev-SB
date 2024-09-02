@@ -303,6 +303,7 @@ form.addEventListener("submit", async (event) => {
     });
   }
 });
+
   //Submenu del perfil del usuario (imagen arriba a la izquierda)
   userSubMenu.style.display = "none";
 

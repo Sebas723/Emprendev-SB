@@ -54,16 +54,10 @@ public class MipymeServiceImpl implements MipymeService {
             existingMipyme.setEmail(mipymeDetails.getEmail());
 
             // Actualizar atributos específicos de Mipyme
-            existingMipyme.setProfileDescription(mipymeDetails.getProfileDescription());
-            existingMipyme.setUniversity(mipymeDetails.getUniversity());
-            existingMipyme.setCareer(mipymeDetails.getCareer());
-            existingMipyme.setCareerStartDate(mipymeDetails.getCareerStartDate());
-            existingMipyme.setCareerEndDate(mipymeDetails.getCareerEndDate());
-            existingMipyme.setCharge(mipymeDetails.getCharge());
-            existingMipyme.setCompany(mipymeDetails.getCompany());
-            existingMipyme.setChargeStartDate(mipymeDetails.getChargeStartDate());
-            existingMipyme.setChargeEndDate(mipymeDetails.getChargeEndDate());
-            existingMipyme.setChargeDescription(mipymeDetails.getChargeDescription());
+            existingMipyme.setNameBusiness(mipymeDetails.getNameBusiness());
+            existingMipyme.setAddressBusiness(mipymeDetails.getAddressBusiness());
+            existingMipyme.setCityBusiness(mipymeDetails.getCityBusiness());
+            existingMipyme.setDescriptionBusiness(mipymeDetails.getDescriptionBusiness());
 
             return mipymeRepository.save(existingMipyme);
         }

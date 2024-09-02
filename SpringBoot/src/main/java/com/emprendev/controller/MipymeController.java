@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping
+@RequestMapping("api/mipymes")
 public class MipymeController {
 
     @Autowired
@@ -72,7 +72,7 @@ public class MipymeController {
                 existingMipyme.setNameBusiness(mipymeDetails.getNameBusiness());
                 existingMipyme.setAddressBusiness(mipymeDetails.getAddressBusiness());
                 existingMipyme.setCityBusiness(mipymeDetails.getCityBusiness());
-                existingMipyme.setDescriptionBusiness(mipymeDetails.getDescriptionBusiness()c);
+                existingMipyme.setDescriptionBusiness(mipymeDetails.getDescriptionBusiness());
 
                 Mipyme updatedMipyme = mipymeService.updateMipyme(id, existingMipyme);
                 return ResponseEntity.ok(updatedMipyme);
