@@ -165,7 +165,7 @@ header div img{
 
 .offertableContainer{
     position: absolute;
-    margin-top: 10%;
+    margin-top: 8%;
     width: 100%;
     height: 70vh;
     display: flex;
@@ -213,23 +213,23 @@ header div img{
     border-width: 1px;
     display: flex;
     flex-direction: column;
-    padding: 2% 4% 2% 4%;
+    padding: 2% 3% 2% 3%;
     margin: 0 auto;
 }
 
 .update_offer textarea{
-    width: 600px;
-    height: 200px;
+    width: 100%;
+    height: 400px;
 }
 
 .update_offer #edit_offer_tittle{
-    width: 600px;
+    width: 100%;
 }
 
 .update_offer img{
     border-radius: 20px;
     height: 300px;
-    width: 600px;
+    width: 100%;
 }
 
 .edit-form-column{
@@ -247,7 +247,19 @@ header div img{
     display: flex;
     flex-direction: row;
     width: 100%;
-    gap: 1%;
+    gap: 5%;
+}
+
+.update_offer #edit_offer_payment{
+    width: 100%;
+}
+
+.update_offer #edit_offer_fields{
+    width: 100%;
+}
+
+.update_offer #edit_offer_state{
+    width: 100%;
 }
 
 /*formulario de edicion de usuarios*/
@@ -269,7 +281,7 @@ header div img{
 }
 
 .update_user input{
-    width: 300px;
+    width: 250px;
 }
 
 .edit_form_user_row{
@@ -282,6 +294,7 @@ header div img{
     display: flex;
     flex-direction: column;
 }
+
 
 .logout-btn{
     display: none;

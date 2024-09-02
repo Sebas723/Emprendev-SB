@@ -50,68 +50,69 @@ $(document).ready(function () {
         });
     }
 
-    // Desde aquí empieza el guardado de los cambios de la oferta
-    $(document).on("click", "#edit_offer_form", function () {
+// Desde aquí empieza el guardado de los cambios de la oferta
+$(document).on("click", "#edit_offer_form", function () {
 
-        if (!offerId) {
-            alert("El ID de la oferta no se ha encontrado. Por favor, intente nuevamente.");
-            return;
-        }
+  // Verifica si existe un ID de la oferta
+  if (!offerId) {
+      alert("El ID de la oferta no se ha encontrado. Por favor, intente nuevamente.");
+      return;
+  }
 
-        if (confirm("¿Desea guardar los cambios realizados?")) {
-            // Obtener valores de los campos del formulario
-            var img = $("#photoInput").val();
-            console.log(img);
-            var title = $("#card_title_input").val();
-            var description = $("#card_desc_input").val();
-            var payment = $("#card_pago_input").val();
-            var fields = $("#offer_fields").val();
-            var offerState = $("#hidden_offer_state").val(); // Obtener el estado de la oferta
+  // Confirmar si el usuario desea guardar los cambios
+  if (confirm("¿Desea guardar los cambios realizados?")) {
+      
+      // Crear un objeto FormData para enviar la imagen y otros datos
+      var formData = new FormData();
+      const file = document.getElementById("photoInput").files[0];
+      if (file) {
+          formData.append("image", file); // Añadir la imagen si existe
+      }
+      
+      // Obtener valores de los campos del formulario
+      var title = $("#card_title_input").val();
+      var description = $("#card_desc_input").val();
+      var payment = $("#card_pago_input").val();
+      var fields = $("#offer_fields").val();
+      var offerState = $("#hidden_offer_state").val(); // Obtener el estado de la oferta
+      var creationDate = $("#hidden_creation_date").val(); // Fecha de creación
+      var finalizationDate = $("#hidden_finalization_date").val(); // Fecha de finalización
+      
+      // Añadir los otros datos al FormData
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("payment", payment);
+      formData.append("fields", fields);
+      formData.append("offerState", offerState);
+      formData.append("creationDate", creationDate);
+      formData.append("finalizationDate", finalizationDate);
 
-            // Usar las fechas almacenadas en los campos ocultos
-            var creationDate = $("#hidden_creation_date").val();
-            var finalizationDate = $("#hidden_finalization_date").val();
-
-            // Preparar los datos para enviar
-            var data = {
-                image: img,
-                title: title,
-                description: description,
-                payment: payment,
-                fields: fields,
-                offerState: offerState,
-                creationDate: creationDate,
-                finalizationDate: finalizationDate,
-            };
-
-            // Realizar la solicitud AJAX
-            $.ajax({
-                type: "PUT",
-                url: `http://localhost:8080/api/offers/${offerId}`, // Usa la variable correcta para el ID
-                contentType: "application/json",
-                data: JSON.stringify(data),
-                xhrFields: {
-                    withCredentials: true,
-                },
-                success: function (response) {
-                    Swal.fire({
-                        icon: "success",
-                        title: "¡Oferta Actualizada!",
-                        text: "Los cambios se han guardado exitosamente...",
-                      }).then(() => {
-                        // Redirigir a otra vista
-                        window.location.href = "catalogo.html"; // Cambia la URL a la ruta deseada
-                      });
-                },
-                error: function (xhr, status, error) {
-                    console.error("Error al actualizar la oferta:", error);
-                    alert("Hubo un error al guardar los cambios. Por favor, inténtelo nuevamente.");
-                },
-            });
-        } else {
-            window.location.href = "#";
-        }
-    });
+      // Realizar la solicitud AJAX con PUT
+      $.ajax({
+          type: "PUT",
+          url: `http://localhost:8080/api/offers/${offerId}`, // Usa la variable correcta para el ID
+          data: formData, // Enviar el FormData que incluye la imagen y otros datos
+          processData: false, // Evitar que jQuery procese los datos (ya que es FormData)
+          contentType: false, // Evitar que jQuery establezca el tipo de contenido
+          success: function (response) {
+              Swal.fire({
+                  icon: "success",
+                  title: "¡Oferta Actualizada!",
+                  text: "Los cambios se han guardado exitosamente...",
+                }).then(() => {
+                  // Redirigir a otra vista
+                  window.location.href = "catalogo.html"; // Cambia la URL a la ruta deseada
+                });
+          },
+          error: function (xhr, status, error) {
+              console.error("Error al actualizar la oferta:", error);
+              alert("Hubo un error al guardar los cambios. Por favor, inténtelo nuevamente.");
+          },
+      });
+  } else {
+      window.location.href = "#";
+  }
+});
 });
 
 

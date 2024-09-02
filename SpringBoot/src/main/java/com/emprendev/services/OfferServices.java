@@ -48,16 +48,11 @@ public class OfferServices {
         return offerRepository.save(offer);
     }
 
-    public void saveImage(MultipartFile file) throws IOException {
-        byte[] imageBytes = file.getBytes();
-        Offer offer = new Offer();
-        offer.setImage(imageBytes);
-        offerRepository.save(offer);
-    }
-
     public List<Offer> getAllOrderByAccountState(){
         return offerRepository.findByAccountState();
     }
+
+
 
     public void deleteOffer(Long id) {
         if (offerRepository.existsById(id)) {
@@ -67,24 +62,48 @@ public class OfferServices {
         }
     }
 
-    public Offer updateOffer(Long id, Offer offerDetails) {
+    public Offer updateOffer(Long id, String title, String description, Long payment, Integer fields,
+                             Integer offerState, String creationDate, String finalizationDate,
+                             MultipartFile file) throws IOException {
         Optional<Offer> optionalOffer = offerRepository.findById(id);
         if (optionalOffer.isPresent()) {
             Offer offer = optionalOffer.get();
 
             // Actualizar los detalles de la oferta
-            offer.setTitle(offerDetails.getTitle());
-            offer.setDescription(offerDetails.getDescription());
-            offer.setCreationDate(offerDetails.getCreationDate());
-            offer.setFinalizationDate(offerDetails.getFinalizationDate());
-            offer.setFields(offerDetails.getFields());
-            offer.setPayment(offerDetails.getPayment());
-            offer.setImage(offerDetails.getImage());
-            offer.setOfferState(offerDetails.getOfferState());
+            offer.setTitle(title);
+            offer.setDescription(description);
+            offer.setPayment(payment);
+            offer.setFields(fields);
+            offer.setOfferState(offerState);
+            offer.setCreationDate(creationDate);
+            offer.setFinalizationDate(finalizationDate);
 
+            // Actualizar la imagen si se proporciona
+            if (file != null && !file.isEmpty()) {
+                byte[] imageBytes = file.getBytes();
+                offer.setImage(imageBytes);
+            }
+
+            // Guardar la oferta actualizada
             return offerRepository.save(offer);
         } else {
             throw new ResourceNotFoundException("Offer not found with id " + id);
         }
     }
+
+    public Offer deactivateOffer(Long id) throws ResourceNotFoundException {
+        Offer offer = offerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Offer not found"));
+        offer.setOfferState(0); // Desactivar oferta
+        return offerRepository.save(offer);
+    }
+
+    public Offer reactivateOffer(Long id) throws ResourceNotFoundException {
+        Offer offer = offerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Offer not found"));
+        offer.setOfferState(1); // Reactivar oferta
+        return offerRepository.save(offer);
+    }
+
 }
+

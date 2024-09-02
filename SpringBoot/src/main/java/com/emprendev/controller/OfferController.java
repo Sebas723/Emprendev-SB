@@ -78,18 +78,50 @@ public class OfferController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Offer> updateOffer(@PathVariable Long id, @RequestBody Offer offerDetails) {
+    @PutMapping(value = "/{id}", consumes = "multipart/form-data")
+    public ResponseEntity<Offer> updateOffer(
+            @PathVariable Long id,
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("payment") Long payment,
+            @RequestParam("fields") Integer fields,
+            @RequestParam("offerState") Integer offerState,
+            @RequestParam("creationDate") String creationDate,
+            @RequestParam("finalizationDate") String finalizationDate,
+            @RequestPart(value = "image", required = false) MultipartFile file // La imagen es opcional
+    ) {
         try {
-            System.out.println("Updating offer with id: " + id);
-            System.out.println("Offer details: " + offerDetails);
-            Offer updatedOffer = offerService.updateOffer(id, offerDetails);
+            Offer updatedOffer = offerService.updateOffer(id, title, description, payment, fields, offerState, creationDate, finalizationDate, file);
             return ResponseEntity.ok(updatedOffer);
         } catch (ResourceNotFoundException e) {
-            System.out.println("Offer not found with id: " + id);
+            return ResponseEntity.notFound().build();
+        } catch (IOException e) {
+            // Manejar excepciones relacionadas con la gestión del archivo
+            return ResponseEntity.status(500).body(null);
+        }
+    }
+
+    @PutMapping("/{id}/deactivate")
+    public ResponseEntity<Offer> deactivateOffer(@PathVariable Long id) {
+        try {
+            Offer updatedOffer = offerService.deactivateOffer(id);
+            return ResponseEntity.ok(updatedOffer);
+        } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PutMapping("/{id}/reactivate")
+    public ResponseEntity<Offer> reactivateOffer(@PathVariable Long id) {
+        try {
+            Offer updatedOffer = offerService.reactivateOffer(id);
+            return ResponseEntity.ok(updatedOffer);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOffer(@PathVariable Long id) {

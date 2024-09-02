@@ -14,25 +14,22 @@ $(document).ready(function () {
         data.forEach((item) => {
           const fullName = `${item.firstName} ${item.secondName}`;
           const fullLastName = `${item.lastName} ${item.lastName2}`;
-          const accountStateText =
-            item.accountState === 1 ? "Activo" : "Desactivado";
-          const stateClass =
-            item.accountState === 1 ? "" : 'class="deactivated_user"';
-
+          const accountStateText = item.accountState === 1 ? "Activo" : "Desactivado";
+          const stateClass = item.accountState === 1 ? "" : 'class="deactivated_user"';
 
           // Obtener los milisegundos de la fecha desde los datos
           const birthDateMillis = item.birthDate;
 
-        // Creamos un objeto Date a partir de los milisegundos.
-        const birthDate = new Date(birthDateMillis);
+          // Creamos un objeto Date a partir de los milisegundos.
+          const birthDate = new Date(birthDateMillis);
 
-        // Extraemos el día, el mes y el año.
-        const day = String(birthDate.getDate()).padStart(2, "0");
-        const month = String(birthDate.getMonth() + 1).padStart(2, "0"); // Los meses empiezan en 0, por eso se suma 1
-        const year = birthDate.getFullYear();
+          // Extraemos el día, el mes y el año.
+          const day = String(birthDate.getDate()).padStart(2, "0");
+          const month = String(birthDate.getMonth() + 1).padStart(2, "0"); // Los meses empiezan en 0, por eso se suma 1
+          const year = birthDate.getFullYear();
 
-        // Formateamos la fecha en YYYY-MM-DD para el input de tipo date
-        const formattedDate = `${year}-${month}-${day}`;
+          // Formateamos la fecha en YYYY-MM-DD para el input de tipo date
+          const formattedDate = `${year}-${month}-${day}`;
 
           const row = `
                         <tr ${stateClass}>
@@ -47,24 +44,12 @@ $(document).ready(function () {
                             <td>${accountStateText}</td>
                             <td>${item.creationDate}</td>
                             <td>
-                                <img id='user_icon' class='user_img' src='${
-                                  item.imgProfile
-                                }' alt='Imagen de perfil' width='40' height='40'>
+                                <img id='user_icon' class='user_img' src='${item.imgProfile}' alt='Imagen de perfil' width='40' height='40'>
                             </td>
                             <td>
-                                <button class='btn btn-primary btn-sm editarUser' data-id='${
-                                  item.id
-                                }'>Editar</button>
-                                <button class='btn btn-${
-                                  item.accountState === 1 ? "danger" : "success"
-                                } btn-sm ${
-            item.accountState === 1 ? "desactivarUser" : "reactivarUser"
-          }' data-id='${item.id}'>
-                                    ${
-                                      item.accountState === 1
-                                        ? "Desactivar"
-                                        : "Reactivar"
-                                    }
+                                <button id ="idbtn" class='btn btn-primary btn-sm editarUser' data-id='${item.id}'>Editar</button>
+                                <button class='btn btn-${item.accountState === 1 ? "danger" : "success"} btn-sm ${item.accountState === 1 ? "desactivarUser" : "reactivarUser"}' data-id='${item.id}'>
+                                    ${item.accountState === 1 ? "Desactivar" : "Reactivar"}
                                 </button>
                             </td>
                         </tr>
@@ -152,8 +137,14 @@ $(document).ready(function () {
                 withCredentials: true,
             },
             success: function () {
-                $("#edit-form").show();
-                cargarUsuarios();
+                $("#edit-form").hide();
+                Swal.fire({
+                    icon: "success",
+                    title: "¡Usuario Actualizado!",
+                    text: "El usuario ha sido actualizado exitosamente...",
+                }).then(() => {
+                    cargarUsuarios();
+                });
             },
             error: function (xhr, status, error) {
                 console.error("Error al actualizar Usuario:", error);
@@ -162,6 +153,33 @@ $(document).ready(function () {
     } else {
         $("#edit-form").show();
     }
+});
+
+$(document).on("click", ".desactivarUser, .reactivarUser", function () {
+  const id = $(this).data("id"); // Extraer el id del botón clicado
+  const isDeactivating = $(this).hasClass("desactivarUser"); // Verificar si la clase es desactivarUser
+  const accountState = isDeactivating ? 0 : 1;
+
+  if (confirm(`¿Desea ${isDeactivating ? "desactivar" : "reactivar"} este usuario?`)) {
+    $.ajax({
+      type: "PUT",
+      url: `http://localhost:8080/emprendev/v1/user/${id}`,
+      contentType: "application/json",
+      data: JSON.stringify({ accountState }),
+      xhrFields: {
+        withCredentials: true,
+      },
+      success: function () {
+        cargarUsuarios();
+      },
+      error: function (xhr, status, error) {
+        console.error(`Error al ${isDeactivating ? "desactivar" : "reactivar"} Usuario:`, error);
+      },
+    });
+  }
+});
+
+cargarUsuarios(); // Llamada inicial para cargar los usuarios
 });
 
 async function validateForm() {
@@ -280,38 +298,6 @@ async function validateForm() {
 }
 
 
-
-  $(document).on("click", ".desactivarUser, .reactivarUser", function () {
-    const id = $(this).data("id");
-    const isDeactivating = $(this).hasClass("desactivar");
-    const accountState = isDeactivating ? 0 : 1;
-
-    if (
-      confirm(
-        `¿Desea ${isDeactivating ? "desactivar" : "reactivar"} este usuario?`
-      )
-    ) {
-      $.ajax({
-        type: "PUT",
-        url: `http://localhost:8080/emprendev/v1/user/${id}`,
-        contentType: "application/json",
-        data: JSON.stringify({ accountState }),
-        xhrFields: {
-          withCredentials: true,
-        },
-        success: function () {
-          cargarUsuarios();
-        },
-        error: function (xhr, status, error) {
-          console.error(
-            `Error al ${isDeactivating ? "desactivar" : "reactivar"} Usuario:`,
-            error
-          );
-        },
-      });
-    }
-  });
-
   //Desde aqui empiezan las llamada de la oferta en la tabla para el administrador
   //Desde aqui empiezan las llamada de la oferta en la tabla para el administrador
   //Desde aqui empiezan las llamada de la oferta en la tabla para el administrador
@@ -425,62 +411,69 @@ async function validateForm() {
     }
   });
 
-  // Funcionalidad de guardado para los cambios de la oferta
-  $(document).on("click", "#offer-save-edit-btn", async function () {
-    // Validar el formulario antes de continuar
-    const validacionesPasaron = await validateForm();
+// Funcionalidad de guardado para los cambios de la oferta
+$(document).on("click", "#offer-save-edit-btn", async function () {
+  // Validar el formulario antes de continuar
+  const validacionesPasaron = await validateOfferForm();
 
-    if (validacionesPasaron && confirm("¿Desea Guardar Los cambios Realizados?")) {
-        var id = $("#edit-offer-id").val();
-        var title = $("#edit_offer_tittle").val();
-        var description = $("#edit_offer_desc").val();
-        var payment = $("#edit_offer_payment").val();
-        var fields = $("#edit_offer_fields").val();
-        var offerState = $("#edit_offer_state").val();
+  if (validacionesPasaron && confirm("¿Desea guardar los cambios realizados?")) {
+      var id = $("#edit-offer-id").val();
+      var title = $("#edit_offer_tittle").val();
+      var description = $("#edit_offer_desc").val();
+      var payment = $("#edit_offer_payment").val();
+      var fields = $("#edit_offer_fields").val();
+      var offerState = $("#edit_offer_state").val();
 
-        // Usar las fechas almacenadas en los campos ocultos
-        var creationDate = $("#hidden_creation_date").val();
-        var finalizationDate = $("#hidden_finalization_date").val();
+      // Usar las fechas almacenadas en los campos ocultos
+      var creationDate = $("#hidden_creation_date").val();
+      var finalizationDate = $("#hidden_finalization_date").val();
 
-        var data = {
-            title: title,
-            description: description,
-            payment: payment,
-            fields: fields,
-            offerState: offerState,
-            creationDate: creationDate,
-            finalizationDate: finalizationDate,
-        };
+      // Crear un objeto FormData para enviar la imagen y otros datos
+      var formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("payment", payment);
+      formData.append("fields", fields);
+      formData.append("offerState", offerState);
+      formData.append("creationDate", creationDate);
+      formData.append("finalizationDate", finalizationDate);
 
-        $.ajax({
-            type: "PUT",
-            url: "http://localhost:8080/api/offers/" + id,
-            contentType: "application/json",
-            data: JSON.stringify(data),
-            xhrFields: {
-                withCredentials: true,
-            },
-            success: function (response) {
-                $("#edit-offer-form").hide();
-                Swal.fire({
-                    icon: "success",
-                    title: "¡Oferta Actualizada!",
-                    text: "La oferta ha sido actualizada exitosamente...",
-                }).then(() => {
-                    cargarOfertas(); // Recargar la lista de ofertas
-                });
-            },
-            error: function (xhr, status, error) {
-                console.error("Error al actualizar la oferta:", error);
-            },
-        });
-    } else {
-        $("#edit-offer-form").show();
-    }
+      // Añadir la imagen si existe
+      const file = document.getElementById("edit_offer_image_input").files[0];
+      if (file) {
+          formData.append("image", file);
+      }
+
+      $.ajax({
+          type: "PUT",
+          url: "http://localhost:8080/api/offers/" + id,
+          data: formData,
+          processData: false, // Evitar que jQuery procese los datos
+          contentType: false, // Evitar que jQuery establezca el tipo de contenido
+          xhrFields: {
+              withCredentials: true,
+          },
+          success: function (response) {
+              $("#edit-offer-form").hide();
+              Swal.fire({
+                  icon: "success",
+                  title: "¡Oferta Actualizada!",
+                  text: "La oferta ha sido actualizada exitosamente...",
+              }).then(() => {
+                  cargarOfertas(); // Recargar la lista de ofertas
+              });
+          },
+          error: function (xhr, status, error) {
+              console.error("Error al actualizar la oferta:", error);
+          },
+      });
+  } else {
+      $("#edit-offer-form").show();
+  }
 });
 
-// Función de validación del formulario
-async function validateForm() {
+//Función de validación del formulario
+async function validateOfferForm() {
     const tituloOferta = document.querySelector('#edit_offer_tittle').value;
     const descripcionOferta = document.querySelector('#edit_offer_desc').value;
     const pagoOferta = document.querySelector('#edit_offer_payment').value;
@@ -549,11 +542,6 @@ async function validateForm() {
     return todasLasValidacionesPasaron;
 }
 
-
-
-
-
-
   // Mostrar formulario de desactivación de la oferta
   $(document).on("click", ".desactivarOffer", function () {
     var id = $(this).data("offer-id");
@@ -579,85 +567,42 @@ async function validateForm() {
   // Actualizar estado de la oferta para la desactivación
   $(document).on("click", "#deactivate-offer-btn", function () {
     if (confirm("¿Desea desactivar este registro?") == true) {
-      var id = $("#edit-offer-id").val();
+        var id = $("#edit-offer-id").val();
 
-      // Obtener los datos actuales de la oferta
-      $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/api/offers/" + id,
-        contentType: "application/json",
-        success: function (offer) {
-          // Cambiar solo el estado de la oferta
-          offer.offerState = 0;
-
-          // Enviar la oferta completa con el estado actualizado
-          $.ajax({
+        $.ajax({
             type: "PUT",
-            url: "http://localhost:8080/api/offers/" + id,
-            contentType: "application/json",
-            data: JSON.stringify(offer),
-            xhrFields: {
-              withCredentials: true,
-            },
+            url: "http://localhost:8080/api/offers/" + id + "/deactivate",
             success: function (response) {
-              $("#deactivate-offer-form").hide();
-              cargarOfertas(); // Actualizar la lista de ofertas
+                $("#deactivate-offer-form").hide();
+                cargarOfertas(); // Actualizar la lista de ofertas
             },
             error: function (xhr, status, error) {
-              console.error("Error al actualizar la oferta:", error);
+                console.error("Error al desactivar la oferta:", error);
             },
-          });
-        },
-        error: function (xhr, status, error) {
-          console.error("Error al obtener la oferta:", error);
-        },
-      });
+        });
     } else {
-      $("#deactivate-offer-form").hide();
+        $("#deactivate-offer-form").hide();
     }
   });
+
 
   // Manejar la reactivación de una oferta
   $(document).on("click", ".reactivarOffer", function () {
     if (confirm("¿Desea reactivar esta Oferta?") == true) {
-      var id = $(this).data("id");
+        var id = $(this).data("id");
 
-      // Realiza la petición GET para obtener la oferta antes de hacer cambios
-      $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/api/offers/" + id,
-        dataType: "json",
-        xhrFields: {
-          withCredentials: true,
-        },
-        success: function (offer) {
-          // Solo cambiar el estado de la oferta
-          offer.offerState = 1;
-
-          // Actualizar la oferta en el backend
-          $.ajax({
+        $.ajax({
             type: "PUT",
-            url: "http://localhost:8080/api/offers/" + id,
-            contentType: "application/json",
-            data: JSON.stringify(offer),
-            xhrFields: {
-              withCredentials: true,
-            },
+            url: "http://localhost:8080/api/offers/" + id + "/reactivate",
             success: function () {
-              cargarOfertas(); // Recargar la lista de ofertas
+                cargarOfertas(); // Recargar la lista de ofertas
             },
             error: function (xhr, status, error) {
-              console.error("Error al actualizar la Oferta:", error);
+                console.error("Error al reactivar la oferta:", error);
             },
-          });
-        },
-        error: function (xhr, status, error) {
-          console.error("Error al obtener la oferta:", error);
-        },
-      });
+        });
     }
   });
-});
 
 //admin search
 document.addEventListener("DOMContentLoaded", function () {
