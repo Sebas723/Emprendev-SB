@@ -28,15 +28,15 @@ public class OfferController {
             @RequestParam("description") String description,
             @RequestParam("payment") Long payment,
             @RequestParam("fields") Integer fields,
-            @RequestPart("image") MultipartFile file,
-            HttpSession session
+            @RequestPart("image") MultipartFile file
+            //HttpSession session
     ) {
         // Obtener el ID del usuario desde la sesión
-        Long userId = (Long) session.getAttribute("userId");
+        /*Long userId = (Long) session.getAttribute("userId");
 
         if (userId == null) {
             return ResponseEntity.status(401).body(null); // No autorizado si no hay sesión
-        }
+        }*/
 
         // Crear y configurar la oferta
         Offer offer = new Offer();
@@ -44,7 +44,7 @@ public class OfferController {
         offer.setDescription(description);
         offer.setPayment(payment);
         offer.setFields(fields);
-        offer.setUserId(userId);
+        //offer.setUserId(userId);
         offer.setCreationDate(String.valueOf(LocalDate.now()));
         offer.setFinalizationDate(String.valueOf(LocalDate.now().plusMonths(1)));
         offer.setOfferState(1);

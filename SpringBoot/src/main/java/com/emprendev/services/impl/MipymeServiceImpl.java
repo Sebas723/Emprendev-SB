@@ -32,9 +32,40 @@ public class MipymeServiceImpl implements MipymeService {
 
     @Override
     public Mipyme updateMipyme(Long id, Mipyme mipymeDetails) {
-        if (mipymeRepository.existsById(id)) {
-            mipymeDetails.setId(id);
-            return mipymeRepository.save(mipymeDetails);
+        Optional<Mipyme> existingMipymeOptional = mipymeRepository.findById(id);
+        if (existingMipymeOptional.isPresent()) {
+            Mipyme existingMipyme = existingMipymeOptional.get();
+
+            // Actualizar atributos de User
+            existingMipyme.setFirstName(mipymeDetails.getFirstName());
+            existingMipyme.setSecondName(mipymeDetails.getSecondName());
+            existingMipyme.setLastName(mipymeDetails.getLastName());
+            existingMipyme.setLastName2(mipymeDetails.getLastName2());
+            existingMipyme.setDocType(mipymeDetails.getDocType());
+            existingMipyme.setDocNum(mipymeDetails.getDocNum());
+            existingMipyme.setBirthDate(mipymeDetails.getBirthDate());
+            existingMipyme.setRole(mipymeDetails.getRole());
+            existingMipyme.setPhoneNum(mipymeDetails.getPhoneNum());
+            existingMipyme.setAddress(mipymeDetails.getAddress());
+            existingMipyme.setPassword(mipymeDetails.getPassword());
+            existingMipyme.setImgProfile(mipymeDetails.getImgProfile());
+            existingMipyme.setAccountState(mipymeDetails.getAccountState());
+            existingMipyme.setCreationDate(mipymeDetails.getCreationDate());
+            existingMipyme.setEmail(mipymeDetails.getEmail());
+
+            // Actualizar atributos específicos de Mipyme
+            existingMipyme.setProfileDescription(mipymeDetails.getProfileDescription());
+            existingMipyme.setUniversity(mipymeDetails.getUniversity());
+            existingMipyme.setCareer(mipymeDetails.getCareer());
+            existingMipyme.setCareerStartDate(mipymeDetails.getCareerStartDate());
+            existingMipyme.setCareerEndDate(mipymeDetails.getCareerEndDate());
+            existingMipyme.setCharge(mipymeDetails.getCharge());
+            existingMipyme.setCompany(mipymeDetails.getCompany());
+            existingMipyme.setChargeStartDate(mipymeDetails.getChargeStartDate());
+            existingMipyme.setChargeEndDate(mipymeDetails.getChargeEndDate());
+            existingMipyme.setChargeDescription(mipymeDetails.getChargeDescription());
+
+            return mipymeRepository.save(existingMipyme);
         }
         return null;
     }

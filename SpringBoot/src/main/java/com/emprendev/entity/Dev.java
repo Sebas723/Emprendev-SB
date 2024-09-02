@@ -12,7 +12,6 @@ import java.util.Date;
 @Table(name = "tbl_dev")
 @DiscriminatorValue("DEV")
 public class Dev extends User {
-
     private String profileDescription;
     private String university;
     private String career;

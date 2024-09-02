@@ -17,7 +17,6 @@ function validarFormulario() {
     "segundo_apellido",
     "documentoIdentidad",
     "fechaNacimiento",
-    "edad",
     "telefono",
     "correo",
   ];
@@ -47,22 +46,6 @@ function validarFormulario() {
       case "fechaNacimiento":
         if (fechaNacimiento.trim() === "") {
           alert("Por favor, ingresa tu fecha de nacimiento.");
-          return false;
-        }
-        break;
-      case "edad":
-        const fechaNacimientoDate = new Date(fechaNacimiento);
-        const hoy = new Date();
-        let edad = hoy.getFullYear() - fechaNacimientoDate.getFullYear();
-        if (
-          hoy.getMonth() < fechaNacimientoDate.getMonth() ||
-          (hoy.getMonth() === fechaNacimientoDate.getMonth() &&
-            hoy.getDate() < fechaNacimientoDate.getDate())
-        ) {
-          edad--;
-        }
-        if (edad <= 18 || edad > 80) {
-          alert("Tu edad no es válida, intenta nuevamente");
           return false;
         }
         break;
@@ -116,38 +99,6 @@ function validarFormulario() {
 }
 
 $(document).ready(function () {
-  function populateForm(data) {
-    const birthDateMillis = data.birthDate;
-
-    // Creamos un objeto Date a partir de los milisegundos.
-    const birthDate = new Date(birthDateMillis);
-
-    // Extraemos el día, el mes y el año.
-    const day = String(birthDate.getDate()).padStart(2, "0");
-    const month = String(birthDate.getMonth() + 1).padStart(2, "0"); // Los meses empiezan en 0, por eso se suma 1
-    const year = birthDate.getFullYear();
-
-    // Formateamos la fecha en YYYY-MM-DD para el input de tipo date
-    const formattedDate = `${year}-${month}-${day}`;
-    
-    $("#id").val(data.userId);
-    $("#firstName").val(data.firstName);
-    $("#lastName").val(data.lastName);
-    $("#secondName").val(data.secondName || "");
-    $("#lastName2").val(data.lastName2 || "");
-    $("#docType").val(data.docType);
-    $("#docNum").val(data.docNum);
-    $("#birthDate").val(formattedDate);
-    $("#role").val(data.role);
-    $("#phoneNum").val(data.phoneNum);
-    $("#address").val(data.address || "");
-    $("#email").val(data.Email);
-    $("#password").val(data.password);
-    $("#imgProfile").val(data.imgProfile);
-    $("#accountState").val(data.accountState);
-    $("#creationDate").val(data.creationDate);
-  }
-
   function loadUserData() {
     $.ajax({
       url: "http://localhost:8080/emprendev/v1/user/sessionStatus",
@@ -157,18 +108,37 @@ $(document).ready(function () {
       },
       success: function (data) {
         if (data.sessionActive) {
-          populateForm(data);
-          console.log($("#email").val());
+          // Cargar datos del usuario
+          populateUserForm(data);
+
+          // Obtener el ID del usuario y cargar datos adicionales de Dev
+          const userId = data.userId;
+
+          $.ajax({
+            url: `http://localhost:8080/api/devs/${userId}`,
+            type: "GET",
+            xhrFields: {
+              withCredentials: true,
+            },
+            success: function (devData) {
+              // Llenar el formulario con datos del desarrollador
+              populateDevForm(devData);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              console.error("Error al cargar datos de Dev:", textStatus, errorThrown);
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "No se pudo cargar los datos del desarrollador.",
+              });
+            }
+          });
         } else {
           console.log("No active session:", data.message);
         }
       },
       error: function (jqXHR, textStatus, errorThrown) {
-        console.error(
-          "Error checking session status:",
-          textStatus,
-          errorThrown
-        );
+        console.error("Error checking session status:", textStatus, errorThrown);
         Swal.fire({
           icon: "error",
           title: "Error",
@@ -176,6 +146,62 @@ $(document).ready(function () {
         });
       },
     });
+  }
+
+  function populateUserForm(userData) {
+    const birthDateMillis = userData.birthDate;
+    const birthDate = new Date(birthDateMillis);
+    const day = String(birthDate.getDate()).padStart(2, "0");
+    const month = String(birthDate.getMonth() + 1).padStart(2, "0");
+    const year = birthDate.getFullYear();
+    const formattedDate = `${year}-${month}-${day}`;
+
+    $("#id").val(userData.userId);
+    $("#firstName").val(userData.firstName);
+    $("#lastName").val(userData.lastName);
+    $("#secondName").val(userData.secondName || "");
+    $("#lastName2").val(userData.lastName2 || "");
+    $("#docType").val(userData.docType);
+    $("#docNum").val(userData.docNum);
+    $("#birthDate").val(formattedDate);
+    $("#role").val(userData.role);
+    $("#phoneNum").val(userData.phoneNum);
+    $("#address").val(userData.address || "");
+    $("#email").val(userData.Email);
+    $("#password").val(userData.password);
+    $("#imgProfile").val(userData.imgProfile);
+    $("#accountState").val(userData.accountState);
+    $("#creationDate").val(userData.creationDate);
+  }
+
+  function populateDevForm(devData) {
+
+    const careerStartDate = formatDate(devData.careerStartDate);
+    const careerEndDate = formatDate(devData.careerEndDate);
+
+    // Formatear fechas de cargo
+    const chargeStartDate = formatDate(devData.chargeStartDate);
+    const chargeEndDate = formatDate(devData.chargeEndDate);
+
+    $("#profileDescription").val(devData.profileDescription || "");
+    $("#university").val(devData.university || "");
+    $("#career").val(devData.career || "");
+    $("#careerStartDate").val(careerStartDate || "");
+    $("#careerEndDate").val(careerEndDate || "");
+    $("#charge").val(devData.charge || "");
+    $("#company").val(devData.company || "");
+    $("#chargeStartDate").val(chargeStartDate || "");
+    $("#chargeEndDate").val(chargeEndDate || "");
+    $("#chargeDescription").val(devData.chargeDescription || "");
+  }
+
+  function formatDate(dateMillis) {
+    if (!dateMillis) return "";  // Manejar fechas nulas o indefinidas
+    const date = new Date(dateMillis);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
   }
 
   // Llama a la función para cargar los datos del usuario cuando el documento esté listo
@@ -199,11 +225,7 @@ form.addEventListener("submit", async (event) => {
     birthDate: $("#birthDate").val(),
     phoneNum: $("#phoneNum").val(),
     address: $("#address").val(),
-    email: $("#email").val()
-  };
-
-  // Recolecta los datos adicionales del formulario
-  const formData2 = {
+    email: $("#email").val(),
     profileDescription: $("#profileDescription").val(),
     university: $("#university").val(),
     career: $("#career").val(),
@@ -236,6 +258,7 @@ form.addEventListener("submit", async (event) => {
           title: 'Error al actualizar Usuario',
           text: `Detalles: ${xhr.responseText}`,
         });
+        throw new Error("Error al actualizar Usuario");
       },
     });
 
@@ -244,7 +267,7 @@ form.addEventListener("submit", async (event) => {
       type: "PUT",
       url: `http://localhost:8080/api/devs/${id}`,
       contentType: "application/json",
-      data: JSON.stringify(formData2),
+      data: JSON.stringify(formData),
       xhrFields: {
         withCredentials: true,
       },
@@ -258,7 +281,17 @@ form.addEventListener("submit", async (event) => {
           title: 'Error al actualizar Datos adicionales',
           text: `Detalles: ${xhr.responseText}`,
         });
+        throw new Error("Error al actualizar Datos adicionales");
       },
+    });
+
+    // Mensaje de éxito si todo salió bien
+    Swal.fire({
+      icon: 'success',
+      title: 'Datos Guardados',
+      text: 'Datos guardados con éxito.',
+    }).then(() => {
+      window.location.href = "./perfil_dev.html";
     });
 
   } catch (error) {
@@ -270,16 +303,15 @@ form.addEventListener("submit", async (event) => {
     });
   }
 });
+  //Submenu del perfil del usuario (imagen arriba a la izquierda)
+  userSubMenu.style.display = "none";
 
-//Submenu del perfil del usuario (imagen arriba a la izquierda)
-userSubMenu.style.display = "none";
-
-let SubmenuPerfilBtn_isShowing = false;
-function OpenPerfilSubMenu() {
-  if (!SubmenuPerfilBtn_isShowing) {
-    userSubMenu.style.display = "block";
-  } else {
-    userSubMenu.style.display = "none";
+  let SubmenuPerfilBtn_isShowing = false;
+  function OpenPerfilSubMenu() {
+    if (!SubmenuPerfilBtn_isShowing) {
+      userSubMenu.style.display = "block";
+    } else {
+      userSubMenu.style.display = "none";
+    }
+    SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
   }
-  SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
-}

@@ -1,8 +1,10 @@
 package com.emprendev.services;
 
 import com.emprendev.entity.Dev;
+import com.emprendev.entity.Mipyme;
 import com.emprendev.entity.Token;
 import com.emprendev.entity.User;
+import com.emprendev.repository.MipymeRepository;
 import com.emprendev.repository.UserRepository;
 import com.emprendev.repository.DevRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class UserServices {
     DevRepository devRepository;
 
     @Autowired
+    MipymeRepository mipymeRepository;
+
+    @Autowired
     private com.emprendev.repository.TokenRepository tokenRepository;
 
     @Autowired
@@ -44,7 +49,9 @@ public class UserServices {
     }
 
     public User saveOrUpdate(User user) {
+        // Verifica si el rol es "Desarrollador"
         if ("Desarrollador".equals(user.getRole())) {
+            // Busca el usuario por email (o por ID si es más adecuado)
             Optional<User> existingUserOptional = userRepository.findByEmail(user.getEmail());
 
             if (existingUserOptional.isPresent()) {
@@ -64,6 +71,22 @@ public class UserServices {
                 existingDev.setImgProfile(user.getImgProfile());
                 existingDev.setAccountState(user.getAccountState());
                 existingDev.setCreationDate(user.getCreationDate());
+                existingDev.setEmail(user.getEmail());
+
+                // Actualiza los atributos específicos de Dev
+                if (user instanceof Dev) {
+                    Dev dev = (Dev) user;
+                    existingDev.setProfileDescription(dev.getProfileDescription());
+                    existingDev.setUniversity(dev.getUniversity());
+                    existingDev.setCareer(dev.getCareer());
+                    existingDev.setCareerStartDate(dev.getCareerStartDate());
+                    existingDev.setCareerEndDate(dev.getCareerEndDate());
+                    existingDev.setCharge(dev.getCharge());
+                    existingDev.setCompany(dev.getCompany());
+                    existingDev.setChargeStartDate(dev.getChargeStartDate());
+                    existingDev.setChargeEndDate(dev.getChargeEndDate());
+                    existingDev.setChargeDescription(dev.getChargeDescription());
+                }
 
                 return devRepository.save(existingDev);
             } else {
@@ -85,7 +108,67 @@ public class UserServices {
                 dev.setAccountState(user.getAccountState());
                 dev.setCreationDate(user.getCreationDate());
 
+                // Asegúrate de asignar los atributos específicos de Dev
+                if (user instanceof Dev) {
+                    Dev devDetails = (Dev) user;
+                    dev.setProfileDescription(devDetails.getProfileDescription());
+                    dev.setUniversity(devDetails.getUniversity());
+                    dev.setCareer(devDetails.getCareer());
+                    dev.setCareerStartDate(devDetails.getCareerStartDate());
+                    dev.setCareerEndDate(devDetails.getCareerEndDate());
+                    dev.setCharge(devDetails.getCharge());
+                    dev.setCompany(devDetails.getCompany());
+                    dev.setChargeStartDate(devDetails.getChargeStartDate());
+                    dev.setChargeEndDate(devDetails.getChargeEndDate());
+                    dev.setChargeDescription(devDetails.getChargeDescription());
+                }
+
                 return devRepository.save(dev);
+            }
+        } else if ("Mipyme".equals(user.getRole())) {
+            // Lógica similar para el rol "Mipyme"
+            Optional<User> existingUserOptional = userRepository.findByEmail(user.getEmail());
+
+            if (existingUserOptional.isPresent()) {
+                // Actualiza la Mipyme existente
+                Mipyme existingMipyme = (Mipyme) existingUserOptional.get();
+                existingMipyme.setFirstName(user.getFirstName());
+                existingMipyme.setSecondName(user.getSecondName());
+                existingMipyme.setLastName(user.getLastName());
+                existingMipyme.setLastName2(user.getLastName2());
+                existingMipyme.setDocType(user.getDocType());
+                existingMipyme.setDocNum(user.getDocNum());
+                existingMipyme.setBirthDate(user.getBirthDate());
+                existingMipyme.setRole(user.getRole());
+                existingMipyme.setPhoneNum(user.getPhoneNum());
+                existingMipyme.setAddress(user.getAddress());
+                existingMipyme.setPassword(user.getPassword());
+                existingMipyme.setImgProfile(user.getImgProfile());
+                existingMipyme.setAccountState(user.getAccountState());
+                existingMipyme.setCreationDate(user.getCreationDate());
+                existingMipyme.setEmail(user.getEmail());
+
+                return mipymeRepository.save(existingMipyme);
+            } else {
+                // Crea una nueva Mipyme
+                Mipyme mipyme = new Mipyme();
+                mipyme.setFirstName(user.getFirstName());
+                mipyme.setSecondName(user.getSecondName());
+                mipyme.setLastName(user.getLastName());
+                mipyme.setLastName2(user.getLastName2());
+                mipyme.setDocType(user.getDocType());
+                mipyme.setDocNum(user.getDocNum());
+                mipyme.setBirthDate(user.getBirthDate());
+                mipyme.setRole(user.getRole());
+                mipyme.setPhoneNum(user.getPhoneNum());
+                mipyme.setAddress(user.getAddress());
+                mipyme.setEmail(user.getEmail());
+                mipyme.setPassword(user.getPassword());
+                mipyme.setImgProfile(user.getImgProfile());
+                mipyme.setAccountState(user.getAccountState());
+                mipyme.setCreationDate(user.getCreationDate());
+
+                return mipymeRepository.save(mipyme);
             }
         } else {
             // Maneja otros tipos de usuarios si es necesario

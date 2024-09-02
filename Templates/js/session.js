@@ -1,55 +1,52 @@
-function checkSessionStatus() {
-  $.ajax({
-    url: "http://localhost:8080/emprendev/v1/user/sessionStatus",
-    type: "GET",
-    xhrFields: {
-      withCredentials: true,
-    },
-    success: function (data) {
-      if (data.sessionActive) {
-        // Si la sesión está activa, se obtienen los datos del usuario
-        console.log("Session is active:", data);
-        // Aquí puedes usar los datos del usuario como desees
+async function checkSessionStatus() {
+  try {
+    const data = await $.ajax({
+      url: "http://localhost:8080/emprendev/v1/user/sessionStatus",
+      type: "GET",
+      xhrFields: {
+        withCredentials: true,
+      },
+    });
 
-        // Supongamos que 'data.birthDate' contiene la fecha en milisegundos.
-        const birthDateMillis = data.birthDate;
+    if (data.sessionActive) {
+      console.log("Session is active:", data);
 
-        // Creamos un objeto Date a partir de los milisegundos.
-        const birthDate = new Date(birthDateMillis);
+      // Formatear la fecha de nacimiento
+      const birthDateMillis = data.birthDate;
+      const birthDate = new Date(birthDateMillis);
+      const day = String(birthDate.getDate()).padStart(2, "0");
+      const month = String(birthDate.getMonth() + 1).padStart(2, "0");
+      const year = birthDate.getFullYear();
+      const formattedDate = `${day}/${month}/${year}`;
 
-        // Extraemos el día, el mes y el año.
-        const day = String(birthDate.getDate()).padStart(2, "0"); // Asegura que siempre haya dos dígitos
-        const month = String(birthDate.getMonth() + 1).padStart(2, "0"); // Los meses empiezan en 0, por eso se suma 1
-        const year = birthDate.getFullYear();
-
-        // Formateamos la fecha en DD/MM/AAAA
-        const formattedDate = `${day}/${month}/${year}`;
-
-        $(".session_user_id").text(data.id);
-        $(".session_user_firstName").text(data.firstName);
-        $(".session_user_secondName").text(data.secondName || "No disponible");
-        $(".session_user_lastName").text(data.lastName);
-        $(".session_user_lastName2").text(data.lastName2 || "No disponible");
-        $(".session_user_docType").text(data.docType);
-        $(".session_user_docNum").text(data.docNum);
-        $(".session_user_birthDate").text(formattedDate);
-        $(".session_user_role").text(data.role);
-        $(".session_user_phoneNum").text(data.phoneNum);
-        $(".session_user_address").text(data.address || "No encontrado");
-        $(".session_user_email").text(data.Email);
-        $(".session_user_password").text(data.password);
-        $(".session_user_imgProfile").attr("src", data.imgProfile);
-        $(".session_user_accountState").text(data.accountState);
-        $(".session_user_creationDate").text(data.creationDate);
-      } else {
-        // Si la sesión no está activa, se muestra un mensaje
-        console.log("No active session:", data.message);
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      console.error("Error checking session status:", textStatus, errorThrown);
-    },
-  });
+      // Actualizar el DOM con los datos del usuario
+      $(".session_user_id").text(data.id);
+      $(".session_user_firstName").text(data.firstName);
+      $(".session_user_secondName").text(data.secondName || "No disponible");
+      $(".session_user_lastName").text(data.lastName);
+      $(".session_user_lastName2").text(data.lastName2 || "No disponible");
+      $(".session_user_docType").text(data.docType);
+      $(".session_user_docNum").text(data.docNum);
+      $(".session_user_birthDate").text(formattedDate);
+      $(".session_user_role").text(data.role);
+      $(".session_user_phoneNum").text(data.phoneNum);
+      $(".session_user_address").text(data.address || "No encontrado");
+      $(".session_user_email").text(data.Email);
+      $(".session_user_password").text(data.password);
+      $(".session_user_imgProfile").attr("src", data.imgProfile);
+      $(".session_user_accountState").text(data.accountState);
+      $(".session_user_creationDate").text(data.creationDate);
+    } else {
+      console.log("No active session:", data.message);
+    }
+  } catch (error) {
+    console.error("Error checking session status:", error);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudo verificar el estado de la sesión o cargar los datos del desarrollador.",
+    });
+  }
 }
 
 // Llama a la función para verificar el estado de la sesión

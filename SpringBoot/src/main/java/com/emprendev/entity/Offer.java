@@ -14,7 +14,7 @@ public class Offer {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     private String title;
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Long userId;
     @Column(name = "description", columnDefinition = "text")
     private String description;
