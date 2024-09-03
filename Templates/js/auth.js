@@ -1,137 +1,377 @@
-// // auth.js
+// const userSubMenu = document.getElementById("user-sub-menu");
+// const tag = document.querySelectorAll(".tag");
+// const tags = document.querySelectorAll(".tag");
+// const cols = document.querySelectorAll(".cola");
 
-// document.addEventListener('DOMContentLoaded', function() {
-//     // Obtener el rol del usuario desde localStorage
-//     const userRole = localStorage.getItem('userRole');
+// const openModalButtons = document.querySelectorAll(".openModal");
+// const closeModalButtons = document.querySelectorAll(".closeModal");
+// const modalContainers = document.querySelectorAll(".modalContainer");
+// const overlay = document.querySelector(".overlay");
 
-//     // Redirigir según el rol del usuario
-//     if (userRole === 'MIPYME') {
-//         window.location.href = '/perfil_mipyme.html';
-//     } else if (userRole === 'DEV') {
-//         window.location.href = '/perfil_dev.html'; // Asumiendo que tienes un perfil para DEV
-//     } else {
-//         window.location.href = '/login.html'; // Redirige a la página de login si no tiene rol o no está autenticado
-//     }
+// cargarUsuarios();
+
+// modalContainers.forEach((modal) => modal.classList.add("hidden"));
+// overlay.classList.add("hidden");
+
+// // Asignar eventos a los botones de abrir modal
+// function assignOpenModalEvents() {
+//   openModalButtons.forEach((button) => {
+//     button.addEventListener("click", (e) => {
+//       e.preventDefault();
+//       const offerId = e.target.getAttribute('data-offer-id');
+//       if (offerId) {
+//         cargarDetallesOferta(offerId);
+//         $(".overlay").show();
+//         $(".modal-container").show();
+//       } else {
+//         console.error("El atributo data-offer-id no está definido.");
+//       }
+//     });
+//   });
+// }
+
+// // Asignar eventos a los botones de cerrar modal
+// function assignCloseModalEvents() {
+//   closeModalButtons.forEach((button) => {
+//     button.addEventListener("click", (e) => {
+//       e.preventDefault();
+//       closeModal();
+//     });
+//   });
+// }
+
+// function closeModal() {
+//   modalContainers.forEach((modal) => modal.classList.add("hidden"));
+//   overlay.classList.add("hidden");
+// }
+
+// //buscador de ofertas
+// document.addEventListener("keyup", (e) => {
+//   if (e.target.matches("#buscador")) {
+//     const query = e.target.value.toLowerCase();
+//     document.querySelectorAll(".cola").forEach((el) => {
+//       const text = el.textContent || "";
+//       text.toLowerCase().includes(query)
+//         ? el.classList.remove("hidden")
+//         : el.classList.add("hidden");
+//     });
+//   }
 // });
 
-// // auth.js
+// //Submenu del perfil del usuario (imagen arriba a la izquierda)
 
-// document.addEventListener('DOMContentLoaded', function() {
-//     fetch('/api/getUserRole') // Asegúrate de que esta ruta sea la correcta para tu API
-//         .then(response => response.json())
-//         .then(data => {
-//             const userRole = data.role; // Ajusta según cómo se devuelve el rol en la respuesta de la API
+// userSubMenu.style.display = "none";
 
-//             // Redirigir según el rol del usuario
-//             if (userRole === 'MIPYME') {
-//                 window.location.href = '/catalogo_devs.html';
-//             } else if (userRole === 'DEV') {
-//                 window.location.href = '/perfil_dev.html'; // Asumiendo que tienes un perfil para DEV
-//             } else {
-//                 window.location.href = '/catalogo.html'; // Redirige a la página de login si no tiene rol o no está autenticado
-//             }
-//         })
-//         .catch(error => {
-//             console.error('Error fetching user role:', error);
-//             window.location.href = '/login.html'; // Redirige a la página de login en caso de error
-//         });
-// });
+// SubmenuPerfilBtn_isShowing = false;
+// function OpenPerfilSubMenu() {
+//   if (!SubmenuPerfilBtn_isShowing) {
+//     userSubMenu.style.display = "block";
+//   } else {
+//     userSubMenu.style.display = "none";
+//   }
+//   SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
+// }
 
-// $(document).ready(function () {
-//     function cargarUsuarios() {
-//       $.ajax({
-//         type: "GET",
-//         url: "http://localhost:8080/emprendev/v1/user/listOrderAccount",
-//         dataType: "json",
-//         xhrFields: {
-//           withCredentials: true,
-//         },
-//         success: function (data) {
-//           $("#tabla > tbody").empty();
-//           data.forEach((item) => {
-//             const fullName = `${item.firstName} ${item.secondName}`;
-//             const fullLastName = `${item.lastName} ${item.lastName2}`;
-//             const accountStateText =
-//               item.accountState === 1 ? "Activo" : "Desactivado";
-//             const stateClass =
-//               item.accountState === 1 ? "" : 'class="deactivated_user"';
-  
-//             // Obtener los milisegundos de la fecha desde los datos
-//             const birthDateMillis = item.birthDate;
-  
-//             // Creamos un objeto Date a partir de los milisegundos.
-//             const birthDate = new Date(birthDateMillis);
-  
-//             // Extraemos el día, el mes y el año.
-//             const day = String(birthDate.getDate()).padStart(2, "0");
-//             const month = String(birthDate.getMonth() + 1).padStart(2, "0"); // Los meses empiezan en 0, por eso se suma 1
-//             const year = birthDate.getFullYear();
-  
-//             // Formateamos la fecha en YYYY-MM-DD para el input de tipo date
-//             const formattedDate = `${year}-${month}-${day}`;
-  
-//             const row = `
-//                           <tr ${stateClass}>
-//                               <td>${item.docNum}</td>
-//                               <td>${item.role}</td>
-//                               <td>${fullName}</td>
-//                               <td>${fullLastName}</td>
-//                               <td>${formattedDate}</td>
-//                               <td>${item.phoneNum}</td>
-//                               <td>${item.address}</td>
-//                               <td>${item.email}</td>
-//                               <td>${accountStateText}</td>
-//                               <td>${item.creationDate}</td>
-//                               <td>
-//                                   <img id='user_icon' class='user_img' src='${
-//                                     item.imgProfile
-//                                 }' alt='Imagen de perfil' width='40' height='40'>
-//                               </td>
-//                               <td>
-//                                   <button id ="idbtn" class='btn btn-primary btn-sm editarUser' 
-//                                   data-id='${item.id}'>Editar</button>
-//                                   <button class='btn btn-${
-//                                     item.accountState === 1 ? "danger" : "success"
-//                                 } btn-sm ${item.accountState === 1 ? "desactivarUser" : "reactivarUser"}' 
-//                                 data-id='${item.id}'>
-//                                       ${item.accountState === 1 ? "Desactivar" : "Reactivar"}
-//                                   </button>
-//                               </td>
-//                           </tr>
-//                       `;
-//             $("#tabla > tbody").append(row);
-//           });
-//         },
-//         error: function (xhr, status, error) {
-//           console.error("Error al cargar Usuarios:", error);
-//         },
-//       });
-//     }
-  
-//     $(document).on("click", ".desactivarUser, .reactivarUser", function () {
-//       const id = $(this).data("id"); // Extraer el id del botón clicado
-//       const isDeactivating = $(this).hasClass("desactivarUser"); // Verificar si la clase es desactivarUser
-//       const accountState = isDeactivating ? 0 : 1;
-  
-//       if (confirm(`¿Desea ${isDeactivating ? "desactivar" : "reactivar"} este usuario?`)) {
+// function getUserById(userId) {
+//   return $.ajax({
+//     type: "GET",
+//     url: `http://localhost:8080/emprendev/v1/user/${userId}`,
+//     xhrFields: {
+//       withCredentials: true,
+//     },
+//     success: function (user) {
+//       const userName = user.firstName;
+//     },
+//   });
+// }
+
+//  // Variable global para almacenar el ID del usuario autenticado
+
+// // Función para cargar ofertas
+// function cargarOfertas() {
+//   $.ajax({
+//     type: "GET",
+//     url: `http://localhost:8080/api/offers/listOrderAccount`,
+//     xhrFields: {
+//       withCredentials: true,
+//     },
+//     success: function (offers) {
+//       function GetSession(user) = () =>{
 //         $.ajax({
-//           type: "PUT",
-//           url: `http://localhost:8080/emprendev/v1/user/${id}`,
-//           contentType: "application/json",
-//           data: JSON.stringify({ accountState }),
+//           type: "GET",
+//           url: `http://localhost:8080/emprendev/v1/user/sessionStatus`,
 //           xhrFields: {
 //             withCredentials: true,
 //           },
-//           success: function () {
-//             cargarUsuarios();
-//           },
-//           error: function (xhr, status, error) {
-//             console.error(`Error al ${isDeactivating ? "desactivar" : "reactivar"} Usuario:`, error);
-//           },
-//         });
+//         })
+//       }
+//       $(".cards_container").empty();
+
+//       let userPromises = {};
+
+//       $.each(offers, function (i, data) {
+//         var imgSrc = data.image ? "data:image/jpeg;base64," + data.image : "";
+
+//         var fullText = `${data.title || ""} ${data.description || ""} ${
+//           data.payment || ""
+//         } ${data.creationDate || ""}`;
+
+//         var limitedDescription = data.description
+//           ? data.description.length > 60
+//             ? data.description.substring(0, 300) + "..."
+//             : data.description
+//           : "";
+
+//         if (!userPromises[data.userId]) {
+//           userPromises[data.userId] = getUserById(data.userId);
+//         }
+
+//         userPromises[data.userId]
+//           .done(function (user) {
+//             var buttons = "";
+
+//             // Mostrar botones solo si el usuario autenticado es el creador de la oferta
+        
+//             if (user.userId === data.userId) {
+//               buttons = `
+//                 <a href='./editarOferta.html?id=${data.id}' class='edition'>
+//                   Editar
+//                 </a>
+//                 <button class='delete deleteOffer' data-offer-id='${data.id}'>
+//                   Eliminar
+//                 </button>
+//               `;
+//             }
+
+//             var card = `
+//               <div class='cola' data-full-text='${encodeURIComponent(fullText)}'>
+//                 <div class='card border-0'>
+//                   <div class='box1'>
+//                     <img src='${imgSrc}' alt='' style='width: 100%; height: 105%; border-radius:20px;' />
+//                   </div>
+//                   <div class='card-content'>
+//                     <div class='name-proffesion'>
+//                       <span class='name'>${data.title || ""}</span>
+//                     </div>
+//                     <div class='about'>
+//                       <p>${limitedDescription}</p>
+//                       <span>Pago: ${data.payment || ""}</span><br>
+//                       <span>Fecha de Publicacion: ${data.creationDate || ""}</span><br>
+//                       <span>Creador: ${user.firstName || "Desconocido"} ${user.lastName || ""}</span>
+//                     </div>
+//                     <div class='button b1'>
+//                       ${buttons}
+//                       <button id='verMas' class='about-me openModal' data-offer-id='${data.id}'>
+//                         Ver más
+//                       </button>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             `;
+
+//             $(".cards_container").append(card);
+//           })
+//           .fail(function () {
+//             console.error(
+//               "Error al obtener detalles del usuario con ID:",
+//               data.userId
+//             );
+//             var card = `
+//               <div class='cola' data-full-text='${encodeURIComponent(fullText)}'>
+//                 <div class='card border-0'>
+//                   <div class='box1'>
+//                     <img src='${imgSrc}' alt='' style='width: 100%; height: 105%; border-radius:20px;' />
+//                   </div>
+//                   <div class='card-content'>
+//                     <div class='name-proffesion'>
+//                       <span class='name'>${data.title || ""}</span>
+//                     </div>
+//                     <div class='about'>
+//                       <p>${limitedDescription}</p>
+//                       <span>Pago: ${data.payment || ""}</span><br>
+//                       <span>Fecha de Publicacion: ${data.creationDate || ""}</span><br>
+//                       <span>Creador: Desconocido</span>
+//                     </div>
+//                     <div class='button b1'>
+//                       <button class='btn btn-info btn-sm openModal' data-offer-id='${data.id}'>
+//                         Ver más
+//                       </button>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             `;
+
+//             $(".cards_container").append(card);
+//           });
+//       });
+
+//       filtrarTarjetas();
+//     },
+//     error: function (xhr, status, error) {
+//       console.error("Error al cargar Ofertas:", error);
+//     },
+//   });
+// }
+
+
+// // Función para eliminar la oferta
+// function eliminarOferta(offerId) {
+//   $.ajax({
+//     type: "DELETE",
+//     url: `http://localhost:8080/api/offers/${offerId}`,
+//     success: function () {
+//       alert("Oferta eliminada con éxito.");
+//       // Recargar las ofertas después de eliminar
+//       cargarOfertas();
+//     },
+//     error: function (xhr, status, error) {
+//       console.error("Error al eliminar la oferta:", error);
+//       alert("Hubo un error al intentar eliminar la oferta.");
+//     },
+//   });
+// }
+
+
+// // Función para cargar detalles de la oferta y el mipyme
+// function cargarDetallesOferta(offerId) {
+//   $.ajax({
+//       type: "GET",
+//       url: `http://localhost:8080/api/offers/${offerId}`,
+//       xhrFields: {
+//           withCredentials: true,
+//       },
+//       success: function (offerData) {
+//         console.log(offerData);
+//           // Cargar los datos del mipyme usando el userId
+//           $.ajax({
+//               type: "GET",
+//               url: `http://localhost:8080/emprendev/v1/user/${offerData.userId}`,
+//               xhrFields: {
+//                   withCredentials: true,
+//               },
+//               success: function (userData) {
+//                   // Cargar los datos del negocio del mipyme
+//                   $.ajax({
+//                       type: "GET",
+//                       url: `http://localhost:8080/api/mipymes/${userData.id}`,
+//                       xhrFields: {
+//                           withCredentials: true,
+//                       },
+//                       success: function (mipymeData) {
+//                           // Actualiza el DOM con los datos obtenidos
+//                           $(".modal-title").text(offerData.title || "Sin título");
+//                           $(".modal-description").text(offerData.description || "Sin descripción");
+//                           $(".modal-payment").text(offerData.payment || "Sin pago especificado");
+//                           $(".modal-fields").text(offerData.fields || "sin cupos");
+//                           $(".modal-creation-date").text(offerData.creationDate || "Fecha no disponible");
+//                           $(".modal-creator-name").text(`${userData.firstName || "Nombre desconocido"} ${userData.lastName || ""}`);
+//                           $(".modal-business-name").text(mipymeData.nameBusiness || "Nombre del negocio no disponible");
+//                           $(".modal-business-city").text(mipymeData.cityBusiness || "Ciudad no disponible");
+//                           $(".modal-business-address").text(mipymeData.addressBusiness || "Dirección no disponible");
+//                           $(".modal-business-description").text(mipymeData.descriptionBusiness || "Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del negocio'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del negocio'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del negocio'.");
+
+//                           var imgSrc = offerData.image ? "data:image/jpeg;base64," + offerData.image : "";
+//                           $(".modal-images").attr("src", imgSrc);
+
+//                           // Mostrar el modal
+//                           $(".overlay").show();
+//                           $(".modal-container").show();
+//                       },
+//                       error: function () {
+//                           console.error("Error al obtener los datos del negocio del mipyme.");
+//                       }
+//                   });
+//               },
+//               error: function () {
+//                   console.error("Error al obtener los datos del usuario/mipyme.");
+//               }
+//           });
+//       },
+//       error: function () {
+//           console.error("Error al obtener los detalles de la oferta.");
+//       }
+//   });
+// }
+
+// // Función para filtrar tarjetas basadas en etiquetas activas
+// function filtrarTarjetas() {
+//   // Obtener todas las tarjetas
+//   const cols = Array.from(document.querySelectorAll(".cola"));
+
+//   // Obtener las etiquetas activas
+//   const activeTags = Array.from(tags)
+//     .filter((t) => t.classList.contains("tag-active"))
+//     .map((t) => t.textContent.toLowerCase());
+
+//   // Mostrar todas las tarjetas primero
+//   cols.forEach((cola) => cola.classList.remove("hidden"));
+
+//   if (activeTags.length > 0) {
+//     cols.forEach((cola) => {
+//       // Obtener el texto completo desde el atributo data-full-text
+//       const fullText = decodeURIComponent(
+//         cola.getAttribute("data-full-text")
+//       ).toLowerCase();
+//       const shouldShow = activeTags.some((activeTag) =>
+//         fullText.includes(activeTag)
+//       );
+//       if (!shouldShow) {
+//         cola.classList.add("hidden");
 //       }
 //     });
-  
-//     cargarUsuarios(); // Llamada inicial para cargar los usuarios
+//   }
+// }
+
+// // Ejecutar cargarOfertas al iniciar la página
+// $(document).ready(function () {
+//   cargarOfertas();
+
+//   // Agregar el evento de clic a las etiquetas
+//   tags.forEach((tag) => {
+//     tag.addEventListener("click", () => {
+//       tag.classList.toggle("tag-active");
+//       filtrarTarjetas(); // Llamar a la función de filtrado al hacer clic en una etiqueta
+//     });
 //   });
-  
+// });
+
+// // Mostrar Modal
+// $(document).on("click", ".openModal", function (e) {
+//   e.preventDefault();
+//       const offerId = e.target.getAttribute('data-offer-id');
+//       if (offerId) {
+//         cargarDetallesOferta(offerId);
+//         $(".overlay").show();
+//         $(".modal-container").show();
+//       } else {
+//         console.error("El atributo data-offer-id no está definido.");
+//       }
+//   $(".overlay").show();
+//   $(".modal-container").show();
+// });
+
+// // Ocultar modal
+// $(document).on("click", ".closeModal, .overlay", function () {
+//   $(".overlay").hide();
+//   $(".modal-container").hide();
+// });
+
+// //Scroll Ventana modal
+// window.addEventListener("scroll", function () {
+//   var headerHeight = document.querySelector("header").offsetHeight;
+//   var scrollTop = window.scrollY || document.documentElement.scrollTop;
+//   var modal = document.querySelector(".modal-body");
+//   // var newTop = headerHeight + 30 - scrollTop;
+//   var newTop = headerHeight + 800 - scrollTop;
+
+//   modal.style.top = newTop + "px";
+// });
+
+// //mostras desarrolladores en el catalogo
+// function cargarUsuarios() {
+//   assignOpenModalEvents();
+//   assignCloseModalEvents();
+// }
+

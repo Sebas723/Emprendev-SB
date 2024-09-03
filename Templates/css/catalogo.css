@@ -330,6 +330,7 @@ section .card .about{
 
 .card .b1 .edition{
     background-color: #011fcc;
+    text-decoration: none;
 }
 
 .card .button .edition{

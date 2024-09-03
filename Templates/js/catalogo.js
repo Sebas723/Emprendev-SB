@@ -86,6 +86,31 @@ function getUserById(userId) {
 }
 
 // Función para cargar ofertas
+// Supongamos que tienes el ID del usuario autenticado en una variable
+var authenticatedUserId = null; // Reemplaza esto con el ID real del usuario autenticado
+
+function obtenerIdUsuarioAutenticado() {
+  $.ajax({
+    type: "GET",
+    url: `http://localhost:8080/emprendev/v1/user/sessionStatus`, // Asume que esta URL devuelve la información del usuario autenticado
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: function (user) {
+      authenticatedUserId = user.userId; // Asigna el ID del usuario autenticado a la variable
+      console.log("ID del usuario autenticado:", authenticatedUserId);
+    },
+    error: function () {
+      console.error("Error al obtener el ID del usuario autenticado.");
+    }
+  });
+}
+
+$(document).ready(function () {
+  obtenerIdUsuarioAutenticado();
+});
+
+// Función para cargar ofertas
 function cargarOfertas() {
   $.ajax({
     type: "GET",
@@ -96,75 +121,67 @@ function cargarOfertas() {
     success: function (offers) {
       $(".cards_container").empty();
 
-      // Usar un objeto para almacenar los usuarios y evitar llamadas repetidas
       let userPromises = {};
 
       $.each(offers, function (i, data) {
         var imgSrc = data.image ? "data:image/jpeg;base64," + data.image : "";
 
-        // Texto completo de la oferta
         var fullText = `${data.title || ""} ${data.description || ""} ${
           data.payment || ""
         } ${data.creationDate || ""}`;
 
-        // Limitar la descripción a 60 caracteres para la vista en el catálogo
         var limitedDescription = data.description
           ? data.description.length > 60
             ? data.description.substring(0, 300) + "..."
             : data.description
           : "";
 
-        // Verificar si ya se ha hecho una petición para este userId
         if (!userPromises[data.userId]) {
           userPromises[data.userId] = getUserById(data.userId);
         }
 
         userPromises[data.userId]
           .done(function (user) {
-            var card =
-              "<div class='cola' data-full-text='" +
-              encodeURIComponent(fullText) +
-              "'>" +
-              "<div class='card border-0'>" +
-              "<div class='box1'>" +
-              "<img src='" +
-              imgSrc +
-              "' alt='' style='width: 100%; height: 105%; border-radius:20px;' />" +
-              "</div>" +
-              "<div class='card-content'>" +
-              "<div class='name-proffesion'>" +
-              "<span class='name'>" +
-              (data.title || "") +
-              "</span>" +
-              "</div>" +
-              "<div class='about'>" +
-              "<p>" +
-              limitedDescription +
-              "</p>" +
-              "<span>Pago: " +
-              (data.payment || "") +
-              "</span>" +
-              "<br>" +
-              "<span>Fecha de Publicacion: " +
-              (data.creationDate || "") +
-              "</span>" +
-              "<br>" +
-              "<span>Creador: " +
-              (user.firstName || "Desconocido") +
-              " " +
-              (user.lastName || "") +
-              "</span>" +
-              "</div>" +
-              "<div class='button b1'>" +
-              "<a href='./editarOferta.html?id=" +
-              data.id +
-              "'><button class='edition'>Editar</button></a>" +
-              "<button class='about-me openModal' data-offer-id='"+data.id+"'>Ver más</button>" +
-              "<button class='delete'>Eliminar</button>" +
-              "</div>" +
-              "</div>" +
-              "</div>" +
-              "</div>";
+            var buttons = "";
+
+            // Mostrar botones solo si el usuario autenticado es el creador de la oferta
+            if (authenticatedUserId === data.userId) {
+              buttons = `
+                <a href='./editarOferta.html?id=${data.id}' class='edition'>
+                  Editar
+                </a>
+                <button class='delete' data-offer-id='${data.id}'>
+                  Eliminar
+                </button>
+              `;
+            }
+
+            var card = `
+              <div class='cola' data-full-text='${encodeURIComponent(fullText)}'>
+                <div class='card border-0'>
+                  <div class='box1'>
+                    <img src='${imgSrc}' alt='' style='width: 100%; height: 105%; border-radius:20px;' />
+                  </div>
+                  <div class='card-content'>
+                    <div class='name-proffesion'>
+                      <span class='name'>${data.title || ""}</span>
+                    </div>
+                    <div class='about'>
+                      <p>${limitedDescription}</p>
+                      <span>Pago: ${data.payment || ""}</span><br>
+                      <span>Fecha de Publicacion: ${data.creationDate || ""}</span><br>
+                      <span>Creador: ${user.firstName || "Desconocido"} ${user.lastName || ""}</span>
+                    </div>
+                    <div class='button b1'>
+                      ${buttons}
+                      <button id='verMas' class='about-me openModal' data-offer-id='${data.id}'>
+                        Ver más
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
 
             $(".cards_container").append(card);
           })
@@ -173,57 +190,65 @@ function cargarOfertas() {
               "Error al obtener detalles del usuario con ID:",
               data.userId
             );
-            // Manejar el error si la llamada al usuario falla
-            var card =
-              "<div class='cola' data-full-text='" +
-              encodeURIComponent(fullText) +
-              "'>" +
-              "<div class='card border-0'>" +
-              "<div class='box1'>" +
-              "<img src='" +
-              imgSrc +
-              "' alt='' style='width: 100%; height: 105%; border-radius:20px;' />" +
-              "</div>" +
-              "<div class='card-content'>" +
-              "<div class='name-proffesion'>" +
-              "<span class='name'>" +
-              (data.title || "") +
-              "</span>" +
-              "</div>" +
-              "<div class='about'>" +
-              "<p>" +
-              limitedDescription +
-              "</p>" +
-              "<span>Pago: " +
-              (data.payment || "") +
-              "</span>" +
-              "<br>" +
-              "<span>Fecha de Publicacion: " +
-              (data.creationDate || "") +
-              "</span>" +
-              "<br>" +
-              "<span>Creador: Desconocido</span>" +
-              "</div>" +
-              "<div class='button b1'>" +
-              "<a href='./editarOferta.html?id=" +
-              data.id +
-              "'><button class='edition'>Editar</button></a>" +
-              "<button id='verMas' class='about-me openModal' data-offer-id='" + data.id + "'>Ver más</button>" +
-              "<button class='delete'>Eliminar</button>" +
-              "</div>" +
-              "</div>" +
-              "</div>" +
-              "</div>";
+            var card = `
+              <div class='cola' data-full-text='${encodeURIComponent(fullText)}'>
+                <div class='card border-0'>
+                  <div class='box1'>
+                    <img src='${imgSrc}' alt='' style='width: 100%; height: 105%; border-radius:20px;' />
+                  </div>
+                  <div class='card-content'>
+                    <div class='name-proffesion'>
+                      <span class='name'>${data.title || ""}</span>
+                    </div>
+                    <div class='about'>
+                      <p>${limitedDescription}</p>
+                      <span>Pago: ${data.payment || ""}</span><br>
+                      <span>Fecha de Publicacion: ${data.creationDate || ""}</span><br>
+                      <span>Creador: Desconocido</span>
+                    </div>
+                    <div class='button b1'>
+                      <button class='btn btn-info btn-sm openModal' data-offer-id='${data.id}'>
+                        Ver más
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
 
             $(".cards_container").append(card);
           });
       });
 
-      // Llamar a la función de filtrado después de cargar las ofertas
       filtrarTarjetas();
     },
     error: function (xhr, status, error) {
       console.error("Error al cargar Ofertas:", error);
+    },
+  });
+}
+
+// Función para eliminar la oferta
+$(document).on("click", ".delete", function () {
+  var offerId = $(this).data("offer-id");
+  if (confirm("¿Estás seguro de que deseas eliminar esta oferta?")) {
+    eliminarOferta(offerId);
+  }
+});
+
+// Función para eliminar la oferta
+function eliminarOferta(offerId) {
+  $.ajax({
+    type: "DELETE",
+    url: `http://localhost:8080/api/offers/${offerId}`,
+    success: function () {
+      alert("Oferta eliminada con éxito.");
+      // Recargar las ofertas después de eliminar
+      cargarOfertas();
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al eliminar la oferta:", error);
+      alert("Hubo un error al intentar eliminar la oferta.");
     },
   });
 }
