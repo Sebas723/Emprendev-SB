@@ -1,3 +1,4 @@
+// Submenu del perfil del usuario (imagen arriba a la izquierda)
 const userSubMenu = document.getElementById("user-sub-menu");
 const tag = document.querySelectorAll(".tag");
 const tags = document.querySelectorAll('.tag');
@@ -8,102 +9,32 @@ const closeModalButtons = document.querySelectorAll(".closeModal");
 const modalContainers = document.querySelectorAll(".modalContainer");
 const overlay = document.querySelector(".overlay");
 
-cargarUsuarios();
-
-modalContainers.forEach(modal => modal.classList.add("hidden"));
-overlay.classList.add("hidden");
-
-// Asignar eventos a los botones de abrir modal
-async function assignOpenModalEvents() {
-  openModalButtons.forEach(button => {
-    button.addEventListener("click", (e) => {
-      e.preventDefault();
-      // Muestra el primer modal y el overlay
-      modalContainers[0].classList.remove("hidden");
-      overlay.classList.remove("hidden");
-    });
-  });
-}
-
-// Asignar eventos a los botones de cerrar modal
-function assignCloseModalEvents() {
-  closeModalButtons.forEach(button => {
-    button.addEventListener("click", (e) => {
-      e.preventDefault();
-      closeModal();
-    });
-  });
-}
-
-function closeModal() {
-  modalContainers.forEach(modal => modal.classList.add("hidden"));
-  overlay.classList.add("hidden");
-}
-
-//buscador de ofertas
-document.addEventListener("keyup", e => {
-  if (e.target.matches("#buscador")) {
-    const query = e.target.value.toLowerCase();
-    document.querySelectorAll(".cola").forEach(el => {
-      const text = el.textContent || "";
-      text.toLowerCase().includes(query)
-        ? el.classList.remove("hidden")
-        : el.classList.add("hidden");
-    });
-  }
-});
-
-// Seleccionar múltiples tags
-
-tags.forEach(tag => {
-  tag.addEventListener('click', () => {
-    tag.classList.toggle('tag-active');
-
-    const activeTags = Array.from(tags)
-      .filter(t => t.classList.contains('tag-active'))
-      .map(t => t.textContent.toLowerCase());
-
-    cols.forEach(cola => cola.classList.remove('hidden'));
-
-    if (activeTags.length > 0) {
-      cols.forEach(cola => {
-        const colText = (cola.textContent || "").toLowerCase();
-        const shouldShow = activeTags.some(activeTag => colText.includes(activeTag));
-        if (!shouldShow) {
-          cola.classList.add('hidden');
-        }
-      });
-    }
-  });
-});
-
-
-//Submenu del perfil del usuario (imagen arriba a la izquierda)
-
 userSubMenu.style.display = "none";
+let SubmenuPerfilBtn_isShowing = false;
 
-SubmenuPerfilBtn_isShowing = false;
 function OpenPerfilSubMenu(){
     if (!SubmenuPerfilBtn_isShowing){
         userSubMenu.style.display="block";
-    }
-    else{
+    } else {
         userSubMenu.style.display="none";
     }
     SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
 };
 
+cargarUsuarios();
+
+modalContainers.forEach(modal => modal.classList.add("hidden"));
+overlay.classList.add("hidden");
+
 window.addEventListener('scroll', function() {
   var headerHeight = document.querySelector('header').offsetHeight;
   var scrollTop = window.scrollY || document.documentElement.scrollTop;
   var modal = document.querySelector('.modal-body');
-  // var newTop = headerHeight + 30 - scrollTop;
-  var newTop =  headerHeight  + 430 - scrollTop;
-
+  var newTop = headerHeight + 430 - scrollTop;
   modal.style.top = newTop + 'px';
 });
 
-//mostras desarrolladores en el catalogo
+// Mostrar desarrolladores en el catálogo
 let allCards = []; // Almacena todas las tarjetas generadas
 
 function cargarUsuarios() {
@@ -122,19 +53,34 @@ function cargarUsuarios() {
 
       // Filtrar y crear tarjetas solo para desarrolladores activos
       const filteredData = data.filter(item => item.accountState == 1 && item.role === "Desarrollador"); 
-      allCards = filteredData.map(item => {
-        return {
-          id: item.id,
-          imgProfile: item.imgProfile,
-          firstName: item.firstName,
-          lastName: item.lastName,
-          role: item.role,
-          // Otros campos necesarios
-        };
-      });
+      allCards = [];
 
-      mostrarTarjetas(allCards); // Mostrar todas las tarjetas
-      asignarEventosTags(); // Asignar eventos a los tags después de cargar los usuarios
+      filteredData.forEach(item => {
+        $.ajax({
+          type: "GET",
+          url: `http://localhost:8080/api/devs/${item.id}`, // Obtener detalles del Dev
+          dataType: "json",
+          xhrFields: {
+            withCredentials: true
+          },
+          success: function(devData) {
+            allCards.push({
+              id: item.id,
+              imgProfile: item.imgProfile,
+              firstName: item.firstName,
+              lastName: item.lastName,
+              role: item.role,
+              profileDescription: devData.profileDescription // Agregar descripción del perfil
+            });
+
+            // Mostrar las tarjetas cada vez que se completa la solicitud de un Dev
+            mostrarTarjetas(allCards);
+          },
+          error: function (xhr, status, error) {
+            console.error("Error al cargar los detalles del Dev:", error);
+          }
+        });
+      });
     },
     error: function (xhr, status, error) {
       console.error("Error al cargar Usuarios:", error);
@@ -161,7 +107,7 @@ function mostrarTarjetas(cards) {
           </div>
           <hr>
           <div class='about'>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores, eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit illo ea et. Ullam adipisci, consequuntur laborum dolorum nostrum voluptas inventore quae explicabo vero omnis necessitatibus quasi ut blanditiis labore cum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis, temporibus. Repellat fugit vel esse, voluptatum doloribus ut aliquid quam dolorum.</p>
+            <p>${item.profileDescription}</p>
           </div>
           <div class='button b1'>
             <button class='about-me openModal' data-id='${item.id}'>Ver más</button>
@@ -171,8 +117,80 @@ function mostrarTarjetas(cards) {
     </div>
   `).join('');
   $(".cards_container").html(cardsHtml);
-  assignOpenModalEvents();
+  assignOpenModalEventsForDevs(); // Asignar eventos para abrir los modales después de mostrar las tarjetas
   assignCloseModalEvents();
+}
+
+$(document).ready(function() {
+  cargarUsuarios();
+});
+
+function cargarDetallesDesarrollador(devId) {
+  $.ajax({
+    type: "GET",
+    url: `http://localhost:8080/emprendev/v1/user/${devId}`,
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: function (devData) {
+      // Obtener detalles adicionales del desarrollador
+      $.ajax({
+        type: "GET",
+        url: `http://localhost:8080/api/devs/${devId}`,
+        xhrFields: {
+          withCredentials: true,
+        },
+        success: function (detailsData) {
+          // Actualiza el DOM con los datos obtenidos
+          $(".modal-title").text(`${devData.firstName || "Nombre desconocido"} ${devData.lastName || ""}`);
+          $(".modal-email").text(devData.email || "Email no disponible");
+          $(".modal-role").text(devData.role || "Rol no disponible");
+          $(".modal-phoneNum").text(devData.phoneNum || "Rol no disponible");
+          $(".modal-creation-date").text(devData.creationDate || "Fecha de creación no disponible");
+          $(".modal-profile-img").attr("src", devData.imgProfile || "ruta/por/defecto.jpg");
+          $(".modal-about").text(detailsData.profileDescription || "Sin descripción");
+          $(".modal-university").text(detailsData.university || "Sin estudios");
+          $(".modal-career").text(detailsData.career || "Sin carrera");
+          $(".modal-careerStartDate").text(detailsData.careerStartDate || "Sin carrera");
+          $(".modal-careerEndDate").text(detailsData.careerEndDate || "Sin carrera");
+          $(".modal-company").text(detailsData.company || "Sin estudios");
+          $(".modal-charge").text(detailsData.charge || "Sin carrera");
+          $(".modal-chargeStartDate").text(detailsData.chargeStartDate || "Sin carrera");
+          $(".modal-chargeEndDate").text(detailsData.chargeEndDate || "Sin carrera");
+          $(".modal-chargeDescription").text(detailsData.chargeDescription || "Sin carrera");
+
+          var imgSrc = devData.imgProfile ? "data:image/jpeg;base64," + devData.imgProfile : "";
+          $(".modal-images").attr("src", imgSrc);
+
+          // Mostrar el modal
+          $(".overlay").show();
+          $(".modal-container").show();
+        },
+        error: function () {
+          console.error("Error al obtener los detalles adicionales del desarrollador.");
+        }
+      });
+    },
+    error: function () {
+      console.error("Error al obtener los datos del usuario/desarrollador.");
+    }
+  });
+}
+
+// Asignar eventos a los botones de abrir modal para desarrolladores
+function assignOpenModalEventsForDevs() {
+  $(".openModal").on("click", function () {
+    const devId = $(this).data("id");
+    cargarDetallesDesarrollador(devId);
+  });
+}
+
+// Asignar eventos a los botones de cerrar modal
+function assignCloseModalEvents() {
+  $(".closeModal, .overlay").on("click", function () {
+    $(".overlay").hide(); 
+    $(".modal-container").hide(); 
+  });
 }
 
 function asignarEventosTags() {
@@ -199,15 +217,3 @@ function filtrarTarjetas() {
 $(document).ready(function() {
   cargarUsuarios();
 });
-
-  //Mostrar Modal
-  $(document).on('click', '.openModal', function () {
-    $(".overlay").show(); 
-    $(".modal-container").show(); 
-  });
-  
-  // Ocultar modal
-  $(document).on('click', '.closeModal, .overlay', function () {
-    $(".overlay").hide(); 
-    $(".modal-container").hide(); 
-  });

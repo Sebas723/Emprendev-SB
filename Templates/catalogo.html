@@ -144,9 +144,9 @@
         <div class="modal-box"></div>
         <div class="modal-content">
           <div class="modal-name-proffesion">
-            <span class="modal-name">Copia de emprendev en springboot</span>
+            <span class="modal-title">Copia de emprendev en springboot</span>
           </div>
-          <div class="modal-about">
+          <div class="modal-about modal-description">
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate quod repudiandae natus asperiores,
               eveniet autem officia. Vel, illum nostrum laborum molestiae, modi id vitae qui nesciunt magni in odit illo
@@ -172,7 +172,7 @@
                 <h4>Imagenes relacionadas</h4>
                 <div class="container-oferta-img">
                   <div class="modal-oferta-img">
-                    <img src="img/R.jpg" alt="" style="width: 100%; height: 105%; border-radius:20px;">
+                    <img class="modal-images" src="" alt="" style="width: 100%; height: 105%; border-radius:20px;">
                   </div>
                 </div>
                 <hr>
@@ -180,10 +180,10 @@
                   <h4>Informacion general oferta</h4>
                   <dl class="diccionario-position">
                     <div>
-                      <dd>Pago por la oferta: </dd>
-                      <dd>Cupos disponibles: </dd>
-                      <dd>Creador: </dd>
-                      <dd>Fecha de publicacion: </dd>
+                      <dd>Pago por la oferta: <p class="modal-payment"></p> </dd>
+                      <dd>Cupos disponibles: <p class="modal-fields"></p></dd>
+                      <dd>Creador: <p class="modal-creator-name"></p> </dd>
+                      <dd>Fecha de publicacion: <p class="modal-creation-date"></p></dd>
                     </div>
                   </dl>
                 </div>
@@ -192,15 +192,15 @@
                   <h4>Informacion general del negocio</h4>
                   <dl class="diccionario-position">
                     <div>
-                      <dd>Nombre</dd>
-                      <dd>Ciudad</dd>
-                      <dd>Direccion</dd>
+                      <dd>Nombre: <p class="modal-business-name"></p></dd>
+                      <dd>Ciudad: <p class="modal-business-city"></p></dd>
+                      <dd>Direccion: <p class="modal-business-address"></p></dd>
                     </div>
                   </dl>
                   <hr>
                   <div class="contenido-laboral">
                     <h4>Descripcion del negocio</h4>
-                    <p>
+                    <p class="modal-business-description">
                       Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officiis, suscipit doloremque odio ipsam
                       culpa quia praesentium nulla vel eveniet,
                       iusto nam hic dicta necessitatibus quasi voluptatibus architecto repellendus incidunt blanditiis.
@@ -252,8 +252,8 @@
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"
   integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 <script src="js/session.js"></script>
+<script src="js/catalogo.js"></script>
 <script src="js/auth.js"></script>
 <script src="js/swiper-bundle.min.js"></script>
-<script src="js/catalogo.js"></script>
 
 </html>

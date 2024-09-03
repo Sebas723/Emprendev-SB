@@ -19,9 +19,13 @@ function assignOpenModalEvents() {
     button.addEventListener("click", (e) => {
       e.preventDefault();
       const offerId = e.target.getAttribute('data-offer-id');
-      cargarDetallesOferta(offerId);
-      $(".overlay").show();
-      $(".modal-container").show();
+      if (offerId) {
+        cargarDetallesOferta(offerId);
+        $(".overlay").show();
+        $(".modal-container").show();
+      } else {
+        console.error("El atributo data-offer-id no está definido.");
+      }
     });
   });
 }
@@ -155,7 +159,7 @@ function cargarOfertas() {
               "<a href='./editarOferta.html?id=" +
               data.id +
               "'><button class='edition'>Editar</button></a>" +
-              "<button class='about-me openModal'>Ver más</button>" +
+              "<button class='about-me openModal' data-offer-id='"+data.id+"'>Ver más</button>" +
               "<button class='delete'>Eliminar</button>" +
               "</div>" +
               "</div>" +
@@ -204,7 +208,7 @@ function cargarOfertas() {
               "<a href='./editarOferta.html?id=" +
               data.id +
               "'><button class='edition'>Editar</button></a>" +
-              "<button id='verMas' class='about-me openModal'>Ver más</button>" +
+              "<button id='verMas' class='about-me openModal' data-offer-id='" + data.id + "'>Ver más</button>" +
               "<button class='delete'>Eliminar</button>" +
               "</div>" +
               "</div>" +
@@ -221,6 +225,67 @@ function cargarOfertas() {
     error: function (xhr, status, error) {
       console.error("Error al cargar Ofertas:", error);
     },
+  });
+}
+
+// Función para cargar detalles de la oferta y el mipyme
+function cargarDetallesOferta(offerId) {
+  $.ajax({
+      type: "GET",
+      url: `http://localhost:8080/api/offers/${offerId}`,
+      xhrFields: {
+          withCredentials: true,
+      },
+      success: function (offerData) {
+        console.log(offerData);
+          // Cargar los datos del mipyme usando el userId
+          $.ajax({
+              type: "GET",
+              url: `http://localhost:8080/emprendev/v1/user/${offerData.userId}`,
+              xhrFields: {
+                  withCredentials: true,
+              },
+              success: function (userData) {
+                  // Cargar los datos del negocio del mipyme
+                  $.ajax({
+                      type: "GET",
+                      url: `http://localhost:8080/api/mipymes/${userData.id}`,
+                      xhrFields: {
+                          withCredentials: true,
+                      },
+                      success: function (mipymeData) {
+                          // Actualiza el DOM con los datos obtenidos
+                          $(".modal-title").text(offerData.title || "Sin título");
+                          $(".modal-description").text(offerData.description || "Sin descripción");
+                          $(".modal-payment").text(offerData.payment || "Sin pago especificado");
+                          $(".modal-fields").text(offerData.fields || "sin cupos");
+                          $(".modal-creation-date").text(offerData.creationDate || "Fecha no disponible");
+                          $(".modal-creator-name").text(`${userData.firstName || "Nombre desconocido"} ${userData.lastName || ""}`);
+                          $(".modal-business-name").text(mipymeData.nameBusiness || "Nombre del negocio no disponible");
+                          $(".modal-business-city").text(mipymeData.cityBusiness || "Ciudad no disponible");
+                          $(".modal-business-address").text(mipymeData.addressBusiness || "Dirección no disponible");
+                          $(".modal-business-description").text(mipymeData.descriptionBusiness || "Descripción del negocio no disponible");
+
+                          var imgSrc = offerData.image ? "data:image/jpeg;base64," + offerData.image : "";
+                          $(".modal-images").attr("src", imgSrc);
+
+                          // Mostrar el modal
+                          $(".overlay").show();
+                          $(".modal-container").show();
+                      },
+                      error: function () {
+                          console.error("Error al obtener los datos del negocio del mipyme.");
+                      }
+                  });
+              },
+              error: function () {
+                  console.error("Error al obtener los datos del usuario/mipyme.");
+              }
+          });
+      },
+      error: function () {
+          console.error("Error al obtener los detalles de la oferta.");
+      }
   });
 }
 
@@ -267,7 +332,16 @@ $(document).ready(function () {
 });
 
 // Mostrar Modal
-$(document).on("click", ".openModal", function () {
+$(document).on("click", ".openModal", function (e) {
+  e.preventDefault();
+      const offerId = e.target.getAttribute('data-offer-id');
+      if (offerId) {
+        cargarDetallesOferta(offerId);
+        $(".overlay").show();
+        $(".modal-container").show();
+      } else {
+        console.error("El atributo data-offer-id no está definido.");
+      }
   $(".overlay").show();
   $(".modal-container").show();
 });
@@ -294,6 +368,3 @@ function cargarUsuarios() {
   assignOpenModalEvents();
   assignCloseModalEvents();
 }
-
-assignOpenModalEvents();
-assignCloseModalEvents();
