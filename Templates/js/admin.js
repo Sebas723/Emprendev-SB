@@ -1,5 +1,3 @@
-
-
 $(document).ready(function () {
   function cargarUsuarios() {
     $.ajax({
@@ -76,6 +74,7 @@ $(document).ready(function () {
         withCredentials: true,
       },
       success: function (data) {
+        // Obtener los milisegundos de la fecha desde los datos
         const birthDateMillis = data.birthDate;
 
         // Creamos un objeto Date a partir de los milisegundos.
@@ -115,13 +114,22 @@ $(document).ready(function () {
     if (validacionesPasaron && confirm("¿Desea Guardar Los cambios Realizados?")) {
         const id = $("#edit-id").val();
 
+        function getAdjustedDate(dateString) {
+          const date = new Date(dateString);
+          date.setDate(date.getDate() + 1); // Add one day
+          return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+        }
+        const birthDate = $("#edit_birth_date").val()
+
+        const formattedBirthDate = getAdjustedDate(birthDate);
+
         const data = {
             firstName: $("#edit_first_name").val(),
             secondName: $("#edit_sec_name").val(),
             lastName: $("#edit_last_name").val(),
             lastName2: $("#edit_last_name2").val(),
             docNum: $("#edit_number_id").val(),
-            birthDate: $("#edit_birth_date").val(),
+            birthDate: formattedBirthDate,
             role: $("#edit_rol").val(),
             phoneNum: $("#edit_phone_number").val(),
             address: $("#edit_address").val(),

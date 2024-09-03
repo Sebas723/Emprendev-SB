@@ -194,6 +194,12 @@ document.addEventListener("DOMContentLoaded", function () {
         return todasLasValidacionesPasaron;
     }
 
+    function getAdjustedDate(dateString) {
+        const date = new Date(dateString);
+        date.setDate(date.getDate() + 1); // Add one day
+        return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    }
+
     function SaveUser() {
         const userName = $("#username").val();
         const userSecName = $("#usersecname").val();
@@ -211,6 +217,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const accountState = 1;
         const creationDate = new Date().toISOString(); // Usa formato ISO
 
+        const formattedBirthDate = getAdjustedDate(birthDate); // Use the defined function
+        console.log(formattedBirthDate);
+
+
         const newUser = {
             firstName: userName,
             secondName: userSecName,
@@ -218,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
             lastName2: userLSecName,
             docType: docType,
             docNum: userId,
-            birthDate: birthDate,
+            birthDate: formattedBirthDate,
             role: role,
             phoneNum: phoneNum,
             address: address,

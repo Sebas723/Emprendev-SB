@@ -19,6 +19,7 @@ public class User {
     private String lastName2;
     private String docType;
     private Long docNum;
+    @Column(name = "birth_date", columnDefinition = "date")
     private Date birthDate;
     private String role;
     private String phoneNum;
