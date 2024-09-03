@@ -110,7 +110,7 @@ function cargarOfertas() {
         // Limitar la descripción a 60 caracteres para la vista en el catálogo
         var limitedDescription = data.description
           ? data.description.length > 60
-            ? data.description.substring(0, 60) + "..."
+            ? data.description.substring(0, 300) + "..."
             : data.description
           : "";
 
@@ -264,7 +264,7 @@ function cargarDetallesOferta(offerId) {
                           $(".modal-business-name").text(mipymeData.nameBusiness || "Nombre del negocio no disponible");
                           $(".modal-business-city").text(mipymeData.cityBusiness || "Ciudad no disponible");
                           $(".modal-business-address").text(mipymeData.addressBusiness || "Dirección no disponible");
-                          $(".modal-business-description").text(mipymeData.descriptionBusiness || "Descripción del negocio no disponible");
+                          $(".modal-business-description").text(mipymeData.descriptionBusiness || "Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del negocio'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del negocio'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del negocio'.");
 
                           var imgSrc = offerData.image ? "data:image/jpeg;base64," + offerData.image : "";
                           $(".modal-images").attr("src", imgSrc);
@@ -358,7 +358,7 @@ window.addEventListener("scroll", function () {
   var scrollTop = window.scrollY || document.documentElement.scrollTop;
   var modal = document.querySelector(".modal-body");
   // var newTop = headerHeight + 30 - scrollTop;
-  var newTop = headerHeight + 600 - scrollTop;
+  var newTop = headerHeight + 800 - scrollTop;
 
   modal.style.top = newTop + "px";
 });

@@ -400,6 +400,11 @@ section .card .about{
     font-size: 13px;
 }
 
+.modal-body .modal-title{
+    color: white;
+    font-size: 20px;
+}
+
 section .modal-body .modal-img{
     height: 140px;
     width: 140px;

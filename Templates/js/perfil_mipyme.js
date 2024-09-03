@@ -85,10 +85,10 @@ async function checkSessionStatus() {
             console.log("Datos de Mipyme:", mipymeData);
 
             // Actualiza el DOM con los datos de Dev
-            $(".nameBusiness").text(mipymeData.nameBusiness) || "Descripción del negocio";
-            $(".cityBusiness").text(mipymeData.cityBusiness);
-            $(".addressBusiness").text(mipymeData.addressBusiness);
-            $(".descriptionBusiness").text(mipymeData.descriptionBusiness);
+            $(".nameBusiness").text(mipymeData.nameBusiness || "Puedes agregar el nombre de tu negocio en Perfil/Editar/Nombre del negocio");
+            $(".cityBusiness").text(mipymeData.cityBusiness || "Puedes agregar la ubicacion de tu negocio en Perfil/Editar/Ciudad del negocio");
+            $(".addressBusiness").text(mipymeData.addressBusiness || "Puedes agregar la direccion de tu negocio en Perfil/Editar/Direccion del negocio");
+            $(".descriptionBusiness").text(mipymeData.descriptionBusiness || "Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del negocio'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del negocio'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del negocio");
 
         } else {
             console.log("No active session:", data.message);

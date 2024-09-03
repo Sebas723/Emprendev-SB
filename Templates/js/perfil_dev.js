@@ -83,17 +83,16 @@ async function checkSessionStatus() {
             console.log("Datos de Dev:", devData);
 
             // Actualiza el DOM con los datos de Dev
-            $(".profileDescription").text(devData.profileDescription) || "Descripción del perfil";
-            $(".university").text(devData.university);
-            $(".career").text(devData.career);
-            $(".careerStartDate").text(devData.careerStartDate);
-            $(".careerEndDate").text(devData.careerEndDate);
-            $(".profileDescription").text(devData.profileDescription);
-            $(".charge").text(devData.charge);
-            $(".chargeStartDate").text(devData.chargeStartDate);
-            $(".chargeEndDate").text(devData.chargeEndDate);
-            $(".chargeDescription").text(devData.chargeDescription);
-            $(".company").text(devData.company);
+            $(".profileDescription").text(devData.profileDescription || "Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion");
+            $(".university").text(devData.university || "Puedes agregar la universidad de tu estudio desde Perfil/Editar/Universidad");
+            $(".career").text(devData.career || "Puedes agregar el nombre de la carrera desde Perfil/Editar/Carrera");
+            $(".careerStartDate").text(devData.careerStartDate || "Puedes agregar la fecha de inicio de la carrera desde Perfil/Editar/Fecha de inicio");
+            $(".careerEndDate").text(devData.careerEndDate || "Puedes agregar la fecha de finalizacion de la carrera desde Perfil/Editar/Fecha de finalizacion");
+            $(".charge").text(devData.charge || "Si cuentas con experiencia ya sea de un proyecto formativo o trabajando en alguna empresa puedes agregarlo desde Perfil/Editar/Nombre del cargo");
+            $(".company").text(devData.company || "Si cuentas con experiencia trabajando en alguna empresa puedes agregarla desde Perfil/Editar/Nombre de la empresa");
+            $(".chargeStartDate").text(devData.chargeStartDate || "Si cuentas con experiencia trabajando en alguna empresa puedes agregarla desde Perfil/Editar/Fecha de inicio");
+            $(".chargeEndDate").text(devData.chargeEndDate || "Si cuentas con experiencia trabajando en alguna empresa puedes agregarla desde Perfil/Editar/Fecha de finalizacion");
+            $(".chargeDescription").text(devData.chargeDescription || "Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo");
 
         } else {
             console.log("No active session:", data.message);
