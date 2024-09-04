@@ -823,3 +823,38 @@ function OpenAdminMenu() {
   }
   user_sub_menu_isShowing = !user_sub_menu_isShowing;
 }
+
+//generar pdf
+function generatePDF() {
+  const { jsPDF } = window.jspdf;
+
+  // Crear un documento con un tamaño de hoja personalizado
+  const doc = new jsPDF({
+      orientation: "portrait", // Puedes cambiar a "landscape" si lo prefieres
+      unit: "pt",              // Unidades en puntos
+      format: [700, 1000]      // Tamaño de hoja personalizado (ancho x alto)
+  });
+
+  // Ajustar el tamaño de la fuente
+  doc.setFontSize(20); // Tamaño de la fuente para el título
+
+  // Agregar el título
+  doc.text("Registro de Usuarios", 290, 40); // Texto, x, y (posicionamiento)
+
+  // Ajustar el tamaño de la fuente para la tabla
+  doc.setFontSize(8); // Reduce el tamaño de la fuente para la tabla
+
+  // Renderizar la tabla en el PDF
+  doc.html(document.getElementById('tabla'), {
+      callback: function (doc) {
+          doc.save('documento.pdf');
+      },
+      x: 20, // Margen izquierdo
+      y: 60, // Margen superior (después del título)
+      html2canvas: {
+          scale: 0.4 // Escala del contenido HTML
+      },
+      width: doc.internal.pageSize.getWidth() - 40, // Ajuste para el ancho de la página con márgenes
+      windowWidth: document.getElementById('tabla').scrollWidth // Ancho del contenido original
+  });
+}
