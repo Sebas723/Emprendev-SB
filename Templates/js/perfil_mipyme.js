@@ -8,8 +8,9 @@ const DatosPeronales = document.getElementById("datos-personales");
 const userSubMenu = document.getElementById("user-sub-menu");
 
 const TasksContainer = document.getElementById("task-container");
+const guardarFotosBtn = document.getElementById("guardar-fotos-btn");
 
-const File = document.getElementById("foto");
+const fileInput = document.getElementById("foto");
 const DefaultFile = "img/Gato1.jpg";
 const UserImgPerfil = document.getElementById("user-img-perfil");
 
@@ -47,17 +48,22 @@ function OpenPerfilSubMenu(){
 
 
 //Desde aqui incia el script del cambio de foto de perfil del usuario
-File.addEventListener('change', e => {
-    if(e.target.files[0]){
+fileInput.addEventListener('change', function(event) {
+    const img = event.target.files[0];
+    if (img) {
         const reader = new FileReader();
-        reader.onload = function(e){
-        UserImgPerfil.src=e.target.result;
-    }
-    reader.readAsDataURL(e.target.files[0]);
-    }else{
+
+        reader.onload = function (e) {
+            UserImgPerfil.src = e.target.result;
+        };
+        reader.readAsDataURL(img);
+        guardarFotosBtn.removeAttribute('hidden');
+    } else {
         UserImgPerfil = DefaultFile;
+        guardarFotosBtn.setAttribute('hidden', true);
     }
 });
+
 
 async function checkSessionStatus() {
     try {
@@ -100,6 +106,46 @@ async function checkSessionStatus() {
             title: "Error",
             text: "No se pudo verificar el estado de la sesión o cargar los datos del mipyme.",
         });
+    }
+}
+
+async function putImg() {
+    try {
+        // Obtener datos del usuario
+        const data = await $.ajax({
+            url: "http://localhost:8080/emprendev/v1/user/sessionStatus",
+            type: "GET",
+            xhrFields: {
+                withCredentials: true,
+            },
+        });
+
+        const fileInput = document.getElementById('foto');
+        if (fileInput.files.length === 0) {
+            alert('Por favor, selecciona una imagen.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('imgProfile', fileInput.files[0]);
+
+        // Enviar la solicitud AJAX para actualizar la imagen
+        const response = await $.ajax({
+            url: 'http://localhost:8080/emprendev/v1/user/' + data.userId,
+            type: 'PUT',
+            data: formData,
+            contentType: false,
+            processData: false,
+        });
+
+        alert('Imagen actualizada con éxito.');
+        // Aquí puedes actualizar la vista para reflejar el nuevo perfil
+        // Por ejemplo, actualizar la imagen en el DOM o redirigir a la página del perfil
+        window.location.href ="perfil_mipyme.html"
+
+    } catch (error) {
+        alert('Error al actualizar la imagen.');
+        console.error('Error:', error);
     }
 }
 

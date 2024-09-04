@@ -77,13 +77,14 @@ function cargarUsuarios() {
             withCredentials: true
           },
           success: function(devData) {
+            const imgUrl = item.imgProfile ? "data:image/jpeg;base64," + item.imgProfile: "";
             allCards.push({
               id: item.id,
-              imgProfile: item.imgProfile,
+              imgProfile: imgUrl,
               firstName: item.firstName,
               lastName: item.lastName,
               role: item.role,
-              profileDescription: devData.profileDescription // Agregar descripción del perfil
+              profileDescription: devData.profileDescription || "Este es un mensaje predeterminado que se mostrará en tu perfil." // Agregar descripción del perfil
             });
 
             // Mostrar las tarjetas cada vez que se completa la solicitud de un Dev

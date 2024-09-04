@@ -151,10 +151,6 @@ header {
     animation: btn-anim1 1s linear infinite;
 }
 
-.userimg{
-    display:none;
-}
-
 .cuenta-creada{
     position: relative;
     margin-top: 10%;

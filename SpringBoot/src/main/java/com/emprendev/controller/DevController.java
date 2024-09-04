@@ -23,9 +23,20 @@ public class DevController {
     private DevService devService;
 
     @PostMapping
-    public ResponseEntity<Dev> createDev(@RequestBody Dev dev) {
+    public ResponseEntity<?> createDev(@RequestBody Dev dev) {
+        // Verifica que todos los atributos requeridos estén presentes y correctos
+        if (dev.getEmail() == null || dev.getEmail().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El correo electrónico es obligatorio.");
+        }
+        if (dev.getPassword() == null || dev.getPassword().isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("La contraseña es obligatoria.");
+        }
+
+        // Guarda el objeto Dev en la base de datos
         Dev savedDev = devService.createDev(dev);
-        return ResponseEntity.ok(savedDev);
+
+        // Retorna la respuesta con el Dev creado
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedDev);
     }
 
     @GetMapping

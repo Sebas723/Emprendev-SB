@@ -1,17 +1,17 @@
 package com.emprendev.services;
 
-import com.emprendev.entity.Dev;
-import com.emprendev.entity.Mipyme;
-import com.emprendev.entity.Token;
-import com.emprendev.entity.User;
+import com.emprendev.entity.*;
+import com.emprendev.exceptions.ResourceNotFoundException;
 import com.emprendev.repository.MipymeRepository;
 import com.emprendev.repository.UserRepository;
 import com.emprendev.repository.DevRepository;
+import jakarta.mail.Multipart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -247,5 +247,19 @@ public class UserServices {
     private String createCode() {
         // Aquí puedes implementar la lógica para generar un código único, por ejemplo, un número aleatorio o un UUID
         return UUID.randomUUID().toString().substring(0, 6); // Ejemplo de generación de un código UUID corto
+    }
+
+    public User deactivateUser(Long id) throws ResourceNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Offer not found"));
+        user.setAccountState(0); // Desactivar oferta
+        return userRepository.save(user);
+    }
+
+    public User reactivateUser(Long id) throws ResourceNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Offer not found"));
+        user.setAccountState(1); // Reactivar oferta
+        return userRepository.save(user);
     }
 }

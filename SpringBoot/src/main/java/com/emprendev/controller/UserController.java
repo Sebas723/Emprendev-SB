@@ -1,15 +1,21 @@
 package com.emprendev.controller;
 
+import com.emprendev.entity.Offer;
 import com.emprendev.entity.User;
+import com.emprendev.exceptions.ResourceNotFoundException;
 import com.emprendev.services.UserServices;
 import jakarta.servlet.http.HttpSession;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @CrossOrigin(origins = "http://localhost")
@@ -42,10 +48,54 @@ public class UserController {
         return ResponseEntity.ok(Collections.singletonMap("exists", emailExists));
     }
 
-    @PostMapping //Save user
-    public void saveUser(@RequestBody User user) { // Corrige el nombre del método
+    @PostMapping
+    public void createUser(
+            @RequestParam("firstName") String firstName,
+            @RequestParam("secondName") String secondName,
+            @RequestParam("lastName") String lastName,
+            @RequestParam("lastName2") String lastName2,
+            @RequestParam("docType") String docType,
+            @RequestParam("docNum") Long docNum,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date birthDate,
+            @RequestParam("role") String role,
+            @RequestParam("phoneNum") String phoneNum,
+            @RequestParam("address") String address,
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam("accountState") int accountState,
+            @RequestParam("creationDate") String creationDate,
+            @RequestParam("imgProfile") MultipartFile imgProfile // Recibe la imagen como MultipartFile
+    ) {
+        User user = new User();
+        user.setFirstName(firstName);
+        user.setSecondName(secondName);
+        user.setLastName(lastName);
+        user.setLastName2(lastName2);
+        user.setDocType(docType);
+        user.setDocNum(docNum);
+        user.setBirthDate(birthDate);
+        user.setRole(role);
+        user.setPhoneNum(phoneNum);
+        user.setAddress(address);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setAccountState(accountState);
+        user.setCreationDate(creationDate);
+
+        if (imgProfile != null && !imgProfile.isEmpty()) {
+            try {
+                // Convierte el MultipartFile en un byte array
+                byte[] imgBytes = imgProfile.getBytes();
+                user.setImgProfile(imgBytes);
+            } catch (IOException e) {
+                System.out.println("Error al leer el archivo de imagen: " + e.getMessage());
+            }
+        }
+
+        // Guarda el usuario en la base de datos
         userService.saveOrUpdate(user);
     }
+
 
     @PostMapping("/login") //user login and session management
     public ResponseEntity<?> loginUser(@RequestBody @NotNull LoginRequest loginRequest, HttpSession session) {
@@ -123,9 +173,8 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-
     @PutMapping("/{id}") // Update user by id
-    public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+    public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody User user, @RequestParam(value = "imgProfile", required = false) MultipartFile imgProfile) throws IOException {
         Optional<User> optionalExistingUser = userService.getUser(id);
 
         if (optionalExistingUser.isEmpty()) {
@@ -180,8 +229,34 @@ public class UserController {
             existingUser.setCreationDate(user.getCreationDate());
         }
 
+        if (imgProfile != null && !imgProfile.isEmpty()) {
+            // Manejar la imagen, por ejemplo, guardarla en la base de datos o en el sistema de archivos
+            byte[] imgBytes = imgProfile.getBytes();
+            existingUser.setImgProfile(imgBytes); // Asegúrate de que el campo imgProfile en User pueda manejar bytes
+        }
+
         userService.saveOrUpdate(existingUser);
         return ResponseEntity.ok(existingUser);
+    }
+
+    @PutMapping("/{id}/deactivate")
+    public ResponseEntity<User> deactivateUser(@PathVariable Long id) {
+        try {
+            User updatedUser = userService.deactivateUser(id);
+            return ResponseEntity.ok(updatedUser);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PutMapping("/{id}/reactivate")
+    public ResponseEntity<User> reactivateUser(@PathVariable Long id) {
+        try {
+            User updatedUser = userService.reactivateUser(id);
+            return ResponseEntity.ok(updatedUser);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}") //Delete user by id

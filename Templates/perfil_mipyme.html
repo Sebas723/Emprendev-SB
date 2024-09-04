@@ -56,15 +56,8 @@
     <!--Info-->
     <section id="Info">
         <div class="perfil-img">
-            <img class="session_user_imgProfile" src="" alt="" width="60%" height="60%" id="user-img-perfil">
-            <div  class="img-perfil-user-up">
-                <form action="" class="form-bigicon">
-                    <div>
-                        <input type="file" name="cambio-foto-perfil" id="foto">
-                        <label for="foto"><img src="svg/Editar.svg" alt="" height="80%" width="80%"></label>
-                    </div>
-                </form>
-            </div>
+            <img class="session_user_imgProfile" alt="" width="60%" height="60%" id="user-img-perfil">
+            <input type="file" name="cambio-foto-perfil" id="foto" accept="image/*">
         </div>
         <br>
         <div class="profile_name">
@@ -74,6 +67,7 @@
         
         <hr>
         <div id="button-container">
+            <button id="guardar-fotos-btn" class="foto-btn perfil-btn" onclick="putImg()" hidden>Guardar Foto</button>
             <a href=""><button id="datos-personales-btn" class="perfil-btn" onclick="ButtonDataSelected()">Datos Personales</button></a>
         
             <a href="editar_mipyme.html"><button id="descripcion-btn" class="perfil-btn">Editar</button></a>  

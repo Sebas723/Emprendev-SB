@@ -200,7 +200,24 @@ document.addEventListener("DOMContentLoaded", function () {
         return date.toISOString().split('T')[0]; // Format as YYYY-MM-DD
     }
 
-    function SaveUser() {
+    async function convertImageToBlob(imgElement, type = 'image/png') {
+        return new Promise((resolve, reject) => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = imgElement.naturalWidth; // Usar dimensiones naturales
+            canvas.height = imgElement.naturalHeight;
+            ctx.drawImage(imgElement, 0, 0);
+            canvas.toBlob(blob => {
+                if (blob) {
+                    resolve(blob);
+                } else {
+                    reject(new Error('Failed to convert image to blob.'));
+                }
+            }, type);
+        });
+    }
+
+    async function SaveUser() {
         const userName = $("#username").val();
         const userSecName = $("#usersecname").val();
         const userLName = $("#userlname").val();
@@ -213,7 +230,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const address = $("#address").val();
         const email = $("#email").val();
         const password = $("#password").val();
-        const imgProfile = $("#user_icon").attr("src");
+
+        const imgElement = document.getElementById("user_icon"); // La imagen que quieres convertir
+        const userIcon = await convertImageToBlob(imgElement);
+
         const accountState = 1;
         const creationDate = new Date().toISOString(); // Usa formato ISO
 
@@ -221,23 +241,24 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(formattedBirthDate);
 
 
-        const newUser = {
-            firstName: userName,
-            secondName: userSecName,
-            lastName: userLName,
-            lastName2: userLSecName,
-            docType: docType,
-            docNum: userId,
-            birthDate: formattedBirthDate,
-            role: role,
-            phoneNum: phoneNum,
-            address: address,
-            email: email,
-            password: password,
-            imgProfile: imgProfile,
-            accountState: accountState,
-            creationDate: creationDate,
-        };
+        const formData = new FormData();
+        formData.append('firstName', userName);
+        formData.append('secondName', userSecName);
+        formData.append('lastName', userLName);
+        formData.append('lastName2', userLSecName);
+        formData.append('docType', docType);
+        formData.append('docNum', userId);
+        formData.append('birthDate', formattedBirthDate);
+        formData.append('role', role);
+        formData.append('phoneNum', phoneNum);
+        formData.append('address', address);
+        formData.append('email', email);
+        formData.append('password', password);
+        formData.append('imgProfile', userIcon, 'profile.png'); // Incluye el blob con un nombre de archivo
+        formData.append('accountState', accountState);
+        formData.append('creationDate', creationDate);
+
+        console.log(formData);
 
         const userInfo = {
             profileDescription: "editar",
@@ -252,27 +273,17 @@ document.addEventListener("DOMContentLoaded", function () {
             chargeDescription: "editar",
         }
 
-        function Show() {
-            console.log(JSON.stringify(newUser));
+        try {
+            const response = await fetch("http://localhost:8080/emprendev/v1/user", {
+                method: "POST",
+                body: formData,
+                credentials: "include",
+            });
+            if (!response.ok) throw new Error('Error al registrar usuario');
+            console.log("Usuario registrado");
+        } catch (error) {
+            console.error("Error al agregar usuario:", error);
         }
-
-        Show();
-
-        $.ajax({
-            type: "POST",
-            url: "http://localhost:8080/emprendev/v1/user",
-            contentType: "application/json",
-            data: JSON.stringify(newUser),
-            xhrFields: {
-                withCredentials: true,
-            },
-            success: function (response) {
-                console.log("Usuario registrado");
-            },
-            error: function (xhr, status, error) {
-                console.error("Error al agregar usuario:", error);
-            },
-        });
 
         $.ajax({
             type: "POST",

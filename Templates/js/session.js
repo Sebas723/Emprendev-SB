@@ -11,9 +11,9 @@ async function checkSessionStatus() {
     if (data.sessionActive) {
       console.log("Session is active:", data);
 
-      localStorage.setItem('userId', data.userId);
+      localStorage.setItem("userId", data.userId);
 
-      // Formatear la fecha de nacimiento
+      // Format birth date
       const birthDateMillis = data.birthDate;
       const birthDate = new Date(birthDateMillis);
       const day = String(birthDate.getDate()).padStart(2, "0");
@@ -21,7 +21,17 @@ async function checkSessionStatus() {
       const year = birthDate.getFullYear();
       const formattedDate = `${day}/${month}/${year}`;
 
-      // Actualizar el DOM con los datos del usuario
+      // Handle profile image
+      var imgSrc = data.imgProfile
+        ? "data:image/jpeg;base64," + data.imgProfile
+        : "";
+      if (imgSrc) {
+        $(".session_user_imgProfile").attr("src", imgSrc).show();
+      } else {
+        $(".session_user_imgProfile").hide();
+      }
+
+      // Update DOM with user data
       $(".session_user_id").text(data.userId);
       $(".session_user_firstName").text(data.firstName);
       $(".session_user_secondName").text(data.secondName || "No disponible");
@@ -35,7 +45,6 @@ async function checkSessionStatus() {
       $(".session_user_address").text(data.address || "No encontrado");
       $(".session_user_email").text(data.Email);
       $(".session_user_password").text(data.password);
-      $(".session_user_imgProfile").attr("src", data.imgProfile);
       $(".session_user_accountState").text(data.accountState);
       $(".session_user_creationDate").text(data.creationDate);
     } else {

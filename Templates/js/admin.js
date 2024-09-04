@@ -17,6 +17,7 @@ $(document).ready(function () {
 
           // Obtener los milisegundos de la fecha desde los datos
           const birthDateMillis = item.birthDate;
+          const imgUrl = item.imgProfile ? "data:image/jpeg;base64," + item.imgProfile: "";
 
           // Creamos un objeto Date a partir de los milisegundos.
           const birthDate = new Date(birthDateMillis);
@@ -42,7 +43,7 @@ $(document).ready(function () {
                             <td>${accountStateText}</td>
                             <td>${item.creationDate}</td>
                             <td>
-                                <img id='user_icon' class='user_img' src='${item.imgProfile}' alt='Imagen de perfil' width='40' height='40'>
+                                <img id='user_icon' class='user_img' src='${imgUrl}' alt='Imagen de perfil' width='40' height='40'>
                             </td>
                             <td>
                                 <button id ="idbtn" class='btn btn-primary btn-sm editarUser' data-id='${item.id}'>Editar</button>
@@ -87,8 +88,17 @@ $(document).ready(function () {
 
         // Formateamos la fecha en YYYY-MM-DD para el input de tipo date
         const formattedDate = `${year}-${month}-${day}`;
+        var imgSrc = data.imgProfile
+        ? "data:image/jpeg;base64," + data.imgProfile
+        : "";
+        if (imgSrc) {
+          $(".session_user_imgProfile").attr("src", imgSrc).show();
+        } else {
+          $(".session_user_imgProfile").hide();
+        }
 
         $("#edit-id").val(data.id);
+        $("#edit_imgProfile").attr("src", imgSrc);
         $("#edit_first_name").val(data.firstName);
         $("#edit_sec_name").val(data.secondName);
         $("#edit_last_name").val(data.lastName);
@@ -163,29 +173,55 @@ $(document).ready(function () {
     }
 });
 
-$(document).on("click", ".desactivarUser, .reactivarUser", function () {
+$(document).on("click", ".desactivarUser", function () {
   const id = $(this).data("id"); // Extraer el id del botón clicado
-  const isDeactivating = $(this).hasClass("desactivarUser"); // Verificar si la clase es desactivarUser
-  const accountState = isDeactivating ? 0 : 1;
-
-  if (confirm(`¿Desea ${isDeactivating ? "desactivar" : "reactivar"} este usuario?`)) {
-    $.ajax({
-      type: "PUT",
-      url: `http://localhost:8080/emprendev/v1/user/${id}`,
-      contentType: "application/json",
-      data: JSON.stringify({ accountState }),
-      xhrFields: {
-        withCredentials: true,
-      },
-      success: function () {
-        cargarUsuarios();
-      },
-      error: function (xhr, status, error) {
-        console.error(`Error al ${isDeactivating ? "desactivar" : "reactivar"} Usuario:`, error);
-      },
-    });
+  if (confirm("¿Desea desactivar este usuario?")) {
+    desactivarUsuario(id);
   }
 });
+
+$(document).on("click", ".reactivarUser", function () {
+  const id = $(this).data("id"); // Extraer el id del botón clicado
+  if (confirm("¿Desea reactivar este usuario?")) {
+    reactivarUsuario(id);
+  }
+});
+
+function desactivarUsuario(id) {
+  $.ajax({
+    type: "PUT",
+    url: `http://localhost:8080/emprendev/v1/user/${id}/deactivate`,
+    contentType: "application/json",
+    data: JSON.stringify({ accountState: 0 }), // 0 para desactivado
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: function () {
+      cargarUsuarios(); // Llama a la función para recargar los usuarios
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al desactivar Usuario:", error);
+    },
+  });
+}
+
+function reactivarUsuario(id) {
+  $.ajax({
+    type: "PUT",
+    url: `http://localhost:8080/emprendev/v1/user/${id}/reactivate`,
+    contentType: "application/json",
+    data: JSON.stringify({ accountState: 1 }), // 1 para activado
+    xhrFields: {
+      withCredentials: true,
+    },
+    success: function () {
+      cargarUsuarios(); // Llama a la función para recargar los usuarios
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al reactivar Usuario:", error);
+    },
+  });
+}
 
 cargarUsuarios(); // Llamada inicial para cargar los usuarios
 });
