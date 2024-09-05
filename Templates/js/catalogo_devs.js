@@ -12,6 +12,8 @@ const overlay = document.querySelector(".overlay");
 userSubMenu.style.display = "none";
 let SubmenuPerfilBtn_isShowing = false;
 
+var fullText = '';
+
 function OpenPerfilSubMenu(){
     if (!SubmenuPerfilBtn_isShowing){
         userSubMenu.style.display="block";
@@ -78,6 +80,7 @@ function cargarUsuarios() {
           },
           success: function(devData) {
             const imgUrl = item.imgProfile ? "data:image/jpeg;base64," + item.imgProfile: "";
+            fullText = `${devData.profileDescription || ""}`;
             allCards.push({
               id: item.id,
               imgProfile: imgUrl,
@@ -105,7 +108,7 @@ function cargarUsuarios() {
 
 function mostrarTarjetas(cards) {
   const cardsHtml = cards.map(item => `
-    <div class='cola' data-role='${item.role.toLowerCase()}'>
+    <div class='cola' data-full-text='${encodeURIComponent(fullText)}' data-role='${item.role.toLowerCase()}'>
       <div class='card border-0'>
         <div class='box1'></div>
         <div class='card-content'>

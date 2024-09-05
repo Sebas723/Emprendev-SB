@@ -174,7 +174,24 @@ public class UserController {
     }
 
     @PutMapping("/{id}") // Update user by id
-    public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody User user, @RequestParam(value = "imgProfile", required = false) MultipartFile imgProfile) throws IOException {
+    public ResponseEntity<?> updateUser(
+            @PathVariable("id") Long id,
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "secondName", required = false) String secondName,
+            @RequestParam(value = "lastName", required = false) String lastName,
+            @RequestParam(value = "lastName2", required = false) String lastName2,
+            @RequestParam(value = "docType", required = false) String docType,
+            @RequestParam(value = "docNum", required = false) Long docNum,
+            @RequestParam(value = "birthDate", required = false) Date birthDate,
+            @RequestParam(value = "role", required = false) String role,
+            @RequestParam(value = "phoneNum", required = false) String phoneNum,
+            @RequestParam(value = "address", required = false) String address,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "password", required = false) String password,
+            @RequestParam(value = "accountState", required = false) Integer accountState,
+            @RequestParam(value = "creationDate", required = false) String creationDate,
+            @RequestParam(value = "imgProfile", required = false) MultipartFile imgProfile) throws IOException {
+
         Optional<User> optionalExistingUser = userService.getUser(id);
 
         if (optionalExistingUser.isEmpty()) {
@@ -183,50 +200,48 @@ public class UserController {
 
         User existingUser = optionalExistingUser.get();
 
-        if (user.getFirstName() != null) {
-            existingUser.setFirstName(user.getFirstName());
+        // Actualiza los campos del usuario si están presentes en la solicitud
+        if (firstName != null) {
+            existingUser.setFirstName(firstName);
         }
-        if (user.getSecondName() != null) {
-            existingUser.setSecondName(user.getSecondName());
+        if (secondName != null) {
+            existingUser.setSecondName(secondName);
         }
-        if (user.getLastName() != null) {
-            existingUser.setLastName(user.getLastName());
+        if (lastName != null) {
+            existingUser.setLastName(lastName);
         }
-        if (user.getLastName2() != null) {
-            existingUser.setLastName2(user.getLastName2());
+        if (lastName2 != null) {
+            existingUser.setLastName2(lastName2);
         }
-        if (user.getDocType() != null) {
-            existingUser.setDocType(user.getDocType());
+        if (docType != null) {
+            existingUser.setDocType(docType);
         }
-        if (user.getDocNum() != null) {
-            existingUser.setDocNum(user.getDocNum());
+        if (docNum != null) {
+            existingUser.setDocNum(docNum);
         }
-        if (user.getBirthDate() != null) {
-            existingUser.setBirthDate(user.getBirthDate());
+        if (birthDate != null) {
+            existingUser.setBirthDate(birthDate);
         }
-        if (user.getRole() != null) {
-            existingUser.setRole(user.getRole());
+        if (role != null) {
+            existingUser.setRole(role);
         }
-        if (user.getPhoneNum() != null) {
-            existingUser.setPhoneNum(user.getPhoneNum());
+        if (phoneNum != null) {
+            existingUser.setPhoneNum(phoneNum);
         }
-        if (user.getAddress() != null) {
-            existingUser.setAddress(user.getAddress());
+        if (address != null) {
+            existingUser.setAddress(address);
         }
-        if (user.getEmail() != null) {
-            existingUser.setEmail(user.getEmail());
+        if (email != null) {
+            existingUser.setEmail(email);
         }
-        if (user.getPassword() != null) {
-            existingUser.setPassword(user.getPassword());
+        if (password != null) {
+            existingUser.setPassword(password);
         }
-        if (user.getImgProfile() != null) {
-            existingUser.setImgProfile(user.getImgProfile());
+        if (accountState != null) {
+            existingUser.setAccountState(accountState);
         }
-        if (user.getAccountState() != null) {
-            existingUser.setAccountState(user.getAccountState());
-        }
-        if (user.getCreationDate() != null) {
-            existingUser.setCreationDate(user.getCreationDate());
+        if (creationDate != null) {
+            existingUser.setCreationDate(creationDate);
         }
 
         if (imgProfile != null && !imgProfile.isEmpty()) {

@@ -43,7 +43,7 @@ $(document).ready(function () {
                             <td>${accountStateText}</td>
                             <td>${item.creationDate}</td>
                             <td>
-                                <img id='user_icon' class='user_img' src='${imgUrl}' alt='Imagen de perfil' width='40' height='40'>
+                                <img id='user_icon' class='user_img' src='${imgUrl}' alt='Imagen de perfil' width='40' height='40' style='border-radius:100%;'>
                             </td>
                             <td>
                                 <button id ="idbtn" class='btn btn-primary btn-sm editarUser' data-id='${item.id}'>Editar</button>
