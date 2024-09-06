@@ -131,7 +131,7 @@ async function putImg() {
 
         // Enviar la solicitud AJAX para actualizar la imagen
         const response = await $.ajax({
-            url: 'http://localhost:8080/emprendev/v1/user/' + data.userId,
+            url: 'http://localhost:8080/emprendev/v1/user/' + data.userId + '/imgProfile',
             type: 'PUT',
             data: formData,
             contentType: false,

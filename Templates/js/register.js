@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                     break;
                 case "apellido":
-                    if (/[\d\W]+/.test(apellido)) {
+                    if (/[\d\W&&[^\ñÑ]]+/.test(apellido)) {
                         showErrorMessage("Los apellidos no pueden contener números o simbologías.");
                     }
                     if (apellido.trim() === "") {

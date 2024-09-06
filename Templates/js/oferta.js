@@ -266,6 +266,17 @@ document.getElementById("submit_offer").addEventListener("click", function () {
             method: 'POST',
             body: formData,
         })
+        .then(data => {
+            // Si la oferta se crea exitosamente, muestra el Swal.fire
+            Swal.fire({
+                icon: 'success',
+                title: 'Oferta creada',
+                text: 'La oferta se ha creado con éxito.',
+            }).then(() => {
+                // Puedes redirigir o limpiar el formulario después del éxito
+                window.location.href = "catalogo_devs.html"; // Redirigir a otra página
+            });
+        })
     } else {
         Swal.fire({
             icon: 'error',

@@ -176,21 +176,7 @@ public class UserController {
     @PutMapping("/{id}") // Update user by id
     public ResponseEntity<?> updateUser(
             @PathVariable("id") Long id,
-            @RequestParam(value = "firstName", required = false) String firstName,
-            @RequestParam(value = "secondName", required = false) String secondName,
-            @RequestParam(value = "lastName", required = false) String lastName,
-            @RequestParam(value = "lastName2", required = false) String lastName2,
-            @RequestParam(value = "docType", required = false) String docType,
-            @RequestParam(value = "docNum", required = false) Long docNum,
-            @RequestParam(value = "birthDate", required = false) Date birthDate,
-            @RequestParam(value = "role", required = false) String role,
-            @RequestParam(value = "phoneNum", required = false) String phoneNum,
-            @RequestParam(value = "address", required = false) String address,
-            @RequestParam(value = "email", required = false) String email,
-            @RequestParam(value = "password", required = false) String password,
-            @RequestParam(value = "accountState", required = false) Integer accountState,
-            @RequestParam(value = "creationDate", required = false) String creationDate,
-            @RequestParam(value = "imgProfile", required = false) MultipartFile imgProfile) throws IOException {
+            @RequestBody User userUpdates) throws IOException {
 
         Optional<User> optionalExistingUser = userService.getUser(id);
 
@@ -200,58 +186,65 @@ public class UserController {
 
         User existingUser = optionalExistingUser.get();
 
-        // Actualiza los campos del usuario si están presentes en la solicitud
-        if (firstName != null) {
-            existingUser.setFirstName(firstName);
+        // Actualiza los campos del usuario solo si los nuevos valores no son nulos
+        if (userUpdates.getFirstName() != null) {
+            existingUser.setFirstName(userUpdates.getFirstName());
         }
-        if (secondName != null) {
-            existingUser.setSecondName(secondName);
+        if (userUpdates.getSecondName() != null) {
+            existingUser.setSecondName(userUpdates.getSecondName());
         }
-        if (lastName != null) {
-            existingUser.setLastName(lastName);
+        if (userUpdates.getLastName() != null) {
+            existingUser.setLastName(userUpdates.getLastName());
         }
-        if (lastName2 != null) {
-            existingUser.setLastName2(lastName2);
+        if (userUpdates.getLastName2() != null) {
+            existingUser.setLastName2(userUpdates.getLastName2());
         }
-        if (docType != null) {
-            existingUser.setDocType(docType);
+        if (userUpdates.getDocType() != null) {
+            existingUser.setDocType(userUpdates.getDocType());
         }
-        if (docNum != null) {
-            existingUser.setDocNum(docNum);
+        if (userUpdates.getDocNum() != null) {
+            existingUser.setDocNum(userUpdates.getDocNum());
         }
-        if (birthDate != null) {
-            existingUser.setBirthDate(birthDate);
+        if (userUpdates.getBirthDate() != null) {
+            existingUser.setBirthDate(userUpdates.getBirthDate());
         }
-        if (role != null) {
-            existingUser.setRole(role);
+        if (userUpdates.getPhoneNum() != null) {
+            existingUser.setPhoneNum(userUpdates.getPhoneNum());
         }
-        if (phoneNum != null) {
-            existingUser.setPhoneNum(phoneNum);
+        if (userUpdates.getAddress() != null) {
+            existingUser.setAddress(userUpdates.getAddress());
         }
-        if (address != null) {
-            existingUser.setAddress(address);
-        }
-        if (email != null) {
-            existingUser.setEmail(email);
-        }
-        if (password != null) {
-            existingUser.setPassword(password);
-        }
-        if (accountState != null) {
-            existingUser.setAccountState(accountState);
-        }
-        if (creationDate != null) {
-            existingUser.setCreationDate(creationDate);
-        }
-
-        if (imgProfile != null && !imgProfile.isEmpty()) {
-            // Manejar la imagen, por ejemplo, guardarla en la base de datos o en el sistema de archivos
-            byte[] imgBytes = imgProfile.getBytes();
-            existingUser.setImgProfile(imgBytes); // Asegúrate de que el campo imgProfile en User pueda manejar bytes
+        if (userUpdates.getEmail() != null) {
+            existingUser.setEmail(userUpdates.getEmail());
         }
 
         userService.saveOrUpdate(existingUser);
         return ResponseEntity.ok(existingUser);
+    }
+
+    @PutMapping("/{id}/imgProfile")
+    public ResponseEntity<?> updateProfileImage(
+            @PathVariable("id") Long id,
+            @RequestParam("imgProfile") MultipartFile imgProfile) throws IOException {
+
+        Optional<User> optionalExistingUser = userService.getUser(id);
+
+        if (optionalExistingUser.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        User existingUser = optionalExistingUser.get();
+
+        if (imgProfile != null && !imgProfile.isEmpty()) {
+            // Convertir la imagen a un array de bytes y almacenarla en el campo imgProfile
+            byte[] imgBytes = imgProfile.getBytes();
+            existingUser.setImgProfile(imgBytes);
+        } else {
+            return ResponseEntity.badRequest().body("No se proporcionó una imagen válida.");
+        }
+
+        userService.saveOrUpdate(existingUser);
+        return ResponseEntity.ok("Imagen de perfil actualizada correctamente.");
     }
 
     @PutMapping("/{id}/deactivate")

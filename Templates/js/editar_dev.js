@@ -106,13 +106,13 @@ $(document).ready(function () {
       xhrFields: {
         withCredentials: true,
       },
-      success: function (data) {
-        if (data.sessionActive) {
+      success: function (userData) {
+        if (userData.sessionActive) {
           // Cargar datos del usuario
-          populateUserForm(data);
+          populateUserForm(userData);
 
           // Obtener el ID del usuario y cargar datos adicionales de Dev
-          const userId = data.userId;
+          const userId = userData.userId;
 
           $.ajax({
             url: `http://localhost:8080/api/devs/${userId}`,
@@ -206,6 +206,19 @@ $(document).ready(function () {
 
   // Llama a la función para cargar los datos del usuario cuando el documento esté listo
   loadUserData();
+
+  const charCount = document.getElementById("charCount");
+  const profileDesc = document.getElementById("profileDescription");
+
+  profileDesc.addEventListener('input', function() {
+  // Verifica si la longitud es mayor a 200
+    if (profileDesc.value.length > 200) {
+    // Si es mayor a 200, corta el valor a los primeros 200 caracteres
+      profileDesc.value = profileDesc.value.substring(0, 200);
+    }
+  // Actualiza el contador de caracteres
+    charCount.textContent = `Caracteres: ${profileDesc.value.length}/200`;
+  });
 });
 
 //Guardar los datos editados
@@ -213,10 +226,16 @@ const form = document.getElementById("form-dev");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault(); // Evita que el formulario se envíe de la forma tradicional
+
+  // Llama a la función de validación antes de enviar el formulario
+  if (!validarFormulario()) {
+    return; // Si la validación falla, detiene el proceso de envío
+  }
+
   const id = $("#id").val();
 
   // Recolecta los datos del formulario principal
-  const formData = {
+  const formUserData = {
     firstName: $("#firstName").val(),
     lastName: $("#lastName").val(),
     secondName: $("#secondName").val(),
@@ -226,6 +245,9 @@ form.addEventListener("submit", async (event) => {
     phoneNum: $("#phoneNum").val(),
     address: $("#address").val(),
     email: $("#email").val(),
+  };
+
+  const formDevData = {
     profileDescription: $("#profileDescription").val(),
     university: $("#university").val(),
     career: $("#career").val(),
@@ -236,7 +258,7 @@ form.addEventListener("submit", async (event) => {
     chargeStartDate: $("#chargeStartDate").val(),
     chargeEndDate: $("#chargeEndDate").val(),
     chargeDescription: $("#chargeDescription").val()
-  };
+  }
 
   try {
     // Envía los datos del formulario principal al servidor usando fetch con método PUT
@@ -244,7 +266,7 @@ form.addEventListener("submit", async (event) => {
       type: "PUT",
       url: `http://localhost:8080/emprendev/v1/user/${id}`,
       contentType: "application/json",
-      data: JSON.stringify(formData),
+      data: JSON.stringify(formUserData),
       xhrFields: {
         withCredentials: true,
       },
@@ -267,7 +289,7 @@ form.addEventListener("submit", async (event) => {
       type: "PUT",
       url: `http://localhost:8080/api/devs/${id}`,
       contentType: "application/json",
-      data: JSON.stringify(formData),
+      data: JSON.stringify(formDevData),
       xhrFields: {
         withCredentials: true,
       },
@@ -304,15 +326,15 @@ form.addEventListener("submit", async (event) => {
   }
 });
 
-  //Submenu del perfil del usuario (imagen arriba a la izquierda)
-  userSubMenu.style.display = "none";
+//Submenu del perfil del usuario (imagen arriba a la izquierda)
+userSubMenu.style.display = "none";
 
-  let SubmenuPerfilBtn_isShowing = false;
-  function OpenPerfilSubMenu() {
-    if (!SubmenuPerfilBtn_isShowing) {
-      userSubMenu.style.display = "block";
-    } else {
-      userSubMenu.style.display = "none";
-    }
-    SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
+let SubmenuPerfilBtn_isShowing = false;
+function OpenPerfilSubMenu() {
+  if (!SubmenuPerfilBtn_isShowing) {
+    userSubMenu.style.display = "block";
+  } else {
+    userSubMenu.style.display = "none";
   }
+  SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;  
+}
