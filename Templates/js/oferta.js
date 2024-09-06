@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const form = document.getElementById('offer_form');
 
-    form.addEventListener('submit', function (event) {
-        if (!validarFormulario()) {
+    form.addEventListener('submit', async function (event) {
+        if (!await validateForm()) {
             event.preventDefault(); // Detiene el envío del formulario si no es válido
         } else {
-            SaveOffer();
+            SaveOffer(); // O maneja el envío del formulario aquí si la validación es correcta
         }
     });
     CardPreviewDesc();
@@ -21,75 +21,56 @@ async function validateForm() {
     const pagoOferta = document.querySelector('[name="pago"]').value;
     const cuposOferta = document.querySelector('[name="cupos"]').value;
 
-    let todasLasValidacionesPasaron = true;
+    let errorMessages = [];
+    let isValid = true;
 
     function showErrorMessage(message) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: message
-        });
-        todasLasValidacionesPasaron = false;
+        errorMessages.push(message);
+        isValid = false;
     }
 
-    const validaciones = [
-        'cupos',
-        'pago',
-        'descripcionOferta',
-        'tituloOferta'
-    ];
-
-    for (let validacion of validaciones) {
-        switch (validacion) {
-            case 'tituloOferta':
-                if (tituloOferta.trim() === '') {
-                    showErrorMessage("Por favor, completa el campo Titulo");
-                }
-            break;
-            case 'descripcionOferta':
-                if (descripcionOferta.trim() === '') {
-                    showErrorMessage("Por favor, completa el campo Descripcion");
-                }
-                if (descripcionOferta.length < 200) {
-                    showErrorMessage("La descripcion de la oferta debe contener por lo menos 200 caracteres");
-                }
-            break;
-            case 'pago':
-                if (pagoOferta.trim() === '') {
-                    showErrorMessage("Por favor, completa el campo Pago");
-                }
-                if(isNaN(pagoOferta)){
-                    showErrorMessage("El pago por la oferta solo puede contener numeros");
-                }
-                if(pagoOferta < 100000){
-                    showErrorMessage("El pago por la oferta no puede ser menor a 100.000");
-                }
-            break;
-            case 'cupos':
-                if (cuposOferta.trim() === '') {
-                    showErrorMessage("Por favor, completa el campo Cupos");
-                }
-                if(isNaN(cuposOferta)){
-                    showErrorMessage("Los cupos de la oferta solo pueden contener numeros");
-                }
-                if(cuposOferta <= 0){
-                    showErrorMessage("La oferta debe contener almenos un cupo");
-                }
-            break;
-            default:
-            break;
+    if (tituloOferta.trim() === '') {
+        showErrorMessage("Por favor, completa el campo Titulo");
+    }
+    if (descripcionOferta.trim() === '') {
+        showErrorMessage("Por favor, completa el campo Descripcion");
+    }
+    if (descripcionOferta.length < 200) {
+        showErrorMessage("La descripcion de la oferta debe contener por lo menos 200 caracteres");
+    }
+    if (pagoOferta.trim() === '') {
+        showErrorMessage("Por favor, completa el campo Pago");
+    }
+    if (isNaN(pagoOferta)) {
+        showErrorMessage("El pago por la oferta solo puede contener numeros");
+    } else {
+        if (pagoOferta <= 0) {
+            showErrorMessage("El pago por la oferta no puede ser menor o igual a 0");
+        }
+        if (pagoOferta < 100000) {
+            showErrorMessage("El pago por la oferta no puede ser menor a 100.000");
         }
     }
-    if (todasLasValidacionesPasaron) {
+    if (cuposOferta.trim() === '') {
+        showErrorMessage("Por favor, completa el campo Cupos");
+    }
+    if (isNaN(cuposOferta)) {
+        showErrorMessage("Los cupos de la oferta solo pueden contener numeros");
+    } else {
+        if (cuposOferta <= 0) {
+            showErrorMessage("La oferta debe contener al menos un cupo");
+        }
+    }
+
+    if (!isValid) {
         Swal.fire({
-          icon: "success",
-          title: "¡Oferta Creada!",
-          text: "La oferta ha sido creada exitosamente...",
-        }).then(() => {
-          // Redirigir a otra vista
-          window.location.href = "catalogo.html"; // Cambia la URL a la ruta deseada
+            icon: 'error',
+            title: 'Errores',
+            text: errorMessages.join('\n')
         });
-      }
+    }
+
+    return isValid;
 }
 
 //fotos de oferta
@@ -117,7 +98,6 @@ function OpenPerfilSubMenu(){
 
 
 //fotos oferta
-const form = document.getElementById("form");
 const photoInput = document.getElementById("photoInput");
 const photoContainer = document.getElementById("photoContainer");
 const photoPreview = document.getElementById("photoPreview");
@@ -185,7 +165,11 @@ function CardPreviewDesc() {
 }
 
 function formatearNumero(numero) {
-    return numero.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    // Eliminar el signo "-" si está presente
+    numero = numero.toString().replace(/-/g, '');
+
+    // Formatear el número con puntos
+    return numero.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 function CardPreviewPago() {
@@ -199,6 +183,14 @@ function CardPreviewPago() {
         cardPago.innerHTML = `<span>$</span>` + formatearNumero(cardPagoInput);
     }
 }
+
+const numberInput = document.getElementById('card_pago_input');
+
+// Escucha el evento 'input'
+numberInput.addEventListener('input', function() {
+    // Reemplaza el signo "-" con una cadena vacía
+    this.value = this.value.replace(/-/g, '');
+});
 
 function CardPreviewField() {
     let cardFieldInput = document.getElementById("offer_fields").value;
@@ -252,7 +244,7 @@ const file = photoInput.files[0];
 
 // Función para manejar el click del botón de envío
 document.getElementById("submit_offer").addEventListener("click", function () {
-    if (validarFormulario()) {
+    if (validateForm()) {
         // Crea un nuevo FormData
         let formData = new FormData();
 
@@ -274,32 +266,6 @@ document.getElementById("submit_offer").addEventListener("click", function () {
             method: 'POST',
             body: formData,
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Oferta Creada!',
-                    text: 'La oferta ha sido creada exitosamente...',
-                }).then(() => {
-                    window.location.href = "catalogo.html"; // Cambia la URL a la ruta deseada
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Error al crear la oferta.',
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Hubo un problema al enviar la oferta.',
-            });
-        });
     } else {
         Swal.fire({
             icon: 'error',
@@ -308,9 +274,3 @@ document.getElementById("submit_offer").addEventListener("click", function () {
         });
     }
 });
-
-function validarFormulario() {
-    // Aquí va la lógica de validación del formulario
-    // Retornar true si el formulario es válido, o false si no lo es
-    return true;
-}
