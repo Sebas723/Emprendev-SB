@@ -15,62 +15,74 @@ document.addEventListener('DOMContentLoaded', function () {
     CardPreviewField();
 });
 
+//Función de validación del formulario
 async function validateForm() {
     const tituloOferta = document.querySelector('[name="titulo_oferta"]').value;
     const descripcionOferta = document.querySelector('[name="desc_oferta"]').value;
     const pagoOferta = document.querySelector('[name="pago"]').value;
     const cuposOferta = document.querySelector('[name="cupos"]').value;
 
-    let errorMessages = [];
-    let isValid = true;
+    let todasLasValidacionesPasaron = true;
 
     function showErrorMessage(message) {
-        errorMessages.push(message);
-        isValid = false;
-    }
-
-    if (tituloOferta.trim() === '') {
-        showErrorMessage("Por favor, completa el campo Titulo");
-    }
-    if (descripcionOferta.trim() === '') {
-        showErrorMessage("Por favor, completa el campo Descripcion");
-    }
-    if (descripcionOferta.length < 200) {
-        showErrorMessage("La descripcion de la oferta debe contener por lo menos 200 caracteres");
-    }
-    if (pagoOferta.trim() === '') {
-        showErrorMessage("Por favor, completa el campo Pago");
-    }
-    if (isNaN(pagoOferta)) {
-        showErrorMessage("El pago por la oferta solo puede contener numeros");
-    } else {
-        if (pagoOferta <= 0) {
-            showErrorMessage("El pago por la oferta no puede ser menor o igual a 0");
-        }
-        if (pagoOferta < 100000) {
-            showErrorMessage("El pago por la oferta no puede ser menor a 100.000");
-        }
-    }
-    if (cuposOferta.trim() === '') {
-        showErrorMessage("Por favor, completa el campo Cupos");
-    }
-    if (isNaN(cuposOferta)) {
-        showErrorMessage("Los cupos de la oferta solo pueden contener numeros");
-    } else {
-        if (cuposOferta <= 0) {
-            showErrorMessage("La oferta debe contener al menos un cupo");
-        }
-    }
-
-    if (!isValid) {
         Swal.fire({
             icon: 'error',
-            title: 'Errores',
-            text: errorMessages.join('\n')
+            title: 'Error',
+            text: message
         });
+        todasLasValidacionesPasaron = false;
     }
 
-    return isValid;
+    const validaciones = [
+        'cuposOferta',
+        'pagoOferta',
+        'descripcionOferta',
+        'tituloOferta'
+    ];
+
+    for (let validacion of validaciones) {
+        switch (validacion) {
+            case 'tituloOferta':
+                if (tituloOferta.trim() === '') {
+                    showErrorMessage("Por favor, completa el campo Titulo");
+                }
+                break;
+            case 'descripcionOferta':
+                if (descripcionOferta.trim() === '') {
+                    showErrorMessage("Por favor, completa el campo Descripcion");
+                }
+                if (descripcionOferta.length < 200) {
+                    showErrorMessage("La descripcion de la oferta debe contener por lo menos 200 caracteres");
+                }
+                break;
+            case 'pagoOferta':
+                if (pagoOferta.trim() === '') {
+                    showErrorMessage("Por favor, completa el campo Pago");
+                }
+                if (isNaN(pagoOferta)) {
+                    showErrorMessage("El pago por la oferta solo puede contener números");
+                }
+                if (parseFloat(pagoOferta) < 100000) {
+                    showErrorMessage("El pago por la oferta no puede ser menor a 100.000");
+                }
+                break;
+            case 'cuposOferta':
+                if (cuposOferta.trim() === '') {
+                    showErrorMessage("Por favor, completa el campo Cupos");
+                }
+                if (isNaN(cuposOferta)) {
+                    showErrorMessage("Los cupos de la oferta solo pueden contener números");
+                }
+                if (parseInt(cuposOferta) <= 0) {
+                    showErrorMessage("La oferta debe contener al menos un cupo");
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    return todasLasValidacionesPasaron;
 }
 
 //fotos de oferta
@@ -266,22 +278,28 @@ document.getElementById("submit_offer").addEventListener("click", function () {
             method: 'POST',
             body: formData,
         })
-        .then(data => {
-            // Si la oferta se crea exitosamente, muestra el Swal.fire
-            Swal.fire({
-                icon: 'success',
-                title: 'Oferta creada',
-                text: 'La oferta se ha creado con éxito.',
-            }).then(() => {
-                // Puedes redirigir o limpiar el formulario después del éxito
-                window.location.href = "catalogo_devs.html"; // Redirigir a otra página
-            });
+        .then(response => {
+            if (response.ok) {
+                // Si la oferta se crea exitosamente, muestra el Swal.fire
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Oferta creada',
+                    text: 'La oferta se ha creado con éxito.',
+                }).then(() => {
+                    // Redirigir o limpiar el formulario después del éxito
+                    window.location.href = "catalogo_devs.html"; // Redirigir a otra página
+                });
+            } else {
+                throw new Error('Error en la creación de la oferta');
+            }
         })
     } else {
+        // Detener la ejecución si la validación falla
         Swal.fire({
             icon: 'error',
             title: 'Error',
             text: 'Por favor, complete todos los campos obligatorios.',
         });
+        return;  // Evita que continúe si la validación falla
     }
 });

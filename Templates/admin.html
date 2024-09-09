@@ -34,13 +34,13 @@
         <form class="form-inline my-2 my-lg-0">
           <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" list="keywords">
         </form>
-        <img onclick="OpenAdminMenu()" class="session_user_imgProfile" class="user_img" alt="" width="40" height="40">
+        <img onclick="OpenAdminMenu()" src="img/UserDeafultIcon.png" class="user_img" alt="" width="40" height="40">
         <div id="user-sub-menu" class="container-submenu">
           <div class="card-user-sub-menu border-0">
             <div class="box1-card-user-sub-menu"></div>
             <div class="card-content-user-sub-menu">
               <div class="img-user-sub-menu">
-                <img class="session_user_imgProfile" alt="">
+                <img src="img/UserDeafultIcon.png" alt="">
               </div>
               <div class="name-sub-menu">
                 <div>
@@ -103,7 +103,6 @@
           <!--registros de la BD-->
         </tbody>
       </table>
-      <button onclick="generatePDF()">Descargar un PDF</button>
     </div>
     <div class="container update_user" id="edit-form" style="display: none;">
       <h1 class="text-center">Actualizar Usuario</h1>
@@ -184,6 +183,8 @@
       </div>
       <button id="deactivate-user-btn" class="btn btn-danger btn-sm">Desactivar Usuario</button>
     </div>
+
+    <button class="generate-pdf" onclick="generatePDF()">Descargar un PDF</button>
 
 
     <!--Ofertas-->

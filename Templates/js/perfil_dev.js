@@ -87,16 +87,32 @@ async function checkSessionStatus() {
             // Verifica los datos que recibes
             console.log("Datos de Dev:", devData);
 
+                  // Format date
+                  function formatDate(dateMillis) {
+                    if (!dateMillis) return null; // Retorna null si no hay fecha
+                    const date = new Date(dateMillis);
+                    const day = String(date.getDate()).padStart(2, "0");
+                    const month = String(date.getMonth() + 1).padStart(2, "0"); // Meses comienzan en 0
+                    const year = date.getFullYear();
+                    return `${day}/${month}/${year}`;
+                }
+
+                const formattedCareerStartDate = formatDate(devData.careerStartDate);
+                const formattedChargeStartDate = formatDate(devData.chargeStartDate);
+                const formattedChargeEndDate = formatDate(devData.chargeEndDate);
+                const formattedCareerEndDate = formatDate(devData.careerEndDate);
+                
+
             // Actualiza el DOM con los datos de Dev
             $(".profileDescription").text(devData.profileDescription || "Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion");
             $(".university").text(devData.university || "Puedes agregar la universidad de tu estudio desde Perfil/Editar/Universidad");
             $(".career").text(devData.career || "Puedes agregar el nombre de la carrera desde Perfil/Editar/Carrera");
-            $(".careerStartDate").text(devData.careerStartDate || "Puedes agregar la fecha de inicio de la carrera desde Perfil/Editar/Fecha de inicio");
-            $(".careerEndDate").text(devData.careerEndDate || "Puedes agregar la fecha de finalizacion de la carrera desde Perfil/Editar/Fecha de finalizacion");
+            $(".careerStartDate").text(formattedCareerStartDate || "Puedes agregar la fecha de inicio de la carrera desde Perfil/Editar/Fecha de inicio");
+            $(".careerEndDate").text(formattedCareerEndDate || "Puedes agregar la fecha de finalizacion de la carrera desde Perfil/Editar/Fecha de finalizacion");
             $(".charge").text(devData.charge || "Si cuentas con experiencia ya sea de un proyecto formativo o trabajando en alguna empresa puedes agregarlo desde Perfil/Editar/Nombre del cargo");
             $(".company").text(devData.company || "Si cuentas con experiencia trabajando en alguna empresa puedes agregarla desde Perfil/Editar/Nombre de la empresa");
-            $(".chargeStartDate").text(devData.chargeStartDate || "Si cuentas con experiencia trabajando en alguna empresa puedes agregarla desde Perfil/Editar/Fecha de inicio");
-            $(".chargeEndDate").text(devData.chargeEndDate || "Si cuentas con experiencia trabajando en alguna empresa puedes agregarla desde Perfil/Editar/Fecha de finalizacion");
+            $(".chargeStartDate").text(formattedChargeStartDate || "Si cuentas con experiencia trabajando en alguna empresa puedes agregarla desde Perfil/Editar/Fecha de inicio");
+            $(".chargeEndDate").text(formattedChargeEndDate || "Si cuentas con experiencia trabajando en alguna empresa puedes agregarla desde Perfil/Editar/Fecha de finalizacion");
             $(".chargeDescription").text(devData.chargeDescription || "Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo");
 
         } else {

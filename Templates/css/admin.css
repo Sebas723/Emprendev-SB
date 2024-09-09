@@ -436,3 +436,14 @@ ol{
 #offerTable{
     display: none;
 }
+
+.generate-pdf{
+    background-color: #0d6efd;
+    padding: 10px;
+    border-style: none;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    margin: auto;
+    margin-bottom: 30px;
+}

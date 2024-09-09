@@ -1,8 +1,8 @@
 // Submenu del perfil del usuario (imagen arriba a la izquierda)
 const userSubMenu = document.getElementById("user-sub-menu");
 const tag = document.querySelectorAll(".tag");
-const tags = document.querySelectorAll('.tag');
-const cols = document.querySelectorAll('.cola');
+const tags = document.querySelectorAll(".tag");
+const cols = document.querySelectorAll(".cola");
 
 const openModalButtons = document.querySelectorAll(".openModal");
 const closeModalButtons = document.querySelectorAll(".closeModal");
@@ -12,16 +12,16 @@ const overlay = document.querySelector(".overlay");
 userSubMenu.style.display = "none";
 let SubmenuPerfilBtn_isShowing = false;
 
-var fullText = '';
+var fullText = "";
 
-function OpenPerfilSubMenu(){
-    if (!SubmenuPerfilBtn_isShowing){
-        userSubMenu.style.display="block";
-    } else {
-        userSubMenu.style.display="none";
-    }
-    SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
-};
+function OpenPerfilSubMenu() {
+  if (!SubmenuPerfilBtn_isShowing) {
+    userSubMenu.style.display = "block";
+  } else {
+    userSubMenu.style.display = "none";
+  }
+  SubmenuPerfilBtn_isShowing = !SubmenuPerfilBtn_isShowing;
+}
 
 //buscador de ofertas
 document.addEventListener("keyup", (e) => {
@@ -38,15 +38,15 @@ document.addEventListener("keyup", (e) => {
 
 cargarUsuarios();
 
-modalContainers.forEach(modal => modal.classList.add("hidden"));
+modalContainers.forEach((modal) => modal.classList.add("hidden"));
 overlay.classList.add("hidden");
 
-window.addEventListener('scroll', function() {
-  var headerHeight = document.querySelector('header').offsetHeight;
+window.addEventListener("scroll", function () {
+  var headerHeight = document.querySelector("header").offsetHeight;
   var scrollTop = window.scrollY || document.documentElement.scrollTop;
-  var modal = document.querySelector('.modal-body');
+  var modal = document.querySelector(".modal-body");
   var newTop = headerHeight + 430 - scrollTop;
-  modal.style.top = newTop + 'px';
+  modal.style.top = newTop + "px";
 });
 
 // Mostrar desarrolladores en el catálogo
@@ -58,28 +58,32 @@ function cargarUsuarios() {
     url: "http://localhost:8080/emprendev/v1/user/listOrderAccount",
     dataType: "json",
     xhrFields: {
-      withCredentials: true
+      withCredentials: true,
     },
-    beforeSend: function() {
-      $(".cards_container").html('<p>Loading...</p>'); // Indicador de carga
+    beforeSend: function () {
+      $(".cards_container").html("<p>Loading...</p>"); // Indicador de carga
     },
     success: function (data) {
       $(".cards_container").empty(); // Limpiar el contenedor antes de agregar nuevos elementos
 
       // Filtrar y crear tarjetas solo para desarrolladores activos
-      const filteredData = data.filter(item => item.accountState == 1 && item.role === "Desarrollador"); 
+      const filteredData = data.filter(
+        (item) => item.accountState == 1 && item.role === "Desarrollador"
+      );
       allCards = [];
 
-      filteredData.forEach(item => {
+      filteredData.forEach((item) => {
         $.ajax({
           type: "GET",
           url: `http://localhost:8080/api/devs/${item.id}`, // Obtener detalles del Dev
           dataType: "json",
           xhrFields: {
-            withCredentials: true
+            withCredentials: true,
           },
-          success: function(devData) {
-            const imgUrl = item.imgProfile ? "data:image/jpeg;base64," + item.imgProfile: "";
+          success: function (devData) {
+            const imgUrl = item.imgProfile
+              ? "data:image/jpeg;base64," + item.imgProfile
+              : "";
             fullText = `${devData.profileDescription || ""}`;
             allCards.push({
               id: item.id,
@@ -87,7 +91,9 @@ function cargarUsuarios() {
               firstName: item.firstName,
               lastName: item.lastName,
               role: item.role,
-              profileDescription: devData.profileDescription || "Este es un mensaje predeterminado que se mostrará en tu perfil." // Agregar descripción del perfil
+              profileDescription:
+                devData.profileDescription ||
+                "Este es un mensaje predeterminado que se mostrará en tu perfil.", // Agregar descripción del perfil
             });
 
             // Mostrar las tarjetas cada vez que se completa la solicitud de un Dev
@@ -95,20 +101,26 @@ function cargarUsuarios() {
           },
           error: function (xhr, status, error) {
             console.error("Error al cargar los detalles del Dev:", error);
-          }
+          },
         });
       });
     },
     error: function (xhr, status, error) {
       console.error("Error al cargar Usuarios:", error);
-      $(".cards_container").html('<p>Error al cargar usuarios. Inténtelo de nuevo más tarde.</p>'); // Mensaje de error
-    }
+      $(".cards_container").html(
+        "<p>Error al cargar usuarios. Inténtelo de nuevo más tarde.</p>"
+      ); // Mensaje de error
+    },
   });
 }
 
 function mostrarTarjetas(cards) {
-  const cardsHtml = cards.map(item => `
-    <div class='cola' data-full-text='${encodeURIComponent(fullText)}' data-role='${item.role.toLowerCase()}'>
+  const cardsHtml = cards
+    .map(
+      (item) => `
+    <div class='cola' data-full-text='${encodeURIComponent(
+      fullText
+    )}' data-role='${item.role.toLowerCase()}'>
       <div class='card border-0'>
         <div class='box1'></div>
         <div class='card-content'>
@@ -127,12 +139,16 @@ function mostrarTarjetas(cards) {
             <p>${item.profileDescription}</p>
           </div>
           <div class='button b1'>
-            <button class='about-me openModal' data-id='${item.id}'>Ver más</button>
+            <button class='about-me openModal' data-id='${
+              item.id
+            }'>Ver más</button>
           </div>
         </div>
       </div>
     </div>
-  `).join('');
+  `
+    )
+    .join("");
   $(".cards_container").html(cardsHtml);
 
   // Llamar a la función de filtrado después de cargar las ofertas
@@ -140,7 +156,6 @@ function mostrarTarjetas(cards) {
   assignOpenModalEventsForDevs(); // Asignar eventos para abrir los modales después de mostrar las tarjetas
   assignCloseModalEvents();
 }
-
 
 function cargarDetallesDesarrollador(devId) {
   $.ajax({
@@ -158,25 +173,66 @@ function cargarDetallesDesarrollador(devId) {
           withCredentials: true,
         },
         success: function (detailsData) {
+
+          // Format date
+          function formatDate(dateMillis) {
+            if (!dateMillis) return null; // Retorna null si no hay fecha
+            const date = new Date(dateMillis);
+            const day = String(date.getDate()).padStart(2, "0");
+            const month = String(date.getMonth() + 1).padStart(2, "0"); // Meses comienzan en 0
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+          }
+
+          const formattedCareerStartDate = formatDate(detailsData.careerStartDate);
+          const formattedChargeStartDate = formatDate(detailsData.chargeStartDate);
+          const formattedChargeEndDate = formatDate(detailsData.chargeEndDate);
+          const formattedCareerEndDate = formatDate(detailsData.careerEndDate);
+
           // Actualiza el DOM con los datos obtenidos
-          $(".modal-title").text(`${devData.firstName || "Nombre desconocido"} ${devData.lastName || ""}`);
+          $(".modal-title").text(
+            `${devData.firstName || "Nombre desconocido"} ${
+              devData.lastName || ""
+            }`
+          );
           $(".modal-email").text(devData.email || "Email no disponible");
           $(".modal-role").text(devData.role || "Rol no disponible");
           $(".modal-phoneNum").text(devData.phoneNum || "Rol no disponible");
-          $(".modal-creation-date").text(devData.creationDate || "Fecha de creación no disponible");
-          $(".modal-profile-img").attr("src", devData.imgProfile || "ruta/por/defecto.jpg");
-          $(".modal-about").text(detailsData.profileDescription || "Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'.");
+          $(".modal-creation-date").text(
+            devData.creationDate || "Fecha de creación no disponible"
+          );
+          $(".modal-profile-img").attr(
+            "src",
+            devData.imgProfile || "ruta/por/defecto.jpg"
+          );
+          $(".modal-about").text(
+            detailsData.profileDescription ||
+              "Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion'."
+          );
           $(".modal-university").text(detailsData.university || "Sin estudios");
           $(".modal-career").text(detailsData.career || "Sin carrera");
-          $(".modal-careerStartDate").text(detailsData.careerStartDate || "Sin carrera");
-          $(".modal-careerEndDate").text(detailsData.careerEndDate || "Sin carrera");
+          $(".modal-careerStartDate").text(
+            formattedCareerStartDate || "Sin carrera"
+          );
+          $(".modal-careerEndDate").text(
+            formattedCareerEndDate || "Sin carrera"
+          );
           $(".modal-company").text(detailsData.company || "Sin estudios");
           $(".modal-charge").text(detailsData.charge || "Sin carrera");
-          $(".modal-chargeStartDate").text(detailsData.chargeStartDate || "Sin carrera");
-          $(".modal-chargeEndDate").text(detailsData.chargeEndDate || "Sin carrera");
-          $(".modal-chargeDescription").text(detailsData.chargeDescription || "Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'.");
+          $(".modal-chargeStartDate").text(
+            formattedChargeStartDate || "Sin carrera"
+          );
+          $(".modal-chargeEndDate").text(
+            formattedChargeEndDate || "Sin carrera"
+          );
+          $(".modal-chargeDescription").text(
+            detailsData.chargeDescription ||
+              "Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'. Si no realizas cambios, este mensaje continuará siendo visible para otros usuarios en tu perfil. Este es un mensaje predeterminado que se mostrará en tu perfil. Puedes personalizar este mensaje en cualquier momento desde la sección 'Perfil/Editar/Descripcion del cargo'."
+          );
 
-          var imgSrc = devData.imgProfile ? "data:image/jpeg;base64," + devData.imgProfile : "";
+          var imgSrc = devData.imgProfile
+            ? "data:image/jpeg;base64," + devData.imgProfile
+            : "";
           $(".modal-images").attr("src", imgSrc);
 
           // Mostrar el modal
@@ -184,13 +240,15 @@ function cargarDetallesDesarrollador(devId) {
           $(".modal-container").show();
         },
         error: function () {
-          console.error("Error al obtener los detalles adicionales del desarrollador.");
-        }
+          console.error(
+            "Error al obtener los detalles adicionales del desarrollador."
+          );
+        },
       });
     },
     error: function () {
       console.error("Error al obtener los datos del usuario/desarrollador.");
-    }
+    },
   });
 }
 
@@ -205,8 +263,8 @@ function assignOpenModalEventsForDevs() {
 // Asignar eventos a los botones de cerrar modal
 function assignCloseModalEvents() {
   $(".closeModal, .overlay").on("click", function () {
-    $(".overlay").hide(); 
-    $(".modal-container").hide(); 
+    $(".overlay").hide();
+    $(".modal-container").hide();
   });
 }
 
@@ -241,7 +299,6 @@ function filtrarTarjetas() {
 
 // Ejecutar cargarOfertas al iniciar la página
 $(document).ready(function () {
-
   // Agregar el evento de clic a las etiquetas
   tags.forEach((tag) => {
     tag.addEventListener("click", () => {

@@ -10,6 +10,18 @@ function validarFormulario() {
   const telefono = document.querySelector('[name="telefono"]').value;
   const correo = document.querySelector('[name="correo"]').value;
 
+
+  let todasLasValidacionesPasaron = true;
+
+  function showErrorMessage(message) {
+      Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: message,
+      });
+      todasLasValidacionesPasaron = false;
+  }
+
   const validaciones = [
     "nombre",
     "segundo_nombre",
@@ -25,27 +37,27 @@ function validarFormulario() {
     switch (validacion) {
       case "correo":
         if (!/^\S+@\S+\.\S+$/.test(correo)) {
-          alert("Por favor, ingresa un correo electrónico válido.");
+          showErrorMessage("Por favor, ingresa un correo electrónico válido.");
           return false;
         }
         break;
       case "telefono":
         if (telefono.trim() === "") {
-          alert("Por favor, ingresa tu número de teléfono.");
+          showErrorMessage("Por favor, ingresa tu número de teléfono.");
           return false;
         }
         if (isNaN(telefono)) {
-          alert("El número de teléfono no puede contener letras.");
+          showErrorMessage("El número de teléfono no puede contener letras.");
           return false;
         }
         if (telefono.length != 10) {
-          alert("El número de teléfono debe contener 10 números.");
+          showErrorMessage("El número de teléfono debe contener 10 números.");
           return false;
         }
         break;
       case "fechaNacimiento":
         if (fechaNacimiento.trim() === "") {
-          alert("Por favor, ingresa tu fecha de nacimiento.");
+          showErrorMessage("Por favor, ingresa tu fecha de nacimiento.");
           return false;
         }
         break;
@@ -55,39 +67,39 @@ function validarFormulario() {
           /^\s*$/.test(documentoIdentidad) ||
           documentoIdentidad.length != 10
         ) {
-          alert("El documento de identidad debe ser un número válido.");
+          showErrorMessage("El documento de identidad debe ser un número válido.");
           return false;
         }
         break;
       case "segundo_apellido":
         if (/^\d+$/.test(segundoApellido)) {
-          alert("Los apellidos no pueden contener números.");
+          showErrorMessage("Los apellidos no pueden contener números.");
           return false;
         }
         break;
       case "apellido":
         if (apellido.trim() === "") {
-          alert("Por favor, completa el campo Primer Apellido para continuar.");
+          showErrorMessage("Por favor, completa el campo Primer Apellido para continuar.");
           return false;
         }
         if (/^\d+$/.test(apellido)) {
-          alert("Los apellidos no pueden contener números.");
+          showErrorMessage("Los apellidos no pueden contener números.");
           return false;
         }
         break;
       case "segundo_nombre":
         if (/^\d+$/.test(segundoNombre)) {
-          alert("Los nombres no pueden contener números.");
+          showErrorMessage("Los nombres no pueden contener números.");
           return false;
         }
         break;
       case "nombre":
         if (nombre.trim() === "") {
-          alert("Por favor, completa el campo Primer Nombre para continuar.");
+          showErrorMessage("Por favor, completa el campo Primer Nombre para continuar.");
           return false;
         }
         if (/^\d+$/.test(nombre)) {
-          alert("Los nombres no pueden contener números.");
+          showErrorMessage("Los nombres no pueden contener números.");
           return false;
         }
         break;
@@ -95,7 +107,7 @@ function validarFormulario() {
         break;
     }
   }
-  return true;
+  return todasLasValidacionesPasaron;
 }
 
 $(document).ready(function () {

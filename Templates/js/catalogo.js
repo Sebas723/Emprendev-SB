@@ -242,7 +242,11 @@ function eliminarOferta(offerId) {
     type: "DELETE",
     url: `http://localhost:8080/api/offers/${offerId}`,
     success: function () {
-      alert("Oferta eliminada con éxito.");
+      Swal.fire({
+        icon: "success",
+        title: "Oferta eliminada",
+        text: "Oferta eliminada exitosamente...",
+      })
       // Recargar las ofertas después de eliminar
       cargarOfertas();
     },
