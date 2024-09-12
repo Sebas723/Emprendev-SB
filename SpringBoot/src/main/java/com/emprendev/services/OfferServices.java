@@ -1,7 +1,10 @@
 package com.emprendev.services;
 
+import com.emprendev.entity.OfferApplication;
+import com.emprendev.entity.User;
 import com.emprendev.exceptions.ResourceNotFoundException;
 import com.emprendev.entity.Offer;
+import com.emprendev.repository.OfferApplicationRepository;
 import com.emprendev.repository.OfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,9 @@ public class OfferServices {
 
     @Autowired
     private OfferRepository offerRepository;
+
+    @Autowired
+    private OfferApplicationRepository offerApplicationRepository;
 
     public List<Offer> getAllOffers() {
         return offerRepository.findAll();
@@ -105,5 +111,27 @@ public class OfferServices {
         return offerRepository.save(offer);
     }
 
+    public void applyToOffer(Long offerId, User user) throws Exception {
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(() -> new Exception("Offer not found"));
+
+        // Validar si ya existe una postulación de este usuario a esta oferta
+        if (offerApplicationRepository.existsByUserAndOffer(user, offer)) {
+            throw new Exception("User has already applied to this offer.");
+        }
+
+        if (offer.getFieldsOccuped() >= offer.getFields()) {
+            throw new Exception("No available fields in the offer.");
+        }
+
+        // Incrementar fieldsOccuped
+        offer.setFieldsOccuped(offer.getFieldsOccuped() + 1);
+        offerRepository.save(offer);
+
+        // Guardar la aplicación
+        String applicationDate = java.time.LocalDate.now().toString();
+        OfferApplication application = new OfferApplication(user, offer, applicationDate);
+        offerApplicationRepository.save(application);
+    }
 }
 

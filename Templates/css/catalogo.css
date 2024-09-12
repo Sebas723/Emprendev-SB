@@ -387,7 +387,7 @@ section .card .about{
     left: 50%;
     z-index: 1;
     transform: translate(-50%, -108%);
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 .modal-body .modal-content{
@@ -399,6 +399,7 @@ section .card .about{
     border: 1px solid gray;
     border-radius: 20px;
     font-size: 13px;
+    overflow-y: hidden;
 }
 
 .modal-body .modal-title{

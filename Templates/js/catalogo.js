@@ -136,16 +136,16 @@ function cargarOfertas() {
             : data.description
           : "";
 
-        if (!userPromises[data.userId]) {
-          userPromises[data.userId] = getUserById(data.userId);
+        if (!userPromises[data.userId.id]) {
+          userPromises[data.userId.id] = getUserById(data.userId.id);
         }
 
-        userPromises[data.userId]
+        userPromises[data.userId.id]
           .done(function (user) {
             var buttons = "";
 
             // Mostrar botones solo si el usuario autenticado es el creador de la oferta
-            if (authenticatedUserId === data.userId) {
+            if (authenticatedUserId === data.userId.id) {
               buttons = `
                 <a href='./editarOferta.html?id=${data.id}' class='edition'>
                   Editar
@@ -270,7 +270,7 @@ function cargarDetallesOferta(offerId) {
           // Cargar los datos del mipyme usando el userId
           $.ajax({
               type: "GET",
-              url: `http://localhost:8080/emprendev/v1/user/${offerData.userId}`,
+              url: `http://localhost:8080/emprendev/v1/user/${offerData.userId.id}`,
               xhrFields: {
                   withCredentials: true,
               },
@@ -288,6 +288,7 @@ function cargarDetallesOferta(offerId) {
                           $(".modal-description").text(offerData.description || "Sin descripción");
                           $(".modal-payment").text(offerData.payment || "Sin pago especificado");
                           $(".modal-fields").text(offerData.fields || "sin cupos");
+                          $(".modal-fieldsOccuped").text(offerData.fieldsOccuped || "0");
                           $(".modal-creation-date").text(offerData.creationDate || "Fecha no disponible");
                           $(".modal-creator-name").text(`${userData.firstName || "Nombre desconocido"} ${userData.lastName || ""}`);
                           $(".modal-business-name").text(mipymeData.nameBusiness || "Nombre del negocio no disponible");
@@ -317,6 +318,34 @@ function cargarDetallesOferta(offerId) {
       }
   });
 }
+
+//funcion para aplicar a la oferta
+$('#apply').click(function(e) {
+  e.preventDefault();
+
+  // Obtener el ID de la oferta desde el botón
+  var offerId = $(this).data('offer-id');
+
+  // ID del desarrollador que está aplicando (esto puede venir de tu frontend o ser manejado por sesión)
+  var developerId = authenticatedUserId; // Esto es solo un ejemplo de cómo obtener el ID del usuario
+
+  // Enviar la solicitud PUT
+  $.ajax({
+      url: `http://localhost:8080/api/offers/${offerId}/apply`,
+      type: 'PUT',
+      contentType: 'application/json',
+      data: JSON.stringify({
+          developerId: developerId // Enviamos el ID del usuario desarrollador
+      }),
+      success: function(response) {
+          alert('¡Te has postulado exitosamente!');
+          // Aquí puedes actualizar el DOM para reflejar el cambio o redirigir al usuario
+      },
+      error: function(xhr, status, error) {
+          alert('Hubo un error al postularte: ' + xhr.responseText);
+      }
+  });
+});
 
 // Función para filtrar tarjetas basadas en etiquetas activas
 function filtrarTarjetas() {
@@ -364,6 +393,7 @@ $(document).ready(function () {
 $(document).on("click", ".openModal", function (e) {
   e.preventDefault();
       const offerId = e.target.getAttribute('data-offer-id');
+      $('#apply').attr('data-offer-id', offerId);
       if (offerId) {
         cargarDetallesOferta(offerId);
         $(".overlay").show();

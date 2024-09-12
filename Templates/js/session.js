@@ -138,6 +138,7 @@ function checkRoleAndRedirect() {
 function disableBtnsByRole() {
   const create_offer_btn = document.getElementById("create_offer_btn");
   const my_offers_btn = document.getElementById("my_offers_btn");
+  const applyOfferBtn = document.getElementById("apply");
 
   $.ajax({
     url: "http://localhost:8080/emprendev/v1/user/sessionStatus",
@@ -147,10 +148,12 @@ function disableBtnsByRole() {
     },
     success: function (data) {
       if (data.sessionActive) {
-        if (create_offer_btn && my_offers_btn) {
+        if (create_offer_btn && my_offers_btn && applyOfferBtn) {
           if (data.role === "Desarrollador") {
             create_offer_btn.classList.add("hidden");
             my_offers_btn.classList.add("hidden");
+          } else {
+            applyOfferBtn.classList.add("hidden")
           }
         } else {
           console.log("No active session:", data.message);

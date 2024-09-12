@@ -1,10 +1,16 @@
 package com.emprendev.controller;
 
+import com.emprendev.entity.Dev;
 import com.emprendev.entity.Offer;
+import com.emprendev.entity.User;
 import com.emprendev.exceptions.ResourceNotFoundException;
+import com.emprendev.repository.DevRepository;
+import com.emprendev.repository.OfferRepository;
+import com.emprendev.repository.UserRepository;
 import com.emprendev.services.OfferServices;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -21,11 +28,16 @@ public class OfferController {
 
     @Autowired
     private OfferServices offerService;
+    @Autowired
+    private OfferRepository offerRepository;
+
+    @Autowired
+    private DevRepository devRepository;
 
     @PostMapping(consumes = "multipart/form-data")
     public ResponseEntity<Offer> createOffer(
             @RequestParam("title") String title,
-            @RequestParam("userId") Long userId,
+            @RequestParam("userId") User userId,
             @RequestParam("description") String description,
             @RequestParam("payment") Long payment,
             @RequestParam("fields") Integer fields,
@@ -51,11 +63,6 @@ public class OfferController {
         }
         return ResponseEntity.ok(savedOffer);
     }
-
-
-
-
-
 
     @GetMapping("/listOrderAccount")
     public List<Offer> getAllAccountState(){
@@ -115,7 +122,34 @@ public class OfferController {
         }
     }
 
+    @PutMapping("/{offerId}/apply")
+    public ResponseEntity<String> applyToOffer(@PathVariable Long offerId, @RequestBody Map<String, Long> request) {
+        Long developerId = request.get("developerId");
 
+        // Cargar la oferta desde la base de datos
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(() -> new RuntimeException("Offer not found"));
+
+        // Cargar el desarrollador (Dev) desde la base de datos
+        Dev developer = devRepository.findById(developerId)
+                .orElseThrow(() -> new RuntimeException("Developer not found"));
+
+        // Verificar si el desarrollador ya está postulado para evitar duplicados
+        if (offer.getDevelopers().contains(developer)) {
+            return ResponseEntity.badRequest().body("Ya estás postulado a esta oferta.");
+        }
+
+        // Incrementar el valor de fieldsOccuped en la oferta
+        offer.setFieldsOccuped(offer.getFieldsOccuped() + 1);
+
+        // Añadir el desarrollador a la lista de postulados
+        offer.getDevelopers().add(developer);
+
+        // Guardar la oferta actualizada en la base de datos
+        offerRepository.save(offer);
+
+        return ResponseEntity.ok("Te has postulado exitosamente a la oferta.");
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOffer(@PathVariable Long id) {

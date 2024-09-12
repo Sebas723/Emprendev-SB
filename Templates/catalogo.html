@@ -182,8 +182,16 @@
                     <div>
                       <dt>Pago por la oferta: </dt>
                       <dd><p class="modal-payment"></p></dd>
-                      <dt>Cupos disponbles:</dt>
-                      <dd><p class="modal-fields"></p></dd>
+                      <div style="display: flex; flex-direction: row; gap: 20px;">
+                        <div>
+                          <dt>Cupos disponbles:</dt>
+                          <dd><p class="modal-fields"></p></dd>
+                        </div>
+                        <div>
+                          <dt>Desarrolladores Aplicados:</dt>
+                          <dd style="display: flex; flex-direction: row; gap: 20px; justify-content: space-between;"><p class="modal-fieldsOccuped"></p> <button>Ver mas</button></dd>
+                        </div>
+                      </div>
                       <dt>Creador:</dt>
                       <dd><p class="modal-creator-name"></p></dd>
                       <dt>Fecha de publicacion:</dt>
@@ -224,7 +232,7 @@
           </section>
           <div class="modal-button modal-b1">
             <button class="closeModal">Cerrar</button>
-            <button class="contact-me">Contactar</button>
+            <button id="apply" class="contact-me">Postularme</button>
           </div>
         </div>
       </div>
