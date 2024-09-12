@@ -228,25 +228,27 @@ function cargarOfertas() {
   });
 }
 
-$(document).on('click', '#ShowDevs', function() {
+$('#showDevs').click(function(e) {
+  e.preventDefault();
+  
+  // Obtener el ID de la oferta desde el botón
   var offerId = $(this).data('offer-id');
-  // Aquí puedes agregar la lógica para abrir el modal o realizar cualquier otra acción
-  showDevsApplied(offerId);
-});
-
-function showDevsApplied(offerId){
+  
+  // Enviar la solicitud PUT
   $.ajax({
     type: "GET",
     url: `http://localhost:8080/api/offers/${offerId}/devs`,
     success: function (data) {
-      console.log(data);
+      data.forEach(e => {
+        console.log(e.firstName, e.lastName, e.email, e.phoneNum);
+      });
     },
     error: function (xhr, status, error) {
-      console.error("Error al eliminar la oferta:", error);
-      alert("Hubo un error al intentar eliminar la oferta.");
+      console.error("Error al ver devs postulados:", error);
+      alert("Hubo un error al intentar ver devs postulados.");
     },
   });
-}
+});
 
 // Función para eliminar la oferta
 $(document).on("click", ".delete", function () {
@@ -322,7 +324,6 @@ function cargarDetallesOferta(offerId) {
                           // Mostrar el modal
                           $(".overlay").show();
                           $(".modal-container").show();
-                          $("#showDevs").attr("data-offer-id", offerData.id);
                       },
                       error: function () {
                           console.error("Error al obtener los datos del negocio del mipyme.");
@@ -415,6 +416,7 @@ $(document).on("click", ".openModal", function (e) {
   e.preventDefault();
       const offerId = e.target.getAttribute('data-offer-id');
       $('#apply').attr('data-offer-id', offerId);
+      $('#showDevs').attr('data-offer-id', offerId);
       if (offerId) {
         cargarDetallesOferta(offerId);
         $(".overlay").show();
