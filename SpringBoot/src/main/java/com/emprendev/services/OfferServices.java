@@ -120,6 +120,17 @@ public class OfferServices {
             throw new Exception("User has already applied to this offer.");
         }
 
+        Integer fieldsOccuped = offer.getFieldsOccuped();
+        if (fieldsOccuped != null) {
+            // Safe to use fieldsOccuped
+            int fieldsOccupedValue = fieldsOccuped.intValue();
+            // Perform your operations with fieldsOccupedValue
+        } else {
+            // Handle the case when fieldsOccuped is null
+            // For example, you can assign a default value or throw an exception
+            int fieldsOccupedValue = 0; // Default value
+        }
+
         if (offer.getFieldsOccuped() >= offer.getFields()) {
             throw new Exception("No available fields in the offer.");
         }

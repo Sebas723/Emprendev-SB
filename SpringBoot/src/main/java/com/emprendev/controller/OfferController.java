@@ -54,6 +54,7 @@ public class OfferController {
         offer.setCreationDate(String.valueOf(LocalDate.now()));
         offer.setFinalizationDate(String.valueOf(LocalDate.now().plusMonths(1)));
         offer.setOfferState(1);
+        offer.setFieldsOccuped(0);
 
         Offer savedOffer;
         try {
@@ -120,6 +121,18 @@ public class OfferController {
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/{offerId}/devs")
+    public ResponseEntity<List<Dev>> getDevelopersByOffer(@PathVariable Long offerId) {
+        // Cargar la oferta desde la base de datos
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(() -> new RuntimeException("Offer not found"));
+
+        // Obtener la lista de desarrolladores postulados
+        List<Dev> developers = offer.getDevelopers();
+
+        return ResponseEntity.ok(developers);
     }
 
     @PutMapping("/{offerId}/apply")

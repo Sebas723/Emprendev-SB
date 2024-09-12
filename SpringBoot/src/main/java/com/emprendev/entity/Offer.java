@@ -98,6 +98,10 @@
             this.fields = fields;
         }
 
+        public Integer getFieldsOccuped() { return fieldsOccuped; }
+
+        public void setFieldsOccuped(Integer fieldsOccuped) { this.fieldsOccuped = fieldsOccuped; }
+
         public Long getPayment() {
             return payment;
         }

@@ -228,6 +228,26 @@ function cargarOfertas() {
   });
 }
 
+$(document).on('click', '#ShowDevs', function() {
+  var offerId = $(this).data('offer-id');
+  // Aquí puedes agregar la lógica para abrir el modal o realizar cualquier otra acción
+  showDevsApplied(offerId);
+});
+
+function showDevsApplied(offerId){
+  $.ajax({
+    type: "GET",
+    url: `http://localhost:8080/api/offers/${offerId}/devs`,
+    success: function (data) {
+      console.log(data);
+    },
+    error: function (xhr, status, error) {
+      console.error("Error al eliminar la oferta:", error);
+      alert("Hubo un error al intentar eliminar la oferta.");
+    },
+  });
+}
+
 // Función para eliminar la oferta
 $(document).on("click", ".delete", function () {
   var offerId = $(this).data("offer-id");
@@ -302,6 +322,7 @@ function cargarDetallesOferta(offerId) {
                           // Mostrar el modal
                           $(".overlay").show();
                           $(".modal-container").show();
+                          $("#showDevs").attr("data-offer-id", offerData.id);
                       },
                       error: function () {
                           console.error("Error al obtener los datos del negocio del mipyme.");
