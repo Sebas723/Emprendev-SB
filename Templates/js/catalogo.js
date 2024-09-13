@@ -177,6 +177,7 @@ function cargarOfertas() {
                       <button id='verMas' class='about-me openModal' data-offer-id='${data.id}'>
                         Ver más
                       </button>
+                      <button id="showDevs" data-offer-id="${data.id}" class="about-me">Postulaciones</button>
                     </div>
                   </div>
                 </div>
@@ -228,13 +229,14 @@ function cargarOfertas() {
   });
 }
 
-$('#showDevs').click(function(e) {
+//Probando las postulaciones
+$(document).on("click", "#showDevs", function(e) {
   e.preventDefault();
   
   // Obtener el ID de la oferta desde el botón
   var offerId = $(this).data('offer-id');
   
-  // Enviar la solicitud PUT
+  // Enviar la solicitud GET
   $.ajax({
     type: "GET",
     url: `http://localhost:8080/api/offers/${offerId}/devs`,
@@ -249,6 +251,7 @@ $('#showDevs').click(function(e) {
     },
   });
 });
+
 
 // Función para eliminar la oferta
 $(document).on("click", ".delete", function () {
@@ -433,6 +436,79 @@ $(document).on("click", ".closeModal, .overlay", function () {
   $(".overlay").hide();
   $(".modal-container").hide();
 });
+
+
+//Mostrar tabla postulaciones
+$(document).on("click", "#showDevs", function() {
+  // Obtener el ID de la oferta desde el botón
+  var offerId = $(this).data('offer-id');
+  
+  // Enviar la solicitud GET
+  $.ajax({
+    type: "GET",
+    url: `http://localhost:8080/api/offers/${offerId}/devs`,
+    success: function(data) {
+      // Limpiar cualquier tabla existente
+      $(".showDevs").html("");
+
+      // Construir la tabla con los datos recibidos
+      var modalPostulados = `
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Número</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      // Agregar filas a la tabla
+      data.forEach(e => {
+        modalPostulados += `
+          <tr>
+            <td>${e.firstName} ${e.lastName}</td>
+            <td>${e.email}</td>
+            <td>${e.phoneNum}</td>
+          </tr>
+        `;
+      });
+
+      // Cerrar el tbody y la tabla
+      modalPostulados += `
+          </tbody>
+        </table>
+      `;
+
+      // Añadir la tabla al contenedor
+      $(".showDevs").append(modalPostulados);
+
+      // Mostrar la tabla
+      $(".showDevs .styled-table").show();
+    },
+    error: function(xhr, status, error) {
+      console.error("Error al ver devs postulados:", error);
+      alert("Hubo un error al intentar ver devs postulados.");
+    }
+  });
+
+  // Asegurarse de que el contenedor que tiene la tabla también esté visible
+  $(".showDevs").show();
+  $(".overlay").show();
+});
+
+
+// Ocultar modal
+$(document).on("click", ".overlay", function () {
+  $(".overlay").hide();
+  $(".showDevs").hide();
+});
+
+
+
+
+
 
 //Scroll Ventana modal
 window.addEventListener("scroll", function () {

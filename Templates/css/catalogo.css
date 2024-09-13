@@ -549,3 +549,49 @@ section .modal-body .modal-about{
 }
 
 
+.showDevs{
+    position: relative;
+    z-index: 1;
+}
+.styled-table {
+    position: absolute;
+    top: -500px;
+    left: 30%;
+    width: 50%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    z-index: 1;
+    color: white;
+  }
+  
+  .styled-table thead tr {
+    background-color: #009879;
+    color: white;
+    text-align: left;
+  }
+  
+  .styled-table th,
+  .styled-table td {
+    padding: 12px 15px;
+    border: 1px solid #dddddd;
+  }
+
+  .styled-table th{
+    background-image: url(../img/Pattern.png);
+  }
+  
+  .styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    background-color: white;
+    color: black;
+  }
+  
+  .styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+  }
+  
+  .styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+  }
+  
+
