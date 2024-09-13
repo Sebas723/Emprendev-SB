@@ -46,7 +46,7 @@ $(document).ready(function () {
                                 <img id='user_icon' class='user_img' src='${imgUrl}' alt='Imagen de perfil' width='40' height='40' style='border-radius:100%;'>
                             </td>
                             <td>
-                                <button id ="idbtn" class='btn btn-primary btn-sm editarUser' data-id='${item.id}'>Editar</button>
+                                <a href="#edit-form"><button id ="idbtn" class='btn btn-primary btn-sm editarUser' data-id='${item.id}'>Editar</button></a>
                                 <button class='btn btn-${item.accountState === 1 ? "danger" : "success"} btn-sm ${item.accountState === 1 ? "desactivarUser" : "reactivarUser"}' data-id='${item.id}'>
                                     ${item.accountState === 1 ? "Desactivar" : "Reactivar"}
                                 </button>
@@ -111,6 +111,14 @@ $(document).ready(function () {
         $("#edit_address").val(data.address);
         $("#edit_email").val(data.email);
         $("#edit-form").show();
+
+              // Mostrar el formulario
+      $("#edit-form").show();
+      
+      // Desplazarse hasta el formulario
+      $('html, body').animate({
+        scrollTop: $("#edit-form").offset().top
+      }, 100); // Duración en milisegundos
       },
       error: function (xhr, status, error) {
         console.error("Error al cargar datos de Usuario:", error);
@@ -435,6 +443,12 @@ async function validateForm() {
 
         $("#edit-offer-form").show();
         $("#deactivate-offer-form").hide();
+        
+      // Desplazarse hasta el formulario de edición con un desplazamiento adicional
+      var offset = $("#edit-offer-form").offset().top;
+      $('html, body').animate({
+        scrollTop: offset - 50 // Ajusta el valor aquí para añadir o quitar espacio
+      }, 100); // Duración en milisegundos
       },
       error: function (xhr, status, error) {
         console.error("Error al cargar datos de la Oferta:", error);
